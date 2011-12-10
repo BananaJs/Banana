@@ -4,6 +4,9 @@ What is Banana?
 Banana is an open source javascript application framework designed to create pure javascript webpages. 
 Banana is designed with the single goal to allow developers write fast and efficient websites.
 Compatible with all recent browsers, Banana gives developers a component driven platform to develop applications just in the same way regular interface toolkits provides.
+It is fast, dynamic, flexible and easy to use.
+
+Some key features of Banana are:
 
 * 100% Javascript
 * Component driven
