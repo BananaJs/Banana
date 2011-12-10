@@ -18,7 +18,12 @@ Compatible with all recent browsers, Banana gives developers a component driven 
 * Google closure build integration
 * GPL license
 
-Installation and building
+Requirements
+------------
+
+A webbrowser is what you need.
+
+How to use
 ------------
  
 There are several ways to use the Banana Framework
