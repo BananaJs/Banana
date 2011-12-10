@@ -1,0 +1,278 @@
+.BPage{font-family:arial;}
+
+/**
+ * #Basic controls
+ */
+ 
+input[type="text"]{border:1px solid #999999;}
+select{border:1px solid #999999;}
+
+ /**
+ * #Textbox
+ */
+.BTextbox{border:1px solid #777777;padding:2px;}
+.BTextbox:focus{ border:1px solid lightblue;}
+ 
+ /**
+ * #Dropdown
+ */
+.BDropDown{border:1px solid #777777;}
+.BDropDown:focus{border:1px solid lightblue;}
+.BDropDownOption{}
+
+ /**
+ * #Dropdown
+ */
+.BLabel{ }
+ 
+ /**
+ * #Checkboxlist
+ */
+ .BCheckBoxList{}
+ .BCheckBoxListItemContainer{float:left;}
+ .BCheckBoxList input{float:left; margin-right:8px;}
+ .BCheckBoxList label{margin-top:2px;}
+ 
+ /**
+ * #RadioButtonList
+ */
+ .BRadioButtonList{}
+ .BRadioButtonListItemContainer{float:left;}
+ .BRadioButtonList input{float:left; margin-right:8px;}
+ .BRadioButtonList label{margin-top:2px;}
+ 
+ /**
+* Fieldset
+*
+*/
+fieldset{border-color:#999999;}
+ 
+ 
+ 
+ /**
+ *  Label Decorator
+ *
+ */
+.BLabelDecorator{margin: 5px;font-size:12px;position:relative}
+.BLabelDecorator .BLabelDecoratorLabel{width:30%;display:inline-block;vertical-align:top;}
+.BLabelDecorator .BDefaultData{width:65%;}
+.BLabelDecorator .BInfoDecorator{width:65%;}
+
+.BLabelDecorator input[type="text"]{width:65%;}
+.BLabelDecorator .BDatePickerTextBox{width:70px !important;}
+.BLabelDecorator input[disabled="disabled"] { color:#888888;background-color:#eeeeee;}
+.BLabelDecorator input[disabled=""] {color:#888888;background-color:#eeeeee;}
+.BLabelDecorator select[disabled="disabled"] { color:#888888;background-color:#eeeeee;}
+.BLabelDecorator select[disabled=""] { color:#888888;background-color:#333333;}
+.BLabelDecorator textarea[type="text"]{width:65%;}
+.BLabelDecorator select{width:65%;}
+.BLabelDecoratorRight{width:100%; clear:both;}
+.BLabelDecoratorRightLabel{width:50%; float:left;}
+.BLabelDecoratedControl{display:inline-block;}
+
+ /**
+ *  Default data Decorator
+ *
+ */
+.BDefaultData input[type="text"]{width:100% !important;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+.BDefaultData select{width:100% !important;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+.BDefaultData textarea{width:100% !important;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+.BInfoDecorator div.BDefaultData{width:100% !important;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+.BDefaultDataCheckbox{z-index:13000;right:0;position:absolute;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+
+ /**
+ *  Info Decorator
+ *
+ */
+.BInfoDecorator input[type="text"]{width:100% !important;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+.BInfoDecorator select[type="text"]{width:100% !important;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+.BInfoDecorator textarea[type="text"]{width:100% !important;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+.BInfoDecoratorInfoImage{background: url(../images/info.png);float:left;margin-top:2px;margin-left:-30px;height:16px;width:16px}
+
+  /**
+ *
+ * DateTimepicker
+ *
+ */
+.BDateTimePicker {}
+.BDatePicker{display:inline-block;}
+.BDatePickerTitle{}
+.BDatePickerRemoval{border:1px solid blue; background: url(../images/icons/delete_16x16.png);}
+.BDateTimePickerTimeControl{width:52px !important;display:inline-block;margin-left:2px;}
+.BDatePickerTextBox{width:70px !important;}
+ 
+ 
+ /**
+ *
+ * Button
+ *
+ */
+ .BButton{
+ 	border-radius:3px;
+ 	-moz-border-radius: 3px;
+ 	background-image: url(../images/buttongradient.jpg);
+ 	background-repeat: repeat-x;
+ 	border:1px solid #666666;
+ 	font-size:12px;
+ 	padding:3px 10px 4px;
+ 	cursor:pointer; 
+ 	-moz-box-sizing: border-box;
+ 	-ms-box-sizing: border-box;
+ 	-webkit-box-sizing: border-box;
+ 	}
+ .BButton label{cursor:pointer;}
+ .BButton:hover{background-image: url(../images/buttongradient_hover.jpg);}
+ 
+
+ 
+ 
+ /**
+ * AdvancedDatagrid
+ *
+ */
+.BDataGrid {position:relative;width:100%;font-size:12px;}
+.BDataGrid table{position:relative;width:100%;margin-top:0px;width:100%;}
+.BDataGrid th{background-color:#D9D9D9;border-left:1px solid #666666;border-bottom:1px solid #666666;}
+.BDataGridRow{}
+.BDataGridRowAlt{background-color:#eeeeee;}
+.BDataGridRowSelected{}
+
+/**
+* AdvancedDatagrid tree
+*
+*/
+.BTreeListNodeClosed{background-image: url(../images/nodeclosed.png);border-style: none}
+.BTreeListNodeClosed:hover{background-image: url(../images/nodeclosedmouseover.png);}
+.BTreeListNodeOpen{background-image: url(../images/nodeopen.png);border-style: none}
+.BTreeListNodeOpen:hover{background-image: url(../images/nodeopenmouseover.png);}
+.BTreeListNodeLoader{background-image: url(../images/ajax-loader-small.gif);}
+.BTreeListNodeEmpty{background-image: url(../images/nodeempty.png);float:left;width:20px;height:20px;}
+.BTreeListNodeItemRender{padding-right:2px;padding-left:2px;border:1px solid #999999;border-radius:2px;-moz-border-radius: 2px; }
+.BTreeListNodeItemRender:hover{border:1px solid lightblue;display:inline-block; }
+.BTreeListNodeItemRenderSelected{
+	border:1px solid lime;display:inline-block; 
+	background: -moz-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 0.2));
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 0.2));
+	
+	}
+
+/**
+* Datagrid control panel
+*
+*/
+.BDataGridControlTopPanel{height:30px;border-bottom:1px solid #555555;padding-top:4px;}
+.BDataGridControlMiddlePanel{height:30px;border-bottom:1px solid #555555;}
+.BDataGridControlBottomPanel{height:30px;border-bottom:1px solid #555555;}
+.BDataGridControlBottomPanel .BButton{float:left;margin-top:3px;margin-left:1px;}
+.BDataGridControlBottomPanel .BDropDown{float:left;margin-top:3px;margin-left:1px;}
+
+
+/**
+* Datagrid filters
+*
+*/
+.BDataGridPagerFilter{float:right;}
+.BDataGridPagerFilter .BDropDown{width:50px;height:24px;float:right; margin-right:5px; border:1px solid #777777;}
+.BDataGridPagerFilter .BButton{padding-left:5px; padding-right:5px;}
+.BDataGridPagerFilter .BLabel{}
+.BDataGridPagerFilterButtonContainer{float:left;height:24px;}
+.BDataGridPagerFilterButton{color:#333333;}
+.BDataGridPagerFilterButtonSelected{color:black;font-weight:bold;}
+
+/**
+* Datagrid list renders
+*
+*/
+.BDataGridTile{}
+.BDataGridTileItem{}
+.BDataGridTileItemAlt{}
+
+/**
+* Validator
+*
+*/
+.BValidatorArrow{z-index:100;margin-left:3px;background-image: url(../images/validatorarrow.png);float:left;width:10px; height:20px;position:absolute;}
+.BValidatorStar{top:0;background-image: url(../images/validatorstar.png);float:left;width:10px; height:20px;position:absolute;}
+.BValidatorLabel{color:#ffffff;background-color:#cb2e2e; height:20px;float:left;padding-left:5px; padding-right:5px;border-radius:2px;-moz-border-radius: 2px;}
+.BValidatorInfo{z-index:100;white-space:nowrap;position:absolute;height:20px;margin-top:-0px;margin-left:10px;}
+.BValidatorIconPlaceHolder{width:10px;margin-left:-11px;display:inline-block; height:20px;vertical-align:top;}
+.BValidatorInfoPlaceHolder{position:relative;width:3px;margin-left:-3px;display:inline-block; height:20px;vertical-align:top;}
+.BValidatorDecorated{display:inline-block;}
+.BValidatorControlInvalidated{border: 1px solid red;box-sizing: border-box;}
+
+
+/**
+* Datagrid
+*
+*/
+.BDatagrid{position:relative;width:100%;margin-top:0px;width:100%;font-size:11px;}
+.BDatagrid table{margin-top:0px;width:100%;font-size:11px;}
+.BDatagrid th{background-color:#555555;border-left:1px solid #666666;}
+ 
+.BDataGridSearch{padding:0px;width:150px;border:1px solid #777777;float:right;height:22px;margin-top:2px;margin-right:2px;}
+.BDataGridSearch:focus{}
+.BDataGridRow{}
+.BDataGridFilter{font-size:12px;height:22px;width:130px;margin-top:4px;}
+.BDataGridRowAlt{background-color:#eeeeee;}
+.BDataGridRowSelected{background-color:#999999;filter:alpha(opacity=90);-moz-opacity:0.9;-khtml-opacity: 0.9;opacity: 0.9;}
+.BDatagridRowArrowIndicator{background-image:url(../images/arrowbended.png); margin-top:8px;margin-left:4px;float:left;width:16px; height:16px;}
+.BDataGridEmptyTemplate{color:red;font-size:12px; margin-left:4px;}
+
+.BDataGridTileTitleCover{position:absolute;z-index:2000;height:24px;width:100%; background-color:#444444;filter:alpha(opacity=80);-moz-opacity:0.8;-khtml-opacity: 0.8;opacity: 0.8;}
+.BDataGridTileTitle{z-index:2400;margin-left:4px;position:absolute;}
+.BDataGridTileButtonCover{z-index:2000; height:24px;background-color:#444444; width:100%;filter:alpha(opacity=80);-moz-opacity:0.8;-khtml-opacity: 0.8;opacity: 0.8;}
+.BDataGridTile{font-size:11px;border:1px solid #666666;float:left;-moz-box-sizing:border-box;margin-top:5px;}
+.BDataGridTileSelected{font-weight:bold;border:1px solid lightblue;}
+.BDataGridTileMouseOver{border:1px solid #999999;}
+.datagridmouseover{background-color:#75858C; color:white;}
+/*
+.BDataGridPagerButton{padding:0px;height:24px;min-width:20px;padding-left:0px; padding-right:0px;}
+.BDataGridPagerButtonLabel{line-height:24px;margin-left:0px;margin-right:0px;padding-left:4px;}
+*/
+ 
+ 
+ /**
+ * Modal
+ *
+ */
+.BModal{font-size:12px;z-index:99999;width:60%;background-color:#eeeeee;margin-bottom:200px;position:absolute;top:0px;border:1px solid #666666;border-radius:4px;-moz-border-radius: 5px;}
+.BModalCover{z-index:99999;background-color:#666666; width:100%; height:100%;left:0px;top:0px; position:absolute;opacity:0.4;filter:alpha(opacity=40);}
+.BModalCloseButton{background-image: url(../images/close.png);float:right;cursor:pointer;width:20px;height:20px;}
+.BModalAntiPadding{	-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;margin-left:5px;margin-right:5px;}
+.BModalContentContainer{background-color:#eeeee;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;padding:2px;border:1px solid #666666;}
+.BModalButtonContainer{width:100%;float:left;margin-top:5px;margin-bottom:2px;}
+
+ 
+ /**
+ * Loader
+ *
+ */
+.BLoaderCover {height:100%;top:0;opacity:0.4;filter:alpha(opacity=40);width:100%;background-color:#333333;position:absolute;}
+.BLoaderTransparantContainer{z-index:9999999;width:280px;border:1px solid #eeeeee;height:30px;opacity:0.7;filter:alpha(opacity=70);background-color:#555555;padding:10px;top:0;position:fixed;margin-top:175px;border-radius:5px;-moz-border-radius: 5px;} 
+.BLoaderContainer{z-index:9999999;width:280px;padding:10px;top:0;position:fixed;margin-top:175px;}
+.BLoaderTextLabel{color:white;float:left;width:80%;margin-left:20px;margin-top:5px;font-weight:bold;}
+ 
+
+ /**
+ * Confirm modal
+ *
+ */
+.BConfirmModal{width:400px;background-color: #eeeeee;z-index:1000000}
+.BConfirmModalImage{background-image: url(../images/icons/icon_exclamation_24.png);width:24px;height:24px;margin:5px;float:left;}
+.BConfirmModalContainer{float:left;	width:85%;}
+.BConfirmModalTitle{margin-bottom:10px;margin-top:5px;font-size:12px;color:#222222;}
+.BConfirmModalText{font-size:12px;	}
+ 
+ 
+ /**
+ * Window
+ */
+.BWindow{display: block;margin: 5px;background-color:#eeeeee;background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#eeeeee));border: 1px solid #999999;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;box-shadow: rgba(255, 255, 255, 0.4) 1px 1px;}
+.BWindow .BWindowHeader {color:#333333;font-weight: bold;}
+.BWindow .BWindowHeader .BWindowSwitch {margin: 2px 5px;cursor:pointer;vertical-align: middle;display: inline-block;}
+.BWindow .BWindowHeader .BWindowTitle {font-size:12px;display: inline-block;}
+.BWindow .BWindowContent {background-color: #ffffff;border: 1px solid #666666;margin: 0 5px 5px 5px;}
+.BWindow .BFieldset {margin: 5px;	border: 1px solid #999999;}
+.BWindow .BFieldset .BLegend {font-weight: bold;font-size: 13px;color: #e8e8e8;}
+
+

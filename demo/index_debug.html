@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+<title>Banana Framework</title>
+<link rel="stylesheet" type="text/css" href="../css/banana.css" />
+<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="../css/white.css" />
+
+
+
+</head>
+
+
+<body id="body">
+<script type="text/javascript" src="../closure/goog/base.js"></script>
+<script type="text/javascript" src="../framework/3rdparty/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="../framework/3rdparty/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="deps.js"></script>
+<script type="text/javascript" src="../Application.js"></script>
+
+	<div id="target"></div>
+		<script>
+			$(document).ready(function(){
+				var applicationParameters = {};
+				applicationParameters.renderTarget = 'target';
+				applicationParameters.imagedir ='images';
+				applicationParameters.defaultSection="Home";
+				applicationParameters.pageTemplate="PageTemplate";
+				applicationParameters.paths = {};
+				
+				applicationParameters.paths.pages = "Application.Pages";
+				applicationParameters.paths.pageTemplates = "Application.Pages.PageTemplates";
+			var app = new Banana.Application(applicationParameters);
+			app.run();
+			});
+		</script>
+
+</body>
+</html>
