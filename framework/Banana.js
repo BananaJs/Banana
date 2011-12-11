@@ -130,6 +130,7 @@ namespace('Banana.Controls').EventTypes = {
 	'CUSTOM_EVENT':2
 }
 
+
 /**
 @namespace Banana
 */
@@ -148,7 +149,6 @@ namespace('Banana').Application = Banana.Control.extend(
 		
 		<script>
 		
-		$(document).ready(function(){
 			var applicationParameters = {};
 			applicationParameters.renderTarget = 'target'; 
 			applicationParameters.imagedir ='images';
@@ -158,9 +158,8 @@ namespace('Banana').Application = Banana.Control.extend(
 			applicationParameters.applicationName = "foo" //needed if you want to run multiple instances of banana
 			applicationParameters.paths.pages = "Application.Pages";
 			applicationParameters.paths.pageTemplates = "Application.Pages.PageTemplates";
-		var app = new Banana.Application(applicationParameters);
-		app.run();
-		});
+			var app = new Banana.Application(applicationParameters);
+			app.run();
 		
 		</script>
 	
@@ -168,8 +167,6 @@ namespace('Banana').Application = Banana.Control.extend(
 	 * It is also possible to launch multiple instances of banana. 
 	 * Make sure the applicationName is unique
 	 * 
-	 		$(document).ready(function(){
-
             var applicationParameters = {};
             applicationParameters.renderTarget = 'target'; //id of the target div
             applicationParameters.imagedir ='images';
@@ -191,7 +188,7 @@ namespace('Banana').Application = Banana.Control.extend(
 
             var app = new Banana.Application(applicationParameters);
             app.run(page);
-        });
+       
 	 * 
 	 * 
 	 * Following parameters are available for creating a new application
@@ -210,6 +207,21 @@ namespace('Banana').Application = Banana.Control.extend(
 	 */
 	init : function(settings)
 	{
+		// Add the logger
+		log = new Banana.Util.LogManager();
+		log.addLogger(new Banana.Util.Logger.Console());
+		log.setLevel("error", true);
+				
+		try
+		{
+			jQuery();
+			$();
+		}
+		catch(e)
+		{
+			log.error("JQuery is not found. Minimum JQuery 1.6 required.");
+		}
+		
 		this.settings = settings;
 		
 		//to remember the vertical scroll position of a page
@@ -234,11 +246,6 @@ namespace('Banana').Application = Banana.Control.extend(
 		{
 			settings.paths.pages = "Application.Pages";
 		}
-
-		// Add the logger
-		log = new Banana.Util.LogManager();
-		log.addLogger(new Banana.Util.Logger.Console());
-		log.setLevel("error", true);
 			
 		this.prepareUnload();
 	},
@@ -503,7 +510,7 @@ namespace('Banana').Application = Banana.Control.extend(
 			{
 				if (this.settings.defaultSection === section)
 				{
-					log.error('Error default page cannot be loaded!');
+					log.error("Error default page "+this.settings.defaultSection+" cannot be loaded");
 					return;
 				}
 				else
