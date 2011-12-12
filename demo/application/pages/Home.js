@@ -89,11 +89,6 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 		l6.addControl("Google closure build integration");
 		ul.addControl(l6);
 		
-		var l7 = new Banana.Controls.ListItem();
-		l7.addControl("GPL license");
-		ul.addControl(l7);
-		
-		
 		
 		
 		ex.addControl(ul);
