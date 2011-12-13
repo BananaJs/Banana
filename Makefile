@@ -13,10 +13,9 @@ CALCDEPSCMD=$(CALCDEPS) -p $(CLOSUREDIR) -p $(FRAMEWORKDIR) -p ${APPDIR} -i ${AP
 
 all : deps
 
-.PHONY : clean deps.js ${MINIFIED} docs
+.PHONY : clean deps.js ${MINIFIED}
 
 clean : 
-	rm -rf docs/*
 	rm -f deps.js
 	rm -f ${MINIFIED}
 
@@ -24,15 +23,8 @@ deps : deps.js
 
 release : ${MINIFIED}
 
-docs :
-	(cd $(BUILDDIR) && java -jar jsrun.jar jsdoc/run.js -c=jsdoc.conf)
-
-lint :
-	@cat $(BUILDDIR)/jslint.js $(BUILDDIbR)/rhino.js > $(BUILDDIR)/rhinoed_jslint.js
-	@find . -name '*.js' -exec $(BUILDDIR)/run-jslint.sh {} \;
-
 ${MINIFIED}:
-	${CALCDEPSCMD} -c build/compiler.jar -f "--compilation_level=SIMPLE_OPTIMIZATIONS" -o compiled > $@
+	${CALCDEPSCMD} -c build/compiler.jar -o compiled > $@
 
 deps.js :
 	$(CALCDEPSCMD) -o deps > $@
