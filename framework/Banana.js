@@ -508,7 +508,7 @@ namespace('Banana').Application = Banana.Control.extend(
 				}
 				else
 				{
-					log.error("Page not found");
+					log.error("Page "+section+" not found. Load default page "+this.settings.defaultSection);
 				}
 				return this.loadPage(this.settings.defaultSection);
 			}
