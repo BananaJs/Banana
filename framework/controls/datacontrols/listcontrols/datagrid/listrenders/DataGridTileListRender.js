@@ -17,7 +17,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	/**
 	 * 
 	 * Creates a datagrid tile list render. Each item in the datasource is a tile.
-	 * Use setHorizontalTileCount to set the amount of tiles rendered horizontally.
+	 * Use setPlaceHolderWidth to have multiple tiles after each other. You can also define this in css
 	 * By default each tile is rendered by a Banana.Controls.DataGridTileItemRender instance
 	 * implement your own instance to construct more advanced item renders
 	 *  
@@ -422,6 +422,8 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 			}
 		}));
 		
+		//FIXME this is not needed anymore?
+		
 		//if we gave a horizontal item count. only render when already rendered
 		this.createItemsLater = false;
 		
@@ -481,26 +483,20 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	},
 	
 	/**
-	 * Sets the max amount of tiles rendered horizontally
-	 *  
-	 * @param {int} count
-	 * @return {this}
+	 * @depricated
 	 */
 	setHorizontalTileCount : function(count)
 	{
-		this.horizontalItemCount = count;	
+		log.warning("set horizontalTileCount datagridTileListRender is depricated. use setPlaceHolderWidth instead");	
 		return this;
 	},
 	
 	/**
-	 * Space between the tiles
-	 * 
-	 * @param {int} padding
-	 * @return {this}
+	 * @depricated
 	 */
 	setTilePadding : function(padding)
 	{
-		this.tilePadding = padding;
+		log.warning("set tile padding in datagridTileListRender is depricated. apply style manualy in css");
 		return this;
 	},
 	
@@ -513,40 +509,15 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	 */
 	createDivPlaceHolder : function(index,instantRender)
 	{
-		var style = 'width:auto;padding:0;float:left;position:relative;';
+		var style ='width:100%;float:left;position:relative;';
 		
-		if (this.horizontalItemCount && this.horizontalItemCount > 1)
-		{	
-			if (!this.cachedDemensions)
-			{
-				this.cachedDemensions = this.getDemensions();
-			}
-			
-			var dem = this.getDemensions();
-			var totalWidth = dem.width;
-			
-			var itemWidth = ((totalWidth - (this.horizontalItemCount * this.tilePadding))/this.horizontalItemCount) -2;
-
-			var padding = this.tilePadding;
-			
-			if (0 === index % this.horizontalItemCount)
-			{
-				padding /= 2;
-				style ='width:'+itemWidth+'px;float:left;margin-left:'+padding+'px;clear:left;';
-			}
-			else
-			{
-				style ='width:'+itemWidth+'px;float:left;margin-left:'+padding+'px;';
-			}					
-		}
-		else
-		{
-			style ='width:100%;float:left;position:relative;';
-		}
-				
 		var tileplaceholder = new Banana.Controls.Panel().setStyle(style);
 		tileplaceholder.addCssClass("BDataGridTilePlaceHolder");
-		//tileplaceholder.addCssClass((index % 2) ? 'BDataGridTileItem' : 'BDataGridTileItemAlt');
+		
+		if (this.placeHolderWidth)
+		{
+			tileplaceholder.setCss({width:this.placeHolderWidth});
+		}
 
 		tileplaceholder.bind('mouseenter',this.getProxy(function(e){this.onRowMouseOver(e); return true;}),tileplaceholder);
 		tileplaceholder.bind('mouseleave',this.getProxy(function(e){this.onRowMouseOut(e);return true;}),tileplaceholder);
@@ -559,6 +530,15 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 			this.mainContainer.invalidateDisplay();
 		}	
 		this.indexTilePlaceHolderMap[index] = tileplaceholder;	
+	},
+
+	/**
+	 * sets width of the placeholder. example "25%" or "50px" 
+	 * @param {String} width
+	 */
+	setPlaceHolderWidth : function(width)
+	{
+		this.placeHolderWidth = width;
 	},
 	
 	/**
