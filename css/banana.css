@@ -127,15 +127,36 @@ fieldset{border-color:#999999;}
  
  
  /**
- * AdvancedDatagrid
+ * Datagrid
  *
  */
 .BDataGrid {position:relative;width:100%;font-size:12px;}
-.BDataGrid table{position:relative;width:100%;margin-top:0px;width:100%;}
-.BDataGrid th{background-color:#D9D9D9;border-left:1px solid #666666;border-bottom:1px solid #666666;}
+.BDataGrid table{position:relative;width:100%;width:100%;}
+.BDataGrid th{border-left:1px solid #666666;border-bottom:1px solid #666666;}
 .BDataGridRow{}
-.BDataGridRowAlt{background-color:#eeeeee;}
+.BDataGridRowAlt{}
 .BDataGridRowSelected{}
+
+.BDataGridSearch{padding:0px;width:150px;border:1px solid #777777;float:right;height:22px;margin-top:2px;margin-right:2px;}
+.BDataGridSearch:focus{}
+.BDataGridRow{}
+.BDataGridFilter{font-size:12px;height:22px;width:130px;margin-top:4px;}
+.BDataGridRowAlt{}
+.BDataGridRowSelected{background-color:#999999;filter:alpha(opacity=90);-moz-opacity:0.9;-khtml-opacity: 0.9;opacity: 0.9;}
+.BDatagridRowArrowIndicator{background-image:url(../images/arrowbended.png); margin-top:8px;margin-left:4px;float:left;width:16px; height:16px;}
+.BDataGridEmptyTemplate{color:red;font-size:12px; margin-left:4px;}
+
+.BDataGridTileTitleCover{position:absolute;z-index:2000;height:24px;width:100%; background-color:#444444;filter:alpha(opacity=80);-moz-opacity:0.8;-khtml-opacity: 0.8;opacity: 0.8;}
+.BDataGridTileTitle{z-index:2400;margin-left:4px;position:absolute;}
+.BDataGridTileButtonCover{z-index:2000; height:24px;background-color:#444444; width:100%;filter:alpha(opacity=80);-moz-opacity:0.8;-khtml-opacity: 0.8;opacity: 0.8;}
+.BDataGridTile{font-size:11px;border:1px solid #666666;float:left;-moz-box-sizing:border-box;margin-top:5px;}
+.BDataGridTileSelected{font-weight:bold;border:1px solid lightblue;}
+.BDataGridTileMouseOver{border:1px solid #999999;}
+.datagridmouseover{background-color:#75858C; color:white;}
+/*
+.BDataGridPagerButton{padding:0px;height:24px;min-width:20px;padding-left:0px; padding-right:0px;}
+.BDataGridPagerButtonLabel{line-height:24px;margin-left:0px;margin-right:0px;padding-left:4px;}
+*/
 
 /**
 * AdvancedDatagrid tree
@@ -206,35 +227,6 @@ fieldset{border-color:#999999;}
 .BValidatorControlInvalidated{border: 1px solid red;box-sizing: border-box;}
 
 
-/**
-* Datagrid
-*
-*/
-.BDatagrid{position:relative;width:100%;margin-top:0px;width:100%;font-size:11px;}
-.BDatagrid table{margin-top:0px;width:100%;font-size:11px;}
-.BDatagrid th{background-color:#555555;border-left:1px solid #666666;}
- 
-.BDataGridSearch{padding:0px;width:150px;border:1px solid #777777;float:right;height:22px;margin-top:2px;margin-right:2px;}
-.BDataGridSearch:focus{}
-.BDataGridRow{}
-.BDataGridFilter{font-size:12px;height:22px;width:130px;margin-top:4px;}
-.BDataGridRowAlt{background-color:#eeeeee;}
-.BDataGridRowSelected{background-color:#999999;filter:alpha(opacity=90);-moz-opacity:0.9;-khtml-opacity: 0.9;opacity: 0.9;}
-.BDatagridRowArrowIndicator{background-image:url(../images/arrowbended.png); margin-top:8px;margin-left:4px;float:left;width:16px; height:16px;}
-.BDataGridEmptyTemplate{color:red;font-size:12px; margin-left:4px;}
-
-.BDataGridTileTitleCover{position:absolute;z-index:2000;height:24px;width:100%; background-color:#444444;filter:alpha(opacity=80);-moz-opacity:0.8;-khtml-opacity: 0.8;opacity: 0.8;}
-.BDataGridTileTitle{z-index:2400;margin-left:4px;position:absolute;}
-.BDataGridTileButtonCover{z-index:2000; height:24px;background-color:#444444; width:100%;filter:alpha(opacity=80);-moz-opacity:0.8;-khtml-opacity: 0.8;opacity: 0.8;}
-.BDataGridTile{font-size:11px;border:1px solid #666666;float:left;-moz-box-sizing:border-box;margin-top:5px;}
-.BDataGridTileSelected{font-weight:bold;border:1px solid lightblue;}
-.BDataGridTileMouseOver{border:1px solid #999999;}
-.datagridmouseover{background-color:#75858C; color:white;}
-/*
-.BDataGridPagerButton{padding:0px;height:24px;min-width:20px;padding-left:0px; padding-right:0px;}
-.BDataGridPagerButtonLabel{line-height:24px;margin-left:0px;margin-right:0px;padding-left:4px;}
-*/
- 
  
  /**
  * Modal
