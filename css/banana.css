@@ -244,9 +244,41 @@ fieldset{border-color:#999999;}
  * Loader
  *
  */
-.BLoaderCover {height:100%;top:0;opacity:0.4;filter:alpha(opacity=40);width:100%;background-color:#333333;position:absolute;}
-.BLoaderTransparantContainer{z-index:9999999;width:280px;border:1px solid #eeeeee;height:30px;opacity:0.7;filter:alpha(opacity=70);background-color:#555555;padding:10px;top:0;position:fixed;margin-top:175px;border-radius:5px;-moz-border-radius: 5px;} 
-.BLoaderContainer{z-index:9999999;width:280px;padding:10px;top:0;position:fixed;margin-top:175px;}
+.BLoader{
+	width:280px;
+	z-index:9999999;
+	left:0;
+	right:0;
+	margin:auto;
+	position:fixed;
+	padding:10px;
+} 
+.BLoaderCover {
+	height:100%;
+	top:0;
+	z-index:9999998;
+	opacity:0.7;
+	filter:alpha(opacity=70);
+	width:100%;
+	background-color:#222222;
+	position:absolute;}
+	
+.BLoaderTransparantContainer{
+	border:1px solid #eeeeee;
+	height:30px;
+	opacity:0.7;
+	filter:alpha(opacity=70);
+	background-color:#555555;
+	border-radius:5px;
+	-moz-border-radius: 5px;} 
+.BLoaderContainer{
+}
+.BLoaderImage{
+	background-image: url(../images/ajax-loader.gif);
+	float:left;
+	width:30px;
+	height:30px;
+}
 .BLoaderTextLabel{color:white;float:left;width:80%;margin-left:20px;margin-top:5px;font-weight:bold;}
  
 

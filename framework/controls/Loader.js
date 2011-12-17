@@ -4,10 +4,10 @@
  * @summary Loader control
  */
 
-goog.provide('Banana.Loader');
+goog.provide('Banana.Controls.Loader');
 
 /** @namespace Banana.Loader */
-namespace('Banana.Controls.').Loader = Banana.Control.extend(
+namespace('Banana.Controls').Loader = Banana.Control.extend(
 /** @lends Banana.Loader.prototype */
 {
 	/**
@@ -21,10 +21,22 @@ namespace('Banana.Controls.').Loader = Banana.Control.extend(
 	{
 		this._super();
 		
-		this.text = new Banana.Controls.Label().addCssClass('BLoaderTextLabel');
-		this.loader = new Banana.Controls.Panel().addCssClass('BLoaderContainer').setVisible(false);
-		this.loaderTrans = new Banana.Controls.Panel().addCssClass('BLoaderTransparantContainer').setVisible(false)
-		this.cover = new Banana.Controls.Panel().addCssClass('BLoaderCover').setVisible(false);
+		this.text = new Banana.Controls.Label()
+		.addCssClass('BLoaderTextLabel');
+		
+		this.loader = new Banana.Controls.Panel()
+		.addCssClass('BLoader')
+		.addCssClass('BLoaderContainer')
+		.setVisible(false);
+		
+		this.loaderTrans = new Banana.Controls.Panel()
+		.addCssClass('BLoader')
+		.addCssClass('BLoaderTransparantContainer')
+		.setVisible(false);
+		
+		this.cover = new Banana.Controls.Panel()
+		.addCssClass('BLoaderCover')
+		.setVisible(false);
 	},
 
 	/**
@@ -32,16 +44,14 @@ namespace('Banana.Controls.').Loader = Banana.Control.extend(
 	 */
 	createComponents : function()
 	{	
-		var iconLoader = new Banana.Controls.Image().setImage('banana/images/ajax-loader.gif').setStyle('float:left;');
+		var iconLoader = new Banana.Controls.Panel()
+		.addCssClass("BLoaderImage");
 
 		this.addControl(this.loaderTrans);
 		this.addControl(this.loader);
 		this.loader.addControl(iconLoader);
 		this.loader.addControl(this.text);
 		this.addControl(this.cover);
-
-		var parent = this.getFirstUiControl()
-		parent.setCss({'position':'relative'});
 	},
 
 	/**
@@ -49,11 +59,19 @@ namespace('Banana.Controls.').Loader = Banana.Control.extend(
 	 */
 	updateDisplay : function()
 	{
-		var dem = this.getFirstUiControl().getDimensions();
-
-		this.loader.setCss({'margin-left':((dem.width/2)-140)+'px'});
-		this.loaderTrans.setCss({'margin-left':((dem.width/2)-140)+'px'});
+		//vertical center align in css sucks bigg ass. we do it in javascript
 		
+		var dem = this.getFirstUiControl().getDimensions();
+		
+		var docHeight = jQuery(document).height();
+		
+		var loaderHeight = this.loader.getDimensions().height;
+		
+		var offset = docHeight/3 - loaderHeight;
+		
+		this.loaderTrans.setCss({'margin-top':offset});
+		this.loader.setCss({'margin-top':offset});
+
 		if (this.setVisibleLater)
 		{
 			this.setVisibleControls();		
