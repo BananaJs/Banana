@@ -58,6 +58,8 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	{
 		this._super();
 		
+		this.addCssClass("BDataGridTileListRender")
+		
 		this.indexKey = null; //specifies the indexkey used to indentify items
 		
 		this.indexTilePlaceHolderMap = [];
@@ -341,6 +343,8 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	},
 	
 	/**
+	 * @param {int} int
+	 * @param {Banana.Controls.ItemRender} itemRender
 	 * @return {boolean} 
 	 */
 	hasItemRenderAt : function(index,itemRender)
@@ -389,6 +393,24 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	},
 	
 	/**
+	 * @param {int}
+	 * @return {Banana.UiControl}
+	 */
+	getRowByIndex : function(index)
+	{
+		return this.indexTilePlaceHolderMap[index];
+	},
+
+	/**
+	 * @param {Banana.Controls.ItemRender}
+	 * @return {Banana.UiControl}
+	 */
+	getRowByItemRender : function(ir)
+	{
+		return this.indexTilePlaceHolderMap[this.indexRenderedItemRenderMap.indexOf(ir)];
+	},
+	
+	/**
 	 * @return {int}
 	 */
 	getIndexByItemRender : function(ir)
@@ -410,7 +432,6 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 		this._super();
 		
 		this.mainContainer = new Banana.Controls.Panel();
-		//this.mainContainer.addCssClass('datagrid');
 	
 		this.mainContainer.bind('mousedown',this.getProxy(function(e){
 			// TODO: This is catching every event in the scope of the table
@@ -508,10 +529,8 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	 * @ignore
 	 */
 	createDivPlaceHolder : function(index,instantRender)
-	{
-		var style ='width:100%;float:left;position:relative;';
-		
-		var tileplaceholder = new Banana.Controls.Panel().setStyle(style);
+	{	
+		var tileplaceholder = new Banana.Controls.Panel();
 		tileplaceholder.addCssClass("BDataGridTilePlaceHolder");
 		
 		if (this.placeHolderWidth)
@@ -617,11 +636,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 
 		var itemRender = this.indexRenderedItemRenderMap[index];
 		
-		if (!itemRender.getIsSelectable())
-		{
-			return;
-		}
-		jQuery(e.currentTarget).addClass('datagridmouseover');
+		itemRender.mouseOver();
 	},
 	
 	/**
@@ -634,12 +649,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 		
 		var itemRender = this.indexRenderedItemRenderMap[index];
 		
-		if (!itemRender.getIsSelectable())
-		{
-			return;
-		}
-		
-		jQuery(e.currentTarget).removeClass('datagridmouseover');
+		itemRender.mouseOut();
 	},
 	
 	/**
@@ -745,8 +755,6 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 		{
 			ir.select();
 		}
-
-		this.indexTilePlaceHolderMap[index].addCssClass('BDataGridRowSelected');
 	},
 
 	/**
@@ -762,8 +770,6 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 		{
 			ir.deselect();
 		}
-
-		this.indexTilePlaceHolderMap[index].removeCssClass('BDataGridRowSelected');
 	}
 	
 }); 

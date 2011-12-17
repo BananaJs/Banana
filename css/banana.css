@@ -187,6 +187,11 @@ fieldset{border-color:#999999;}
 .BDataGridTileItem{}
 .BDataGridTileItemAlt{}
 
+
+.BDataGridTileListRender{}
+.BDataGridTilePlaceHolder{width:100%;float:left;position:relative;}
+.BDataGridTileTilePlaceHolderSelected{background-color:#555555;}
+
 /**
 * Validator
 *

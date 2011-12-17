@@ -27,8 +27,6 @@ namespace('Banana.Controls').DataGridTileItemRender = Banana.Controls.DataGridIt
 		grid = new Banana.Controls.DataGrid();
 		
 		var listRender = new Banana.Controls.DataGridTileListRender()
-		listRender.setHItemCount(4);
-		listRender.setTilePadding(6);
 		
 		//note that this method required you to pass a function providing the itemrender.
 		listRender.setItemRender(function(){return new myCustomItemRender()});
@@ -47,5 +45,37 @@ namespace('Banana.Controls').DataGridTileItemRender = Banana.Controls.DataGridIt
 	init : function()
 	{
 		this._super();
+	},
+	
+	/**
+	 * Called when item is selected
+	 */
+	select : function()
+	{
+		this.getListRender().getRowByItemRender(this).addCssClass("BDataGridTileTilePlaceHolderSelected");
+	},
+	
+	/**
+	 * Called when item is deselected
+	 */
+	deselect : function()
+	{
+		this.getListRender().getRowByItemRender(this).removeCssClass("BDataGridTileTilePlaceHolderSelected");
+	},
+	
+	/**
+	 * Called when mouse moves over the item render.
+	 */
+	mouseOver : function()
+	{
+		
+	},
+	
+	/**
+	 * Called when mouse moves out the item render
+	 */
+	mouseOut : function()
+	{
+		
 	}
 });

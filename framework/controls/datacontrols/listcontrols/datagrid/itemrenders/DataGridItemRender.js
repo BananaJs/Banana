@@ -16,7 +16,7 @@ namespace('Banana.Controls').DataGridItemRender = Banana.Control.extend(
 	 * Itemrenders are the visible items in a datagrid.
 	 * By extending from this base item render class you can build your own custom item render
 	 * @constructs
-	 * @extends  Banana.Control
+	 * @extends Banana.Control
 	 */
 	init : function()
 	{
@@ -27,11 +27,19 @@ namespace('Banana.Controls').DataGridItemRender = Banana.Control.extend(
 	
 	/**
 	 * Sets reference to the list render
-	 * @param {Banana.Controls.AdvancedDataGridBaseListRender} lr
+	 * @param {Banana.Controls.DataGridBaseListRender} lr
 	 */
 	setListRender : function(lr)
 	{
 		this.listRender = lr;
+	},
+	
+	/**
+	 * @return {Banana.Controls.DataGridBaseListRender}
+	 */
+	getListRender : function()
+	{
+		return this.listRender;
 	},
 	
 	/**
