@@ -106,7 +106,6 @@ goog.addDependency("../../framework/util/Base.js", ['Banana.Util.Base'], []);
 goog.addDependency("../../framework/util/Utils.js", ['Banana.Util.Utils'], ['Banana.thirdParty.OWLClone']);
 goog.addDependency("../../framework/util/logger/Console.js", ['Banana.Util.Logger.Console'], ['Banana.Util.Logger']);
 goog.addDependency("../../framework/util/logger/Logger.js", ['Banana.Util.Logger'], []);
-goog.addDependency("../../framework/Exceptions/CoreExceptions.js", ['Banana.CoreExceptions'], []);
 goog.addDependency("../../framework/3rdparty/json.js", ['Banana.thirdParty.json'], []);
 goog.addDependency("../../framework/3rdparty/jquery.maskedinput-1.2.2.js", ['thirdparty.jquerymaskedinput122'], []);
 goog.addDependency("../../framework/3rdparty/jquery-ui-1.8.16.custom.min.js", [], []);

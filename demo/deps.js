@@ -112,4 +112,7 @@ goog.addDependency("../../framework/3rdparty/jquery-ui-1.8.16.custom.min.js", []
 goog.addDependency("../../framework/3rdparty/jquery-1.7.1.min.js", [], []);
 goog.addDependency("../../framework/3rdparty/owl-clone.js", ['Banana.thirdParty.OWLClone'], []);
 goog.addDependency("../../demo/application/pages/Home.js", ['Application.Pages.Home'], []);
+goog.addDependency("../../demo/application/pages/Overview.js", ['Application.Pages.ControlOverview'], []);
+goog.addDependency("../../demo/application/pages/Examples.js", ['Application.Pages.Examples'], ['Application.Controls.Examples.DataGridTileItemRender']);
+goog.addDependency("../../demo/application/pages/controls/ExamplesTileItemRender.js", ['Application.Controls.Examples.DataGridTileItemRender'], []);
 goog.addDependency("../../demo/application/pages/pageTemplates/PageTemplate.js", ['Application.Pages.PageTemplates.PageTemplate'], []);

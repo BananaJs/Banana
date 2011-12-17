@@ -103,7 +103,13 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 		p.addControl(sub);
 		var link = new Banana.Controls.Link();
 		link.addCssClass("menusublink");
-		link.addControl("Examples")
+		link.addControl("Examples");
+		link.bind('click',this.getProxy(function(e){
+			
+			Banana.Application.loadPage("Examples");
+			e.preventDefault();
+		}));
+		link.setHref("#section=Examples");
 		sub.addControl(link);
 		
 		var sub = new Banana.Controls.Panel().addCssClass("menusub").addCssClass("menusub2");
@@ -129,8 +135,7 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 		var bottom = new Banana.Controls.Panel();
 		bottom.addCssClass("bottom");
 		this.addControl(bottom);
-		
-		
+			
 		var summary = new Banana.Controls.Panel();
 		summary.addCssClass("summaryText");
 		summary.addControl("Banana is an opensource javascript application framework designed to create pure javascript webpages. Banana is designed with the single goal to help developers write fast and efficient websites.Compatible with all major browsers, Banana gives developers a component driven platform to develop applications just in the same way regular interface toolkits provides.");

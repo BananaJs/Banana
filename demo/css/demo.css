@@ -1,0 +1,350 @@
+.Header {
+	height: 20px;
+}
+
+.HeaderText {
+	float: left;
+	font-size: 16px;
+	margin: 5px;
+	color: #341570;
+	font-weight: bold
+}
+
+.MainContainer {
+	padding: 2px;
+	border: 4px solid #999999;
+	border-radius: 15px;
+	background-color: #777777;
+	width: 70%;
+	left: 0;
+	right: 0;
+	margin: auto;
+	height: auto;
+	margin-top: 20px;
+	-webkit-box-shadow: 2px 2px 6px 2px #333333;
+	-moz-box-shadow: 2px 2px 6px 2px #333333;
+	box-shadow: 2px 2px 6px 2px #333333;
+	border-bottom-left-radius: 70px;
+}
+
+.TextPanel {
+	font-size: 16px;
+	border: 2px solid #666666;
+	background-color: #eeeeee;
+	padding: 2px;
+	margin: 3px;
+	border-radius: 4px;
+}
+
+.TextPanelTitle {
+	color: #444444;
+	font-size: 16px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
+.TextPanelText {
+	color: #555555;
+}
+
+.buttonLabel {
+	position: absolute;
+	font-size: 20px;
+	display: block;
+	margin-top: 30px;
+	margin-left: 10px;
+	color: #444444;
+}
+
+.button {
+	position: relative;
+	height: 100px;
+	background-color: #eeeeee;
+	margin: 3px;
+	border: 1px solid #666666;
+	border-radius: 4px;
+}
+
+.button:hover {
+	background-color: lightblue;
+}
+
+.TopButtonContainer {
+	margin-top: 4px;
+	width: 100%;
+	height: 35px;
+}
+
+.TopButtonContainer .BButton {
+	background-color: #5770C2;
+	color: white;
+	font-size: 18px;
+	margin-right: 4px;
+	border: 2px solid #555555;
+	text-align: center;
+	width: 175px;
+	float: left;
+	background-image: none;
+}
+
+.TopButtonContainer .BButton:hover {
+	background-color: #C25765;
+}
+
+.footer {
+	font-size: 11px;
+	text-align: center;
+	margin: 5px;
+	margin-top: 5px;
+	height: 10px;
+	float: right;
+}
+
+.IntroLeft {
+	width: 100%;
+	display: inline-block;
+}
+
+.IntroRight {
+	width: 0%;
+	background-color: red;
+	display: inline-block;
+}
+
+.toppanel {
+	width: 100%;
+	height: 40px;
+}
+
+.rightpanel {
+	width: 60%;
+	float: left;
+	background-color: #444444;
+	border-bottom-right-radius: 10px;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+}
+
+.leftpanel {
+	width: 40%;
+	float: left;
+}
+
+.buttonPanel {
+	width: auto;
+	border-bottom-right-radius: 10px;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	border: 5px solid #888888;
+}
+
+.frameworktitle {
+	letter-spacing: 0.2px;
+	font-weight: bold;
+	color: #222222;
+	font-size: 25px;
+	font-variant: small-caps;
+	margin-left: 10px;
+}
+
+.frameworkexpl {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-right: 20px;
+}
+
+.bottom {
+	left: 0;
+	right: 0;
+	padding: 20px;
+	border-top: 0px solid red;
+	margin: 0px;
+	clear: left;
+	border-radius: 0 px;
+}
+
+.summaryText {
+	line-height: 25px;
+	margin-top: 10px;
+	font-size: 14px;
+}
+
+li {
+	color: #111111;
+	line-height: 25px;
+	font-size: 17px;
+	list-style: square;
+	letter-spacing: 2.2px;
+}
+
+ul {
+	margin: 0;
+}
+
+body {
+	letter-spacing: .05px;
+	font-size: 14px;
+	font-weight: 200;
+	letter-spacing: 0.75px;
+	line-height: 19px;
+	font-family: verdana;
+	height: 100%;
+	margin: 0;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-image: linear-gradient(bottom, rgb(115, 115, 115) 11%,
+		rgb(26, 25, 26) 56%, rgb(5, 5, 5) 78% );
+	background-image: -o-linear-gradient(bottom, rgb(115, 115, 115) 11%,
+		rgb(26, 25, 26) 56%, rgb(5, 5, 5) 78% );
+	background-image: -moz-linear-gradient(bottom, rgb(115, 115, 115) 11%,
+		rgb(26, 25, 26) 56%, rgb(5, 5, 5) 78% );
+	background-image: -webkit-linear-gradient(bottom, rgb(115, 115, 115) 11%,
+		rgb(26, 25, 26) 56%, rgb(5, 5, 5) 78% );
+	background-image: -ms-linear-gradient(bottom, rgb(115, 115, 115) 11%,
+		rgb(26, 25, 26) 56%, rgb(5, 5, 5) 78% );
+}
+
+.menusub {
+	letter-spacing: 2.75px;
+	cursor: pointer;
+	text-align: center;
+	padding: 10px;
+	border-radius: 5px;
+	margin: 22px;
+	margin-top: 32px;
+	margin-bottom: 32px;
+	border: 2px solid #888888;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background-image: linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -o-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -moz-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -webkit-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -ms-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.26, rgb(54,
+		54, 54) ), color-stop(0.63, rgb(87, 87, 87) ),
+		color-stop(0.82, rgb(107, 107, 107) ) );
+}
+
+.menusub2 {
+	background-image: linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -o-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -moz-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -webkit-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -ms-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.26, rgb(54,
+		54, 54) ), color-stop(0.63, rgb(87, 87, 87) ),
+		color-stop(0.82, rgb(107, 107, 107) ) );
+}
+
+.menusub3 {
+	background-image: linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -o-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -moz-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -webkit-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -ms-linear-gradient(bottom, rgb(54, 54, 54) 26%,
+		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.26, rgb(54,
+		54, 54) ), color-stop(0.63, rgb(87, 87, 87) ),
+		color-stop(0.82, rgb(107, 107, 107) ) );
+}
+
+.menusub:hover {
+	background-image: linear-gradient(bottom, rgb(77, 20, 221) 26%,
+		rgb(108, 46, 255) 63%, rgb(141, 74, 255) 82% );
+	background-image: -o-linear-gradient(bottom, rgb(77, 20, 221) 26%,
+		rgb(108, 46, 255) 63%, rgb(141, 74, 255) 82% );
+	background-image: -moz-linear-gradient(bottom, rgb(77, 20, 221) 26%,
+		rgb(108, 46, 255) 63%, rgb(141, 74, 255) 82% );
+	background-image: -webkit-linear-gradient(bottom, rgb(77, 20, 221) 26%,
+		rgb(108, 46, 255) 63%, rgb(141, 74, 255) 82% );
+	background-image: -ms-linear-gradient(bottom, rgb(77, 20, 221) 26%,
+		rgb(108, 46, 255) 63%, rgb(141, 74, 255) 82% );
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.26, rgb(77,
+		20, 221) ), color-stop(0.63, rgb(108, 46, 255) ),
+		color-stop(0.82, rgb(141, 74, 255) ) );
+}
+
+.cube {
+	width: 30%;
+	height: 120px;
+	background-color: #444444;
+	border: 1px solid #999999;
+	margin: 10px;
+	float: left;
+}
+
+.menusublink {
+	color: white;
+	font-size: 18px;
+}
+
+.BDataGrid{
+	background-color:#333333;
+	color:white;
+	font-size:15px;
+	padding:0;
+}
+
+.leftPanelExamples{
+	width:30%;
+	float:left;
+	padding-bottom:50px;
+}
+
+.rightpanelExamples{
+	
+	width:70%;
+	float:left;
+}
+
+.controlOverviewPanel{
+	border:5px solid #999999;
+	margin-left:10px;
+	background-color:#333333;
+}
+
+
+.controlOverviewPanel .BLabelDecorator{
+	font-size:16px;
+	color:#eeeeee;
+}
+
+
+
+.exampleTile{
+	border: 5px solid #888888;
+	border-radius: 3px;
+	margin:4px;
+	color:white;
+	background-color:#222222;
+	text-align:center;
+	font-size:18px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.exampleTile:hover{cursor:pointer;background-color:#222222;border:5px solid lightblue;}
+
+
+.BDataGridTilePlaceHolder{
+	width:25%;	
+}
