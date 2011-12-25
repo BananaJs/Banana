@@ -7,7 +7,6 @@
 goog.provide('Banana.Page');
 
 goog.require('Banana.Controls.Panel');
-goog.require('Banana.Loader');
 
 /** @namespace Banana.Page */
 namespace('Banana').Page = Banana.Controls.Panel.extend(
@@ -201,6 +200,26 @@ Banana.Page.prototype.setContentPlaceHolder = function(ph)
  * @return  {Banana.PageTemplate}
  */
 Banana.Page.prototype.getContentPlaceHolder = function()
+{
+	return this.contentPlaceHolder;
+};
+
+/**
+ * sets content placeholder page
+ *
+ * @param {Banana.PageTemplate} ph
+ */
+Banana.Page.prototype.setPageTemplate = function(ph)
+{
+	this.contentPlaceHolder = ph;
+};
+
+/**
+ * gets content placeholder
+ *
+ * @return  {Banana.PageTemplate}
+ */
+Banana.Page.prototype.getPageTemplate = function()
 {
 	return this.contentPlaceHolder;
 };
