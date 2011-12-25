@@ -72,14 +72,6 @@ Banana.UiControl.prototype.getDomWriter = function()
 Banana.UiControl.prototype.getTagName = function(){return '';};
 
 /**
- *@deprecated Use the getDimensions() call
- */
-Banana.UiControl.prototype.getDemensions = function()
-{
-	return this.getDimensions();
-};
-
-/**
  * Computes widht,height and left right offsets
  * 
  * @return {Object} of dimensions
