@@ -92,7 +92,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		
 		this.indexKey = null;
 		this.nodeData = []; //mapping between index key and nodeinfo
-		//this.debug = true;
+		///this.debug = true;
 		
 		this.columns = [];
 		this.indexItemRenderFactory = []; //this array consists out of factory's or strings
@@ -474,7 +474,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		}
 		catch(e)
 		{
-			console.log(e)
+			console.log(e.message)
 		}
 	},
 
@@ -1137,7 +1137,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 				
 			//	var debug = "serverCount "+serverChildCount + " clientChilds"+clientChildCount+ " addedChildCount"+addedChildCount+ "===>"+offset+","+limit;
 								
-				return this.createLoadMoreButton(index,limit,"");
+				return this.createLoadMoreButton(index,limit,nodeData);
 			}
 		}
 			
@@ -1368,7 +1368,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 	 * @param {String} index
 	 * @param {int} limit
 	 */
-	createLoadMoreButton : function(index,limit,debug)
+	createLoadMoreButton : function(index,limit,nodeData)
 	{
 		var holder =this.indexHolderMap[index];
 		
@@ -1378,12 +1378,9 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		var datasource = this.getDataSourceByIndex(index);
 		var nodeData = this.getNodeDataByData(datasource);
 		
-		button.setText('Load next '+limit);
-		
-		if (this.debug)
-		{
-			button.setText('..load next '+limit + ' debug: ' +debug);
-		}
+		var totalrendered = nodeData.childCount - datasource.children.length;
+			
+		button.setText('Load next '+limit+ '/'+totalrendered);
 		
 		button.bind('click',this.getProxy(function(){
 		
