@@ -76,6 +76,7 @@ namespace('Banana.Controls').ProgressBar = Banana.Controls.DataControl.extend(
 	 * @param {int} data range 0 to 100. 100 is full progressbar.
 	 * @param {boolean} ignoreEvent
 	 * @param {boolean} ignoreDom
+	 * @return {this}
 	 * @override
 	 */
 	setData : function(data,ignoreEvent,ignoreDom)
@@ -84,5 +85,7 @@ namespace('Banana.Controls').ProgressBar = Banana.Controls.DataControl.extend(
 		this._super(data,ignoreEvent,ignoreDom);
 
 		this.updateDisplay();
+		
+		return this;
 	}
 });
