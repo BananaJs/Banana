@@ -48,6 +48,20 @@ namespace('Banana.Controls').DataGridTileItemRender = Banana.Controls.DataGridIt
 	},
 	
 	/**
+	 * Overwrite this method to implement your own item render
+	 */
+	createComponents : function()
+	{
+		if (typeof(this.data) == "string")
+		{
+			var p = new Banana.Controls.Panel();
+			p.addControl(this.data);
+			this.addControl(p);
+		}
+	},
+	
+	
+	/**
 	 * Called when item is selected
 	 */
 	select : function()
