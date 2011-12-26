@@ -58,8 +58,8 @@ namespace('Banana.Controls').DataGridDropDownFilter = Banana.Controls.DropDown.e
 			for (var prop in datasource)
 			{
 				if (typeof(datasource[prop]) == 'function') continue;
-				
-				newds[prop] = datasource[prop];
+			
+				newds[datasource[prop]] = datasource[prop];
 			}
 			datasource = newds;
 		}	
