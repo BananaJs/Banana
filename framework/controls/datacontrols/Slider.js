@@ -27,6 +27,8 @@ namespace('Banana.Controls').Slider = Banana.Controls.DataControl.extend(
 	{
 		this._super();
 		
+		this.addCssClass("BSlider");
+		
 		this.stepSize = 1;
 		this.min = 1;
 		this.max = 10;
@@ -42,6 +44,7 @@ namespace('Banana.Controls').Slider = Banana.Controls.DataControl.extend(
 	 * @param {int} data range 0 to 100. 100 is full progressbar.
 	 * @param {boolean} ignoreEvent
 	 * @param {boolean} ignoreDom
+	 * @return {this}
 	 * @override
 	 */
 	setData : function(data,ignoreEvent,ignoreDom)
@@ -52,6 +55,8 @@ namespace('Banana.Controls').Slider = Banana.Controls.DataControl.extend(
 		{
 			this.updateElement();
 		}
+		
+		return this;
 	},
 	
 	/**
@@ -102,33 +107,41 @@ namespace('Banana.Controls').Slider = Banana.Controls.DataControl.extend(
 
 	/**
 	 * @param {int} size
+	 * @return {this
 	 */
 	setStepSize : function(size)
 	{
 		this.stepSize = size;
+		return this;
 	},
 	
 	/**
 	 * @param {int} size
+	 * @return {this}
 	 */
 	setMin : function(size)
 	{
 		this.min = size;
+		return this;
 	},
 	
 	/**
 	 * @param {int} size
+	 * @return {this}
 	 */
 	setMax : function(size)
 	{
 		this.max = size;
+		return this;
 	},
 	
 	/**
 	 * @param {string} o horizontal or vert
+	 * @return {this}
 	 */
 	setOrientation : function(or)
 	{
 		this.orientation = or;
+		return this;
 	}
 });
