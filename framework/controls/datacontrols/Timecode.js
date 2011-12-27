@@ -21,8 +21,9 @@ namespace('Banana.Controls').Timecode = Banana.Controls.DataControl.extend(
 	{
 		this._super();
 
-		this.ctrl = new Banana.Controls.MaskedTextBox().setStyle('width:80px;').setMask(mask || '99:99:99:99');
-		this.addControl(new Banana.Controls.Decorators.TimecodeFieldValidator(this.ctrl));
+		this.addCssClass("BTimecode");
+		this.ctrl = new Banana.Controls.MaskedTextBox().setMask(mask || '99:99:99:99');
+		this.addControl(this.ctrl);
 	},
 	
 	/**
