@@ -55,7 +55,7 @@ namespace('Banana.Controls').Modal = Banana.Controls.Panel.extend(
 
 		if (this.keepFixed)
 		{
-			this.container.setCss({'position':'fixed','top':this.getPage().getDemensions().offset.top + 20});
+			this.container.setCss({'position':'fixed','top':this.getPage().getDimensions().offset.top + 20});
 		}		
 	},
 
@@ -177,8 +177,8 @@ namespace('Banana.Controls').Modal = Banana.Controls.Panel.extend(
 	{
 		if (this.isRendered)
 		{
-			var pageDem = this.getPage().getDemensions();
-			this.container.setCss({'margin-left':((pageDem.width/2)-this.container.getDemensions().width/2)+'px','margin-top':40+'px'});
+			var pageDem = this.getPage().getDimensions();
+			this.container.setCss({'margin-left':((pageDem.width/2)-this.container.getDimensions().width/2)+'px','margin-top':40+'px'});
 		}
 		return this;
 	},
