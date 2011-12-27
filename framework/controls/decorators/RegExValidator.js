@@ -47,6 +47,8 @@ namespace('Banana.Controls.Decorators').RegExValidator = Banana.Controls.Decorat
 		{
 			return true
 		}
+		
+		return false;
 	},
 	
 	/**
