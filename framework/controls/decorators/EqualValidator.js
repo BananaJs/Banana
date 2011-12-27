@@ -25,6 +25,7 @@ namespace('Banana.Controls.Decorators').EqualValidator = Banana.Controls.Decorat
 	init : function(c)
 	{
 		this._super(c);
+		this.setInfoText('Fields should be equal');
 	},
 	
 	/**
@@ -36,7 +37,6 @@ namespace('Banana.Controls.Decorators').EqualValidator = Banana.Controls.Decorat
 	setControlIdToMatch: function(controlId)
 	{
 		this.controlIdToMatch = controlId;
-		
 		return this;
 	},
 	
@@ -46,9 +46,10 @@ namespace('Banana.Controls.Decorators').EqualValidator = Banana.Controls.Decorat
 	 * @param {Banana.Control} control
 	 * @return {this}
 	 */
-	setControlIdMatch : function(control)
+	setControlToMatch : function(control)
 	{
 		this.controlIdToMatch = control.id;
+		return this;
 	},
 	
 	/**
@@ -60,6 +61,12 @@ namespace('Banana.Controls.Decorators').EqualValidator = Banana.Controls.Decorat
 	validateData : function(data)
 	{
 		control = this.getPage().findControl(this.controlIdToMatch);
+		
+		if (!control)
+		{
+			log.error("Control "+this.getDecoratedControl().id+ " Doesnt have control defined to check equality on");
+			return;
+		}
 		
 		if (data === control.getData())
 		{
