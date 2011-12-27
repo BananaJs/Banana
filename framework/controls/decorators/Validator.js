@@ -234,12 +234,14 @@ namespace('Banana.Controls.Decorators').Validator = Banana.Controls.Decorators.D
 		{
 			this.createLabelText();
 			c.addCssClass('BValidatorControlInvalidated');
+			c.removeCssClass('BValidatorControlValidated');
 			this.showIndicators();
 			return false;
 		}
 		else if (result==true)
 		{
 			c.removeCssClass('BValidatorControlInvalidated');
+			c.addCssClass('BValidatorControlValidated');
 			this.hideIndicators();
 			return true;
 		}
