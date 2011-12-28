@@ -66,7 +66,7 @@ namespace('Banana.Controls').DataGridTileItemRender = Banana.Controls.DataGridIt
 	 */
 	select : function()
 	{
-		this.getListRender().getRowByItemRender(this).addCssClass("BDataGridTileTilePlaceHolderSelected");
+		this.getListRender().getItemRenderPlaceHolderByItemRender(this).addCssClass("BDataGridTileTilePlaceHolderSelected");
 	},
 	
 	/**
@@ -74,7 +74,7 @@ namespace('Banana.Controls').DataGridTileItemRender = Banana.Controls.DataGridIt
 	 */
 	deselect : function()
 	{
-		this.getListRender().getRowByItemRender(this).removeCssClass("BDataGridTileTilePlaceHolderSelected");
+		this.getListRender().getItemRenderPlaceHolderByItemRender(this).removeCssClass("BDataGridTileTilePlaceHolderSelected");
 	},
 	
 	/**

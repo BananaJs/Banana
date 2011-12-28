@@ -64,7 +64,6 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 		
 		this.indexTilePlaceHolderMap = [];
 		this.indexItemRenderFactory = []; //this array consists out of factory's or strings
-		this.indexRenderedItemRenderMap = []; //these are the real ui item renders
 		this.dataItemRenderMap = new Banana.Util.ArrayBiCollection(); //mapping of item renders to data
 		
 		this.defaultContentItemRender = Banana.Controls.DataGridTileItemRender;
@@ -176,9 +175,9 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 		
 		if (index != -1)
 		{
-			this.removeRowByIndex(index);
+			this.removeItemRenderPlaceHolderByIndex(index);
 		}
-		this.removeRowByIndex(index);
+		this.removeItemRenderPlaceHolderByIndex(index);
 	},
 	
 	/**
@@ -189,7 +188,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	{
 		var index = this.indexRenderedItemRenderMap.indexOf(itemRender);
 		
-		this.removeRowByIndex(index);
+		this.removeItemRenderPlaceHolderByIndex(index);
 	},
 	
 	/**
@@ -238,7 +237,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 		
 		if (!dontCreate)
 		{
-			this.clearRowByIndex(index);
+			this.clearItemRenderPlaceHolderByIndex(index);
 			this.createItemRenderByIndex(index,true);
 			//TODO only trigger when changed
 			this.triggerEvent('itemRenderChanged');
@@ -310,15 +309,6 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	},	
 	
 	/**
-	 * @param {int} index
-	 * @return {Banana.Controls.ItemRender}
-	 */
-	getRenderedItemRenderByIndex : function(index)
-	{
-		return this.indexRenderedItemRenderMap[index];
-	},
-	
-	/**
 	 * Rerenders item render by index. 
 	 * @param {int} index
 	 */
@@ -358,11 +348,11 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	},
 	
 	/**
-	 * removes a row by index
+	 * removes a placeholder by index
 	 * 
 	 * @param {int} index
 	 */
-	removeRowByIndex : function(index)
+	removeItemRenderPlaceHolderByIndex : function(index)
 	{
 		this.datasource.splice(index,1);
 		
@@ -377,9 +367,9 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	},
 
 	/**
-	 * Empties row by index
+	 * Empties placeholder by index
 	 */
-	clearRowByIndex : function(index)
+	clearItemRenderPlaceHolderByIndex : function(index)
 	{
 		this.indexTilePlaceHolderMap[index].clear();
 	},
@@ -387,7 +377,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	/**
 	 * @return {int}
 	 */
-	getIndexByRow : function(row)
+	getIndexByItemRenderPlaceHolder : function(row)
 	{
 		return this.indexTilePlaceHolderMap.indexOf(row);
 	},
@@ -396,7 +386,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	 * @param {int}
 	 * @return {Banana.UiControl}
 	 */
-	getRowByIndex : function(index)
+	getItemRenderPlaceHolderByIndex : function(index)
 	{
 		return this.indexTilePlaceHolderMap[index];
 	},
@@ -405,7 +395,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	 * @param {Banana.Controls.ItemRender}
 	 * @return {Banana.UiControl}
 	 */
-	getRowByItemRender : function(ir)
+	getItemRenderPlaceHolderByItemRender : function(ir)
 	{
 		return this.indexTilePlaceHolderMap[this.indexRenderedItemRenderMap.indexOf(ir)];
 	},
@@ -743,7 +733,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	},
 	
 	/**
-	 * Selects the index. also adds BDataGridRowSelected css class to the item render 
+	 * Selects the index.  
 	 * 
 	 * @param {int} index
 	 */
@@ -758,7 +748,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 	},
 
 	/**
-	 * Selects the index. also removes BDataGridRowSelected css class from the item render
+	 * Selects the index.
 	 * 
 	 * @param {int} index
 	 */
