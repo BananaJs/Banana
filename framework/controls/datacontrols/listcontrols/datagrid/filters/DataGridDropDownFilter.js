@@ -21,6 +21,8 @@ namespace('Banana.Controls').DataGridDropDownFilter = Banana.Controls.DropDown.e
 		
 		this.allKey = '%';
 		this.allTitle = null;
+		
+		this.addCssClass("BDataGridFilter");
 
 		// Needed for filter interface
 		this.bind('dataChanged',this.getProxy(function() {

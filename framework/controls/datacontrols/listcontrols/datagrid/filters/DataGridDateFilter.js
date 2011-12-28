@@ -19,6 +19,9 @@ namespace('Banana.Controls').DataGridDateFilter = Banana.Controls.DatePicker.ext
 	init : function()
 	{
 		this._super();
+		
+		this.addCssClass('BDataGridPagerFilter')
+		
 		this.bind('dataChanged',this.getProxy(this.triggerEvent('filterDataChanged')));
 	},
 	

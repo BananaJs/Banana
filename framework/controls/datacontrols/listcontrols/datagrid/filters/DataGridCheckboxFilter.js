@@ -23,6 +23,9 @@ namespace('Banana.Controls').DataGridCheckboxFilter = Banana.Controls.BaseDataGr
 		this._super();
 		
 		this.checkbox = new Banana.Controls.CheckBox();
+		
+		this.addCssClass('BDataGridPagerFilter')
+		
 		this.checkbox.bind('change', this.getProxy(function() { this.triggerEvent('filterDataChanged'); }));
 		this.label = new Banana.Controls.Label();
 	},
