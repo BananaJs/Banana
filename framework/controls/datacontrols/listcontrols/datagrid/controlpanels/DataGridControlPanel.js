@@ -64,9 +64,7 @@ namespace('Banana.Controls').DataGridControlPanel = Banana.Control.extend(
 			}			
 			else
 			{
-				this.top.addControl(filters[i]);
-				filters[i].setStyle('margin-left:2px;');
-				log.error('Filter ' + filters[i] + ' not reconized by datagrid control panel!');
+				log.error('Filter ' + filters[i] + ' not supported by datagrid control panel!');
 			}	
 		}
 	},
@@ -77,7 +75,6 @@ namespace('Banana.Controls').DataGridControlPanel = Banana.Control.extend(
 	 */
 	setSearchFilter : function(filter)
 	{
-		filter.addCssClass('BDataGridFilter').setStyle('margin-left:2px;');
 		this.middle.addControl(filter);
 	},
 		
@@ -106,7 +103,6 @@ namespace('Banana.Controls').DataGridControlPanel = Banana.Control.extend(
 	setDropDownFilter : function(filter)
 	{
 		filter.setStyle('float:left;');
-		filter.addCssClass('BDataGridFilter').setStyle('margin-left:2px;');
 		this.middle.addControl(filter);
 	},
 	
@@ -119,7 +115,8 @@ namespace('Banana.Controls').DataGridControlPanel = Banana.Control.extend(
 	{
 		this.topButtons = buttons;
 		
-		for (var i=0,len = buttons.length; i < len; i++)
+		var i,len;
+		for (i=0,len = buttons.length; i < len; i++)
 		{
 			this.top.addControl(buttons[i]);
 			buttons[i].setStyle('float:right;margin-right:2px;');
@@ -168,5 +165,7 @@ namespace('Banana.Controls').DataGridControlPanel = Banana.Control.extend(
 		//default is invisible. later when we add filters we make it visible
 		this.arrow.setVisible(false);
 		this.bottom.addControl(this.arrow);		
+		
+		this.addControl("<div style='clear:both;'></div>");
 	}
 });
