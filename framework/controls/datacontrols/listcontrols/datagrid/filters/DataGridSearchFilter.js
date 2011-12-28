@@ -19,7 +19,8 @@ namespace('Banana.Controls').DataGridSearchFilter = Banana.Controls.TextBox.exte
 	{
 		this.untouched = true; //first time we have an untouched searchbox
 		this._super();
-		this.addCssClass('BDataGridSearch');
+		this.addCssClass("BDataGridFilter");
+		this.addCssClass("BDataGridSearchFilter");
 		this.promptText = 'Enter search term';
 		this.allKey = '%';
 
