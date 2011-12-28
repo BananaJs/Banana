@@ -22,7 +22,7 @@ namespace('Banana.Controls').BaseDataGridFilter = Banana.Controls.Panel.extend(
 	init : function()
 	{
 		this._super();
-		
+		this.addCssClass("BDataGridFilter")
 		this.allKey = '%';
 		this.allTitle = null;
 	},
