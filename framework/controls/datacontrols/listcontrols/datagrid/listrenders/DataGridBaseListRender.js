@@ -23,12 +23,24 @@ namespace('Banana.Controls').DataGridBaseListRender = Banana.Controls.CustomList
 	init : function()
 	{
 		this._super();
-
+		
+		this.addCssClass("BDataGridListRender")
+		
 		this.indexKey = 'id';
 		this.useAutoIndexing = false;
 		this.autoIndexKey = '__uid__';
 		this.selectedIndices = new Banana.Util.ArrayBiCollection();
 		this.indexDataMap = [];
+		this.indexRenderedItemRenderMap = []; //these are the real ui item renders
+	},
+	
+	/**
+	 * @param {int} index
+	 * @return {Banana.Controls.ItemRender}
+	 */
+	getRenderedItemRenderByIndex : function(index)
+	{
+		return this.indexRenderedItemRenderMap[index];
 	},
 	
 	/**

@@ -70,6 +70,9 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 	init : function()
 	{
 		this._super();
+		
+		this.addCssClass("BDataGridTableListRender")
+		
 		this.columns = [];
 		this.indexRowMap = [];
 		this.indexItemRenderFactory = []; //this array consists out of factory's or strings
@@ -273,6 +276,24 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 	{
 		return this.footerItemRender;
 	},
+	
+	/**
+	 * @param {Banana.Controls.ItemRender}
+	 * @return {Banana.UiControl}
+	 */
+	getRowByItemRender : function(ir)
+	{
+		return this.getRowByIndex([this.indexRenderedItemRenderMap.indexOf(ir)]);
+	},
+	
+	/**
+	 * @param {int} index
+	 * @return {Banana.Control.Panel}
+	 */
+	getRowByIndex : function(index)
+	{
+		return this.indexRowMap[index];
+	},
 
 	/**
 	 * Removes complete row. New indices will be calculated for remaining rows
@@ -451,7 +472,7 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 	createRowByIndex : function(index,instantRender)
 	{
 		var row = new Banana.Controls.TableRow();
-		row.addCssClass((index % 2) ? 'BDataGridRow' : 'BDataGridRowAlt');			
+		row.addCssClass((index % 2) ? 'BDataGridTableListRenderRow' : 'BDataGridTableListRenderRowAlt');			
 		
 		row.bind('mouseover',this.getProxy(function(e){this.onRowMouseOver(e)}),row);
 		row.bind('mouseout',this.getProxy(function(e){this.onRowMouseOut(e)}),row);
@@ -544,7 +565,8 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 		var itemRender = this.indexRenderedItemRenderMap[index];
 		
 		if (!itemRender.getIsSelectable()) return;
-		jQuery(e.currentTarget).addClass('datagridmouseover');
+		
+		itemRender.mouseOver();
 	},
 	
 	/**
@@ -561,7 +583,7 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 		
 		if (!itemRender.getIsSelectable()) return;
 		
-		jQuery(e.currentTarget).removeClass('datagridmouseover');
+		itemRender.mouseOut();
 	},
 	
 	/**
@@ -648,22 +670,32 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 	},
 	
 	/**
-	 * Visualy selects a index. 
-	 * @param {int} i
-	 * @ignore
+	 * Selects the index. also adds BDataGridRowSelected css class to the item render 
+	 * 
+	 * @param {int} index
 	 */
-	selectIndex : function(i)
+	selectIndex : function(index)
 	{
-		this.indexRowMap[i].addCssClass('BDataGridRowSelected');
+		var ir = this.getRenderedItemRenderByIndex(index);
+
+		if (ir && typeof(ir.select) == 'function' && ir.getIsSelectable())
+		{
+			ir.select();
+		}
 	},
 
 	/**
-	 * Visualy deselects a index. 
-	 * @param {int} i
-	 * @ignore
+	 * Selects the index. also removes BDataGridRowSelected css class from the item render
+	 * 
+	 * @param {int} index
 	 */
-	deSelectIndex : function(i)
+	deSelectIndex : function(index)
 	{
-		this.indexRowMap[i].removeCssClass('BDataGridRowSelected');
-	}	
+		var ir = this.getRenderedItemRenderByIndex(index);
+
+		if (ir && typeof(ir.deselect) == 'function')
+		{
+			ir.deselect();
+		}
+	}
 });

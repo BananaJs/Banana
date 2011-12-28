@@ -65,6 +65,38 @@ namespace('Banana.Controls').DataGridTableContentItemRender = Banana.Controls.Da
 	},
 	
 	/**
+	 * Called when item is selected
+	 */
+	select : function()
+	{
+		this.getListRender().getRowByItemRender(this).addCssClass("BDataGridTableListRenderSelected");
+	},
+	
+	/**
+	 * Called when item is deselected
+	 */
+	deselect : function()
+	{
+		this.getListRender().getRowByItemRender(this).removeCssClass("BDataGridTableListRenderSelected");
+	},
+	
+	/**
+	 * Called when mouse moves over the item render.
+	 */
+	mouseOver : function()
+	{
+		this.getListRender().getRowByItemRender(this).addCssClass("BDataGridTableListRenderMouseover");
+	},
+	
+	/**
+	 * Called when mouse moves out the item render
+	 */
+	mouseOut : function()
+	{
+		this.getListRender().getRowByItemRender(this).removeCssClass("BDataGridTableListRenderMouseover");
+	},
+	
+	/**
 	 * @return {boolean}
 	 */
 	getIsSelectable : function()
