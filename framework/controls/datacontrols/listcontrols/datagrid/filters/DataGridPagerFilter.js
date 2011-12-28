@@ -19,9 +19,10 @@ namespace('Banana.Controls').DataGridPagerFilter = Banana.Controls.ListControl.e
 	 */
 	init : function()
 	{
-		this.addCssClass('BDataGridPagerFilter')
-		
 		this._super();
+		
+		this.addCssClass("BDataGridFilter");
+		this.addCssClass('BDataGridPagerFilter')
 
 		this.dropDown = new Banana.Controls.DropDown().setVisible(false);
 	
