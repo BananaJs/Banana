@@ -1,6 +1,14 @@
+.BPage{
+	color:white;
+	background-color:white;
+}
+
+.BPageTemplate{background-color:0;}
+
 .Header {
 	height: 20px;
 }
+
 
 .HeaderText {
 	float: left;
@@ -115,6 +123,7 @@
 .toppanel {
 	width: 100%;
 	height: 40px;
+	background-color:#777777;
 }
 
 .rightpanel {
@@ -194,16 +203,8 @@ body {
 	margin: 0;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-image: linear-gradient(bottom, rgb(115, 115, 115) 11%,
-		rgb(26, 25, 26) 56%, rgb(5, 5, 5) 78% );
-	background-image: -o-linear-gradient(bottom, rgb(115, 115, 115) 11%,
-		rgb(26, 25, 26) 56%, rgb(5, 5, 5) 78% );
-	background-image: -moz-linear-gradient(bottom, rgb(115, 115, 115) 11%,
-		rgb(26, 25, 26) 56%, rgb(5, 5, 5) 78% );
-	background-image: -webkit-linear-gradient(bottom, rgb(115, 115, 115) 11%,
-		rgb(26, 25, 26) 56%, rgb(5, 5, 5) 78% );
-	background-image: -ms-linear-gradient(bottom, rgb(115, 115, 115) 11%,
-		rgb(26, 25, 26) 56%, rgb(5, 5, 5) 78% );
+	background-color:;
+	 
 }
 
 .menusub {
@@ -297,9 +298,10 @@ body {
 }
 
 .BDataGrid{
-	background-color:#333333;
 	color:white;
-	font-size:15px;
+	background-color:#333333;
+	margin:0;
+	font-size:14px;
 	padding:0;
 }
 
@@ -307,44 +309,142 @@ body {
 	width:30%;
 	float:left;
 	padding-bottom:50px;
-}
-
+} 
 .rightpanelExamples{
 	
 	width:70%;
 	float:left;
 }
 
+.borderPanel{
+	border:4px solid #999999;
+	border-radius: 3px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-bottom:5px;
+} 
+
 .controlOverviewPanel{
-	border:5px solid #999999;
-	margin-left:10px;
+	margin-left:5px;
 	background-color:#333333;
 }
 
+.controlOverview{
+	
+}
 
 .controlOverviewPanel .BLabelDecorator{
 	font-size:16px;
 	color:#eeeeee;
 }
 
+.controlOverviewPanel input,select{
+	
+}
 
+.controlOverviewtitleContainer
+{	
+	font-size:15px;
+	padding:4px;
+	border-bottom: 4px solid #999999;
+	background-color:#222222;
+	font-weight:bold;
+	font-variant:small-caps;
+	color:white;
+}
 
+.controlOverviewtitle{
+	float:left;
+}
+
+.controlOverViewShowCodeButton{
+
+line-height:12px;
+height:20px;
+float:right;
+}
+
+.controlOverViewShowCodeButton input{
+}
+ 
 .exampleTile{
-	border: 5px solid #888888;
+	border: 1px solid #555555;
 	border-radius: 3px;
 	margin:4px;
+	padding:4px;
 	color:white;
 	background-color:#222222;
-	text-align:center;
-	font-size:18px;
+	text-align:left;
+	font-size:15px;
+	font-weight:bold;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
-.exampleTile:hover{cursor:pointer;background-color:#222222;border:5px solid lightblue;}
+.exampleTile:hover{cursor:pointer;background-color:#222222;border:1px solid lightblue;}
 
 
-.BDataGridTilePlaceHolder{
-	width:25%;	
+.ExampleTileSimple2 .BDataGridTilePlaceHolder{
+	width:25%;
 }
+
+.ExampleTileSimple2ItemRender{
+	padding:2px;
+	border:1px solid white;
+	cursor:pointer;
+	margin:2px;
+}
+
+.ExampleTileSimple2ItemRender2{
+	padding:2px;
+	border-radius:8px;
+	border:2px solid white;
+	margin:1px;
+}
+
+.ExampleTileSimple2ItemRenderBox2{
+	float:left;
+}
+
+.ExampleTileSimple2ItemRenderBox{
+	width:50px;
+	height:50px;
+	margin:2px;
+	float:left;
+	border:1px solid lightblue;
+}
+
+.ExampleTileSimple2ItemRenderSelected{
+	background-color:#999999;
+}
+
+.ExampleTileSimple2ItemRenderMouseover{
+	border:1px dotted #999999
+}
+
+.BValidatorControlValidated{
+	border:1px solid green;
+	background-color:green;
+}
+
+.BModal{
+	border:4px solid #666666;
+	width:40%;
+}
+
+
+
+.examplesCustomItemRender{
+	padding-left:0;padding-top:0;background-color:#555555;
+}
+
+ /**
+ * Datagrid Tile List Render
+ *
+ */
+.BDataGridTileListRender{
+	border:1px solid #eeeeee;	
+}
+

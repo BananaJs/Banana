@@ -15,8 +15,8 @@ namespace('Application.Controls.Examples').DataGridTileItemRender = Banana.Contr
 		this.tile = tile;
 		
 		this.tile.bind('click',this.getProxy(function(){
-		
-			this.getListRender().triggerEvent('onItemClick',this.data.type);
+		 
+			this.getListRender().triggerEvent('onItemClick',{examples:this.data});
 			
 		}));
 	},

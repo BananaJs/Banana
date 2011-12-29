@@ -1,8 +1,27 @@
 goog.provide('Application.Pages.Examples');
 
 goog.require('Application.Controls.Examples.DataGridTileItemRender');
+goog.require('Application.Controls.Examples.ExampleSimpleGrid');
+goog.require('Application.Controls.Examples.ExampleBasicDataControls');
+goog.require('Application.Controls.Examples.ExampleBasicDataControls2');
+goog.require('Application.Controls.Examples.ExampleSimpleGridFilterable');
+goog.require('Application.Controls.Examples.ExampleTreeDataGrid');
+goog.require('Application.Controls.Examples.ExampleTreeDataGridDynamic');
+goog.require('Application.Controls.Examples.ExampleTileSimple');
+goog.require('Application.Controls.Examples.ExampleTileSimple2');
+goog.require('Application.Controls.Examples.SimpleGridEmptyTemplate');
+goog.require('Application.Controls.Examples.ExampleValidatorControls');
+goog.require('Application.Controls.Examples.ExampleGridCustomItemRender');
+goog.require('Application.Controls.Examples.ExampleTileCustomItemRender');
+goog.require('Application.Controls.Examples.ExampleTileMultipleItemRender');
 
-namespace('Application.Pages').Examples = Banana.Page.extend( {
+
+goog.require('Application.Controls.Examples.CodeModal');
+
+goog.require('Application.Controls.Examples.DemoPage');
+
+
+namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage.extend( {
 
     /**
      * @inheritDoc
@@ -10,6 +29,72 @@ namespace('Application.Pages').Examples = Banana.Page.extend( {
     init: function() {
     	
 		this._super();
+		
+		
+		this.content = [
+	  			{'title':'Basic Controls',
+	  			 "urlEntry":"BasicControls",
+	  			 "examples":[
+	  			             {"title":"Basic controls","example":"BasicDataControls"},
+	  			             {"title":"Basic controls","example":"BasicDataControls2"}
+	  			            ]
+			    },
+			    {'title':'Table Datagrid',
+		  			 "urlEntry":"TableListControls",
+		  			 "examples":[
+		  			             {"title":"Table datagrid simple","example":"SimpleGrid"},
+		  			             {"title":"Table datagrid with control panel","example":"SimpleGridFilterable"},
+		  			             {"title":"Table datagrid custom itemrender","example":"ExampleGridCustomItemRender"},
+		  			             {"title":"Table datagrid dynamic data","example":"SimpleGridEmptyTemplate"}
+		  			             ]
+				},
+			    {'title':'Tile Datagrid',
+		  			 "urlEntry":"TileListControls",
+		  			 "examples":[
+		  			             
+		  			             {"title":"Tile datagrid simple","example":"ExampleTileSimple"},
+		  			             {"title":"Tile datagrid custom itemrender selectable","example":"ExampleTileSimple2"},
+		  			             {"title":"Tile datagrid custom itemrender 2","example":"ExampleTileCustomItemRender"},
+		  			             {"title":"Tile datagrid multiple custom itemrenders","example":"ExampleTileMultipleItemRender"}
+		  			            ]
+				},
+			    {'title':'Tree Datagrid', 
+		  			 "urlEntry":"TreeListControls",
+		  			 "examples":[ 
+		  			             {"title":"Tree datagrid dynamic data","example":"TreeDataGridDynamic"},
+		  			             {"title":"Tree datagrid data","example":"TreeDataGrid"}
+		  			            ]
+				}
+			];
+		
+		
+		
+		this.content2 = [
+			  			{'title':'Validators',
+			  			 "urlEntry":"ValidatorsControls",
+			  			 "examples":[
+			  			             {"title":"Validation examples","example":"ExampleValidatorControls"}
+			  			            ]
+					    },
+			  			{'title':'Databinding',
+				  			 "urlEntry":"Validsas",
+				  			 "examples":[
+				  			             {"title":"Basic controls","example":"BasicDataControls"}
+				  			            ]
+						},
+			  			{'title':'Dynamic rendering',
+				  			 "urlEntry":"ValidadsadsatorControls",
+				  			 "examples":[
+				  			             {"title":"Basic controls","example":"BasicDataControls"}
+				  			            ]
+						},
+			  			{'title':'Url History management',
+				  			 "urlEntry":"ValidadsadstorControls",
+				  			 "examples":[
+				  			             {"title":"Basic controls","example":"BasicDataControls"}
+				  			            ]
+						}
+					];
     	
 	},
 
@@ -28,7 +113,9 @@ namespace('Application.Pages').Examples = Banana.Page.extend( {
 		this.addControl(this.right);
 	
 		this.createTitle();
-		this.createTiles();
+		this.createControlTiles();
+		this.createControl2Tiles();
+		//this.createControl3Tiles(); 
 		
 		this.createControlOverview();
 	},
@@ -42,9 +129,54 @@ namespace('Application.Pages').Examples = Banana.Page.extend( {
 		this.top.addControl(title);
 	},
 	
-	createTiles : function()
+	createControlTiles : function()
 	{	
 		grid = new Banana.Controls.DataGrid();
+		grid.addCssClass("borderPanel");
+		
+		var listRender = new Banana.Controls.DataGridTileListRender()
+		listRender.setPlaceHolderWidth("100%");
+		listRender.setItemRender(function(){return new Application.Controls.Examples.DataGridTileItemRender()});
+		
+		grid.setListRender(listRender);
+		
+		//invoked after clicking on a item. this is triggered by the itemrender itself
+		listRender.bind('onItemClick',this.getProxy(function(e,data){
+			
+			this.createControlOverview(data.examples);
+		}));
+		
+		grid.setDataSource(this.content);	
+
+		this.left.addControl(grid);		
+	},
+	
+	createControl2Tiles : function()
+	{	
+		grid = new Banana.Controls.DataGrid();
+		grid.addCssClass("borderPanel");
+		
+		var listRender = new Banana.Controls.DataGridTileListRender()
+		listRender.setPlaceHolderWidth("100%");
+		listRender.setItemRender(function(){return new Application.Controls.Examples.DataGridTileItemRender()});
+		
+		grid.setListRender(listRender);
+		
+		//invoked after clicking on a item. this is triggered by the itemrender itself
+		listRender.bind('onItemClick',this.getProxy(function(e,data){
+			
+			this.createControlOverview(data.examples);
+		}));
+		
+		grid.setDataSource(this.content2);	
+
+		this.left.addControl(grid);		
+	},
+	
+	createControl3Tiles : function()
+	{	
+		grid = new Banana.Controls.DataGrid();
+		grid.addCssClass("borderPanel");
 		
 		var listRender = new Banana.Controls.DataGridTileListRender()
 		listRender.setPlaceHolderWidth("100%");
@@ -53,9 +185,7 @@ namespace('Application.Pages').Examples = Banana.Page.extend( {
 		grid.setListRender(listRender);
 		
 		var content = [
-			{'title':'Basic Data Controls',"type":"BasicDataControls"},
-			{'title':'Table Datagrid',"type":"SimpleGrid"},
-			{'title':'Table Datagrid extended',"type":"SimpleGridControllable"}
+			{'title':'Dynamic rendering',"type":"Validation"}
 			];
 		
 		
@@ -73,312 +203,128 @@ namespace('Application.Pages').Examples = Banana.Page.extend( {
 	/**
 	 * @param {String} type of the controloverview
 	 */
-	createControlOverview : function(type)
-	{
-		if (!type && Banana.Util.UrlManager.getModule("type"))
+	createControlOverview : function(data)
+	{	
+		var examples = null;
+		
+		if (data)
 		{
-			type = Banana.Util.UrlManager.getModule("type");
+			examples = data.examples;
+			Banana.Util.UrlManager.registerModule("urlEntry");
+			Banana.Util.UrlManager.setModule("urlEntry",data.urlEntry);
 		}
-		else if (type)
+		
+		if (!examples)
 		{
-			Banana.Util.UrlManager.registerModule("type");
-			Banana.Util.UrlManager.setModule("type",type);	
-		}
-		else
-		{
-			return;
-		}	
-		
-		this.right.clear();
-		var objectname = "Application.Controls.Examples"+'.'+type;
-		var c = Banana.Util.NamespaceToFunction(objectname);
-		var inst = new c();
-		
-		this.right.addControl(inst);
-		this.right.invalidateDisplay();
-	}
-});
-
-
-namespace('Application.Controls.Examples').ControlOverview = Banana.Controls.Panel.extend	({
-
-	init : function()
-	{
-		this._super();
-		this.addCssClass("controlOverviewPanel");
-	}
-});
-
-namespace('Application.Controls.Examples').BasicDataControls = Application.Controls.Examples.ControlOverview.extend	({
-	
-	createComponents : function()
-	{
-		var datasource = ['test','test2','test3'];
-		
-		this.addControl(new Banana.Controls.Decorators.LabelDecorator(
-				new Banana.Controls.TextBox()
-		).setData('Textbox'));
-		
-		this.addControl(new Banana.Controls.Decorators.LabelDecorator(
-				new Banana.Controls.TextBox().setStyle('width:100px;')
-		).setData('Textbox fixed width'));
-		
-		this.addControl(new Banana.Controls.Decorators.LabelDecorator(
-				new Banana.Controls.DropDown()
-				.setDataSource(datasource)
-		).setData('DropDown'));
-		
-		this.addControl(new Banana.Controls.Decorators.LabelDecorator(
-				new Banana.Controls.MultiSelect()
-				.setDataSource(datasource)
-		).setData('MultiSelect'));
-		
-		this.addControl(new Banana.Controls.Decorators.LabelDecorator(
-				new Banana.Controls.MultiSelect()
-				.setEnabled(false)
-				.setDataSource(datasource)
-		).setData('MultiSelect disabled'));
-		
-		this.addControl(new Banana.Controls.Decorators.LabelDecorator(
-				new Banana.Controls.CheckBox()
-		).setData('Checkbox'));
-		
-		this.addControl(new Banana.Controls.Decorators.LabelDecorator(
-				new Banana.Controls.RadioButton()
-		).setData('Radiobutton'));	
-		
-		this.addControl(new Banana.Controls.Decorators.LabelDecorator(
-				new Banana.Controls.CheckboxList()
-				.setDataSource(datasource)
-		).setData('Checkbox list'));
-		
-		this.addControl(new Banana.Controls.Decorators.LabelDecorator(
-				new Banana.Controls.RadioButtonList()
-				.setDataSource(datasource)
-		).setData('RadioButton list'));
-	}
-	
-});
-
-
-
-
-
-
-namespace('Application.Controls.Examples').SimpleGrid = Application.Controls.Examples.ControlOverview.extend	({
-	
-	createComponents : function()
-	{
-		var datasource = [
-		                  {id:1,'name':'Orange','description':'Mare neque'},
-		                  {id:2,'name':'Apple','description':'Diam a nulla placerat ru'},
-		                  {id:3,'name':'Banana','description':'Llis eros eget mauri'},
-		                  {id:4,'name':'Orange','description':'Morbi sollicitudin'},
-		                  {id:5,'name':'Bolwara','description':'Er in adipiscing turpis.'},
-		                  {id:6,'name':'Guava','description':'Odio auctor enim'},
-		                  {id:7,'name':'Grapes','description':'Quisque fermentum'},
-		                  {id:88,'name':'Papayas','description':'Mperdiet vel, dignissim eget diam'},
-		                  {id:89,'name':'Pears','description':'Egestas eu risus'},
-		                  {id:90,'name':'Cherries','description':'Ut pharetra sapien'},
-		                  {id:92,'name':'Persimmons','description':'Laoreet, nunc massa'},
-		                  {id:93,'name':'Blackberries','description':'Dignissim eget diam'}
-		                  ];
-		
-		var columns = [
-		               new Banana.Controls.DataGridColumn().setHeaderText('Id').setDataField('id'),
-		               new Banana.Controls.DataGridColumn().setHeaderText('Name').setDataField('name'),
-		               new Banana.Controls.DataGridColumn().setHeaderText('Description').setDataField('description')
-		               ]
-		
-		var datagrid = new Banana.Controls.DataGrid();
-		datagrid.setDataSource(datasource);
-		
-		var listRender = datagrid.getListRender();
-		listRender.setColumns(columns);
-			
-		this.addControl(datagrid);
-	}
-	
-});
-
-
-
-
-
-
-
-namespace('Application.Controls.Examples').SimpleGridControllable = Application.Controls.Examples.ControlOverview.extend	({
-	
-	createComponents : function()
-	{
-		var datasource = [
-		                  {id:1,'name':'Orange','description':'Mare neque'},
-		                  {id:2,'name':'Apple','description':'Diam a nulla placerat ru'},
-		                  {id:3,'name':'Banana','description':'Llis eros eget mauri'},
-		                  {id:4,'name':'Orange','description':'Morbi sollicitudin'},
-		                  {id:5,'name':'Bolwara','description':'Er in adipiscing turpis.'},
-		                  {id:6,'name':'Guava','description':'Odio auctor enim'},
-		                  {id:7,'name':'Grapes','description':'Quisque fermentum'},
-		                  {id:88,'name':'Papayas','description':'Mperdiet vel, dignissim eget diam'},
-		                  {id:89,'name':'Pears','description':'Egestas eu risus'},
-		                  {id:90,'name':'Cherries','description':'Ut pharetra sapien'},
-		                  {id:92,'name':'Persimmons','description':'Laoreet, nunc massa'},
-		                  {id:93,'name':'Blackberries','description':'Dignissim eget diam'}
-		                  ];
-
-		var columns = [
-		               new Banana.Controls.DataGridColumn().setHeaderText('Id').setDataField('id'),
-		               new Banana.Controls.DataGridColumn().setHeaderText('Name').setDataField('name'),
-		               new Banana.Controls.DataGridColumn().setHeaderText('Description').setDataField('description')
-		               ]
-
-		var datagrid = new Banana.Controls.DataGrid();
-		var controlPanel = new Banana.Controls.DataGridControlPanel();
-		datagrid.setControlPanel(controlPanel);
-
-		this.createDataGrid2FilterManager();
-		controlPanel.setFilters(this.filterManager.getFilters());	
-
-		controlPanel.setButtons([
-		                         new Banana.Controls.Button().setText('click here'),
-		                         new Banana.Controls.Button().setText('or here')
-		                         ]);
-
-		datagrid.setDataSource(datasource);
-
-		var listRender = datagrid.getListRender();
-			
-		listRender.bind('onCommand',this.getProxy(function(e,params){
-			
-			if(params.commandName == 'edit')
-			{
-				Banana.Application.loadPage('Home');
-			}
-		}));
-
-		listRender.setColumns(columns);
-			
-		this.addControl(datagrid);
-		},
-
-		createDataGrid3 : function()
-		{
-		var window = new Banana.Controls.Window().setTitle('Datagrid with custom item render');
-		this.addControl(window);
-
-
-		var datasource = [
-		                  {'name':'a name 1','description':'a description 1'},
-		                  {'name':'a name 2','description':'a description 2'},
-		                  {'name':'a name 3','description':'a description 3'}
-		                  ];
-
-		var columns = [
-		               new Banana.Controls.DataGridImageButtonColumn().setHeaderText('Info').setCommandName('expand').setImageUrl(Banana.Application.settings.imagedir+'/arrowopen.png').setStyle('cursor:pointer;width:20px;'),
-		               new Banana.Controls.DataGridColumn().setHeaderText('name').setDataField('name'),
-		               new Banana.Controls.DataGridColumn().setHeaderText('description').setDataField('description')
-		               ]
-
-		var datagrid = new Banana.Controls.DataGrid();
-		var controlPanel = new Banana.Controls.DataGridControlPanel();
-		datagrid.setControlPanel(controlPanel);
-
-		controlPanel.setButtons([
-		                         new Banana.Controls.Button().setText('click here'),
-		                         new Banana.Controls.Button().setText('or here')
-		                         ]);
-		controlPanel.setTopButtons([
-		                         new Banana.Controls.Button().setText('click here2'),
-		                         new Banana.Controls.Button().setText('or here2')
-		                         ]);
-
-		datagrid.setDataSource(datasource);
-
-		var listRender = datagrid.getListRender();
-		listRender.setColumns(columns);
-
-		listRender.bind('onCommand',this.getProxy(function(e,params){
-			
-			var index = params.index;
-			var commandName = params.commandName;
-			
-			//check if at index is already custom item render.
-			if (listRender.hasItemRenderAt(index,Application.Controls.CustomItemRender))
-			{		
-				var irClosed = function() 
-				{	
-					return new listRender.defaultContentItemRender();
-				};
+			if (Banana.Util.UrlManager.getModule("urlEntry"))
+			{			
+				var urlEntry = Banana.Util.UrlManager.getModule("urlEntry");
+				
+				var i;
+				
+				for (i=0; i<this.content.length;i++)
+				{
+					if (urlEntry == this.content[i].urlEntry)
+					{
+						console.log(this.content[i].urlEntry)
+						examples = this.content[i].examples;
+						continue;
+					}
+				}
+				
+				for (i=0; i<this.content2.length;i++)
+				{
+					if (urlEntry == this.content2[i].urlEntry)
+					{
+						console.log(this.content2[i].urlEntry)
+						examples = this.content2[i].examples;
+						continue;
+					}
+				}
+				
+				if (!examples)
+				{
+					alert("Not found!");
+					return;
+				}
 			}
 			else
-			{		
-				var irOpened = function()
-				{
-					return new Application.Controls.CustomItemRender();
-				};
+			{
+				return;
 			}
-
-			listRender.setItemRenderByIndex(index,irOpened);
+		}
+		
+		
+		this.right.clear();
+		
+		if (window.aap)
+		{
+			return;
+		}
+		
+		
+		var i;
+		for (i=0;i<examples.length;i++)
+		{
+				var example = examples[i].example;
 			
-		}))
+				var container = new Banana.Controls.Panel();
+				var titleContainer = new Banana.Controls.Panel().addCssClass("controlOverviewtitleContainer");
+				///var showCodeLinkContainer = new Banana.Controls.Panel().addCssClass("controlOverviewShowcodeLink");
+				
+				var title = new Banana.Controls.Panel();
+				title.addCssClass('controlOverviewtitle');
+				title.addControl(examples[i].title);
+				titleContainer.addControl(title);
+				
+				container.addControl(titleContainer);
 			
-		this.addControl(datagrid);		
+				var objectname = "Application.Controls.Examples"+'.'+example;
+				var c = Banana.Util.NamespaceToFunction(objectname);
+				var inst = new c();
+				
+				if (inst.getCode)
+				{
+					var code = inst.getCode();
+				}
+				
+				if (code != false)
+				{
+					var showCode = new Banana.Controls.Button();
+					showCode.bind('click',this.getProxy(function(){
+						this.showCode(code);
+					}));
+					showCode.setText("Show code");
+					showCode.addCssClass('controlOverViewShowCodeButton')
+					//showCodeLinkContainer.addControl(showCode);
+					titleContainer.addControl(showCode);
+					//this.showCode(code);
+				}
+				
+				titleContainer.addControl('<div style="clear:both;"></div>');
+			
+				container.addControl(inst);
+				container.addCssClass("borderPanel");
+				container.addCssClass("controlOverviewPanel");
+				
+				this.right.addControl(container);
+		}
+		
+		this.right.invalidateDisplay();
 	},
 	
-	createDataGrid2FilterManager : function()
+	showCode : function(code)
 	{
-		this.filterManager= new Banana.Controls.DataGridFilterManager();
-		this.filterManager.setUrlPreFix('datagrid2_'); 
-		this.filterManager.showBindedOnly(true);
-		this.filterManager.bind('filtersChanged',this.getProxy(function(e,filterData){
+		if (!this.showCodeModal)
+		{
+			this.showCodeModal = new Application.Controls.Examples.CodeModal();
+			this.addControl(this.showCodeModal,true);
+			this.showCodeModal.setTitle("Code");
 			
-			console.log('filters changed',filterData)
-		}));
+		}
 		
-		this.filterManager.setFilters([
-								 new Banana.Controls.DataGridDropDownFilter()
-								.setFilterField('filter1')
-								.setAllTitle('Filter 1')
-								.setDataSource(['waarde1','waarde2'])
-								.dataSetSourceBind('data','filter1'),
-								
-								 new Banana.Controls.DataGridDropDownFilter()
-								.setFilterField('filter2')
-								.setAllTitle('Filter 2')
-								.setDataSource([{'key':'key','value':'value'}])
-								.dataSetSourceBind('data','filter2'),							
-								
-								new Banana.Controls.DataGridDropDownFilter()
-								.setFilterField('productType')
-								.setAllTitle('All Product types')
-								.dataSetSourceBind('bulkdata','productTypes'),								
-									 				
-								 new Banana.Controls.DataGridSearchFilter()
-								 .setFilterField('search'),
-								  
-								this.pagerFilter = new Banana.Controls.DataGridPagerFilter()
-								.setDataSource(10)
-								.setData(2)
-								.dataSetBind('data','pageIndex') 
-								.dataSetSourceBind('data','pageCount')
-								.bind('dataChanged',this.getProxy(function(){
-									
-									//if user changed page index we clear the itemrender index mapping
-									if (this.restoringFinished)
-									{
-										this.grid.listRender.indexItemRenderFactory =[]; 
-									}
-								}))
-								.setFilterField('pageIndex')
-								]);
-	}	
-	
+		this.showCodeModal.setCode(code);
+		this.showCodeModal.show();
+		//this.showCodeModal.
+	}
 });
-
-
-
-
-
-
-
-
