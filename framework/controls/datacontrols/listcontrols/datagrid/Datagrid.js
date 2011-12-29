@@ -60,6 +60,8 @@ namespace('Banana.Controls').DataGrid = Banana.Controls.ListControl.extend(
 	{
 		this._super();
 	
+		this.addCssClass('BDataGrid');
+		
 		this.datasource = [];
 		
 		this.listRender = null;
@@ -152,8 +154,6 @@ namespace('Banana.Controls').DataGrid = Banana.Controls.ListControl.extend(
 	 */
 	createBasicControls : function()
 	{
-		this.addCssClass('BDataGrid');
-		
 		this.controlPanelHolder = new Banana.Control();
 		this.listHolder = new Banana.Controls.Panel();
 		this.infoHolder = new Banana.Controls.Panel().addCssClass('BDataGridInfoHolder');
@@ -225,7 +225,6 @@ namespace('Banana.Controls').DataGrid = Banana.Controls.ListControl.extend(
 		//if list holder is not already added to its placeholder 
 		if (this.listHolder.controls.indexOf(this.listRender) === -1)
 		{
-			this.listHolder.setId('listHolder');
 			this.listHolder.addControl(this.listRender);
 			this.listRender.datagrid = this;
 					
