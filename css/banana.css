@@ -186,7 +186,7 @@
 	background-image: url(../images/nodeempty.png);float:left;width:20px;height:20px;
 }
 .BDataGridTreeItemRender{
-	padding-right:2px;padding-left:2px;border:1px solid #999999;border-radius:2px;-moz-border-radius: 2px; 
+	padding-right:2px;padding-left:2px;border-radius:2px;-moz-border-radius: 2px; 
 }
 .BDataGridTreeItemRender:hover{
 	border:1px solid lightblue;display:inline-block;
