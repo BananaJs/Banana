@@ -111,6 +111,8 @@ namespace('Banana.Controls').DataGridBaseListRender = Banana.Controls.CustomList
 	 */
 	unload : function()
 	{
+		this._super();
+		
 		this.selectedIndices.clear();
 		this.selectedIndices = undefined;
 		this.indexDataMap = undefined;
