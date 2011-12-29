@@ -372,7 +372,7 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 	{
 		if (!this.columns || !this.columns.length)
 		{
-			log.error("Unable to render grid "+this.id+". No columns specified");
+			log.warning("Unable to render grid "+this.id+". No columns specified");
 		}
 		
 		for (var i=0; i<this.columns.length;i++)
