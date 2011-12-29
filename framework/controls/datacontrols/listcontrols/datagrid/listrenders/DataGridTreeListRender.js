@@ -90,9 +90,11 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 	{
 		this._super();
 		
+		this.addCssClass("BDataGridTree");
+		
 		this.indexKey = null;
 		this.nodeData = []; //mapping between index key and nodeinfo
-		///this.debug = true;
+		//this.debug = true;
 		
 		this.columns = [];
 		this.indexItemRenderFactory = []; //this array consists out of factory's or strings
@@ -786,8 +788,9 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 			source[this.childKey].push(target);
 		}
 		
-		this.toLogger('add ',childsToAdd);
 		nodeData.childCount+=childsToAdd;
+		
+		this.toLogger('current childcount prop',nodeData.childCount,"children",source[this.childKey].length);
 		
 		this.prepareSourceToRender(source);
 		}
@@ -983,9 +986,9 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 	showLoaderInNode : function(index)
 	{
 		this.showingLoader = true;
-		var loader = new Banana.Controls.Panel().setStyle('width:16px; height:16px;margin-left:20px;float:left;');
+		var loader = new Banana.Controls.Panel();
 		loader.setId("loader-"+index);
-		loader.addCssClass("BTreeListNodeLoader");
+		loader.addCssClass("BDataGridTreeLoader");
 		this.indexHolderMap[index].addControl(loader);
 		this.indexHolderMap[index].invalidateDisplay();
 	},
@@ -1236,7 +1239,11 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		{
 			if (!nodeData.parentIsRoot)
 			{
-				holder.setStyle('margin-left:20px;');
+				holder.addCssClass("BDataGridTreeItemHolder");
+			}
+			else
+			{
+				holder.addCssClass("BDataGridTreeItemHolderRoot");
 			}
 			
 			parentHolder.childsHolder.addControl(holder);
@@ -1314,7 +1321,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		
 		holder.toggleHolder.clear();
 		
-		var toggle = new Banana.Controls.DataGridTreeListNodeToggle().setStyle('float:left;width:20px;height:20px;');
+		var toggle = new Banana.Controls.DataGridTreeListNodeToggle().addCssClass('BDataGridTreeToggle');
 		toggle.index = index;
 		
 		toggle.setOn(nodeData.open);
@@ -1353,7 +1360,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 			return;
 		}
 		
-		var dummy = new Banana.Controls.Panel().addCssClass('BTreeListNodeEmpty');
+		var dummy = new Banana.Controls.Panel().addCssClass('BDataGridTreeEmptyNode');
 		holder.toggleHolder.addControl(dummy);	
 		
 		if (rerender)
@@ -1372,9 +1379,17 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 	{
 		var holder =this.indexHolderMap[index];
 		
-		var button = new Banana.Controls.LinkButton();
-		button.setStyle('margin-left:20px;float:left;');
-			
+		var button = new Banana.Controls.Button();
+		
+		if (index != 0)
+		{
+			button.addCssClass("BDataGridTreeLoadNextButton");
+		}
+		else
+		{
+			button.addCssClass("BDataGridTreeLoadNextButtonRoot");
+		}
+		
 		var datasource = this.getDataSourceByIndex(index);
 		var nodeData = this.getNodeDataByData(datasource);
 		

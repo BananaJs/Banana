@@ -1,84 +1,378 @@
-.BPage{font-family:arial;}
-
-/**
- * #Basic controls
+ /**
+ * Page control
  */
- 
-input[type="text"]{border:1px solid #999999;}
-select{border:1px solid #999999;}
+.BPage{}
+
+.BPageTemplate{}
 
  /**
- * #Textbox
+ * Label Control
  */
-.BTextbox{border:1px solid #777777;padding:2px;}
-.BTextbox:focus{ border:1px solid lightblue;}
+.BLabel{}
+
+ /**
+ * Textbox control
+ */
+.BTextbox{
+	height:20px;
+	padding:0px;
+}
+
+ /**
+ * Button control
+ */
+ .BButton{
+ 	padding:3px 10px 4px; 
+ 	-moz-box-sizing: border-box;
+ 	-ms-box-sizing: border-box;
+ 	-webkit-box-sizing: border-box;
+ 	}
+ .BButton label{}
+ .BButton:hover{}
  
  /**
- * #Dropdown
+ * DropDown Control
  */
-.BDropDown{border:1px solid #777777;}
-.BDropDown:focus{border:1px solid lightblue;}
+.BDropDown{
+	height:22px;
+}
+.BDropDown:focus{}
 .BDropDownOption{}
-
- /**
- * #Dropdown
- */
-.BLabel{ }
  
  /**
- * #Checkboxlist
+ * CheckBoxList control
  */
  .BCheckBoxList{}
- .BCheckBoxListItemContainer{float:left;}
- .BCheckBoxList input{float:left; margin-right:8px;}
- .BCheckBoxList label{margin-top:2px;}
+ .BCheckBoxListItemContainer{
+ 	float:left;
+ }
+ .BCheckBoxList input{
+ 	float:left;
+ 	margin-right:4px;
+ }
+ .BCheckBoxList label{}
  
  /**
- * #RadioButtonList
+ * RadioButtonList Control
  */
  .BRadioButtonList{}
- .BRadioButtonListItemContainer{float:left;}
- .BRadioButtonList input{float:left; margin-right:8px;}
- .BRadioButtonList label{margin-top:2px;}
+ .BRadioButtonListItemContainer{
+ 	float:left;
+ }
+ .BRadioButtonList input{
+ 	float:left; 
+ 	margin-right:4px;
+ }
+ .BRadioButtonList label{}
  
  /**
-* Fieldset
+ * Fieldset Control
+ */
+ .BFieldset{
+ 	border-color:#999999;
+ }
+ 
+ /**
+ * Legend Control
+ */
+ .BLegend{
+ }
+ 
+ /**
+ * Datagrid
+ *
+ */
+.BDataGrid {
+	position:relative;
+	font-size:12px;
+	width:100%;
+	clear:left;
+}
+
+/**
+ * Datagrid Empty Template
+ *
+ */
+.BDataGridEmptyTemplate{
+	margin-left:2px;
+	color:red;
+}
+
+ /**
+ * Datagrid List Render
+ *
+ */
+.BDataGridListRender{
+	
+}
+
+ /**
+ * Datagrid Table List Render
+ *
+ */
+.BDataGridTableListRender table{
+	position:relative;
+	width:100%;
+}
+.BDataGridTableListRender th{
+	border-left:1px solid #666666;
+	border-bottom:1px solid #666666;
+}
+.BDataGridTableListRenderRow{}
+.BDataGridTableListRenderRowAlt{}
+.BDataGridTableListRenderSelected{
+	background-color:#777777;
+}
+.BDataGridTableListRenderMouseover{
+	background-color:#555555;
+}
+
+ /**
+ * Datagrid Tile List Render
+ *
+ */
+.BDataGridTileListRender{
+	
+}
+.BDataGridTile{font-size:11px;border:1px solid #666666;float:left;-moz-box-sizing:border-box;margin-top:5px;}
+.BDataGridTileSelected{font-weight:bold;border:1px solid lightblue;}
+.BDataGridTileMouseOver{border:1px solid #999999;}
+
+
+
+ /**
+ * Datagrid Tree List Render
+ *
+ */
+.BDataGridTree{}
+.BDataGridTreeItemHolder{
+	margin-left:20px;
+}
+.BDataGridTreeItemHolderRoot{}
+.BDataGridTreeToggle{
+	float:left;width:20px;height:20px; 
+}
+.BDataGridTreeEmptyNode{
+	background-image: url(../images/nodeempty.png);
+	float:left;
+	width:20px;
+	height:20px;
+}
+.BDataGridTreeLoader{
+	width:16px; 
+	height:16px;
+	margin-left:20px;
+	float:left;
+	background-image: url(../images/ajax-loader-small.gif);
+}
+.BDataGridTreeLoadNextButton{
+	margin-left:20px;
+	float:left;
+}
+.BDataGridTreeLoadNextButtonRoot{}
+.BDataGridTreeNodeClosed{
+	background-image: url(../images/nodeclosed.png);border-style: none
+}
+.BDataGridTreeNodeClosed:hover{
+	background-image: url(../images/nodeclosedmouseover.png);
+}
+.BDataGridTreeNodeOpen{
+	background-image: url(../images/nodeopen.png);border-style: none
+}
+.BDataGridTreeNodeOpen:hover{
+	background-image: url(../images/nodeopenmouseover.png);
+}
+.BDataGridTreeNodeEmpty{
+	background-image: url(../images/nodeempty.png);float:left;width:20px;height:20px;
+}
+.BDataGridTreeItemRender{
+	padding-right:2px;padding-left:2px;border:1px solid #999999;border-radius:2px;-moz-border-radius: 2px; 
+}
+.BDataGridTreeItemRender:hover{
+	border:1px solid lightblue;display:inline-block;
+}
+.BDataGridTreeItemRenderSelected{
+	border:1px solid white;display:inline-block; 
+	background: -moz-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 0.2));
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 0.2));
+}
+
+
+
+
+
+
+
+
+.datagridmouseover{background-color:#75858C; color:white;}
+ 
+/**
+* Datagrid control panel
 *
 */
-fieldset{border-color:#999999;}
+.BDataGridControlPanelTop{
+	width:100%;
+	float:left;
+	border-bottom:1px solid #555555;
+}
+.BDataGridControlPanelCenter{
+	padding-top:2px;
+	padding-bottom:2px;
+	float:left;
+	border-bottom:1px solid #555555;
+	width:100%;
+}
+.BDataGridControlPanelBottom{
+	float:left;
+	width:100%;
+	border-bottom:1px solid #555555;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+.BDataGridControlPanelBottom .BButton{
+	margin:0;
+	margin-left:1px;
+	margin-right:1px;
+}
+.BDataGridControlPanelBottom .BDropDown{}
+.BDataGridControlArrow{
+	background-image:url(../images/arrowbended.png);
+	margin-top:8px;
+	margin-left:4px;
+	float:left;
+	width:16px;
+	height:16px;}
+
+
+/**
+* Datagrid filters
+*
+*/
+.BDataGridFilter{
+	margin-left:2px;
+}
+.BDataGridSearchFilter{
+	float:right;
+}
+.BDataGridPagerFilter{
+	float:right;
+}
+.BDataGridPagerFilter .BDropDown{
+	width:50px;
+	height:24px;
+	float:right;
+	margin-right:2px;
+	border:1px solid #777777;}
+.BDataGridPagerFilter .BButton{
+	padding-left:5px;
+	padding-right:5px;}
+.BDataGridPagerFilter .BLabel{}
+.BDataGridPagerFilterButtonContainer{
+	float:left;
+}
+.BDataGridPagerFilterButton{
+	color:#333333;
+}
+.BDataGridPagerFilterButtonSelected{
+	color:black;
+	font-weight:bold;
+}
+
  
  
  
  /**
- *  Label Decorator
- *
+ * Modal Control
  */
-.BLabelDecorator{margin: 5px;font-size:12px;position:relative}
-.BLabelDecorator .BLabelDecoratorLabel{width:30%;display:inline-block;vertical-align:top;}
-.BLabelDecorator .BDefaultData{width:65%;}
-.BLabelDecorator .BInfoDecorator{width:65%;}
-
-.BLabelDecorator input[type="text"]{width:65%;}
-.BLabelDecorator .BDatePickerTextBox{width:70px !important;}
-.BLabelDecorator input[disabled="disabled"] { color:#888888;background-color:#eeeeee;}
-.BLabelDecorator input[disabled=""] {color:#888888;background-color:#eeeeee;}
-.BLabelDecorator select[disabled="disabled"] { color:#888888;background-color:#eeeeee;}
-.BLabelDecorator select[disabled=""] { color:#888888;background-color:#333333;}
-.BLabelDecorator textarea[type="text"]{width:65%;}
-.BLabelDecorator select{width:65%;}
-.BLabelDecoratorRight{width:100%; clear:both;}
-.BLabelDecoratorRightLabel{width:50%; float:left;}
-.BLabelDecoratedControl{display:inline-block;}
-
+.BModal{
+	z-index:99999;
+	position:absolute;
+	border-radius:4px;
+	-moz-border-radius: 5px;
+}
+.BModalTitle{
+	padding-left:5px;
+}
+.BModalCover{
+	z-index:99999;
+	width:100%;
+	height:100%;
+	left:0px;
+	top:0px; 
+	position:absolute;
+}
+.BModalControlBar{
+	height:20px; 
+	width:100%;
+}
+.BModalAntiPadding{
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	margin:4px;
+}
+.BModalContent{
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	padding:2px;
+}
+.BModalButtonContainer{
+	width:100%;
+	margin-top:5px;
+	margin-bottom:2px;
+}
+ 
  /**
- *  Default data Decorator
- *
+ * Label decorator control
  */
-.BDefaultData input[type="text"]{width:100% !important;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
-.BDefaultData select{width:100% !important;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
-.BDefaultData textarea{width:100% !important;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
-.BInfoDecorator div.BDefaultData{width:100% !important;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
-.BDefaultDataCheckbox{z-index:13000;right:0;position:absolute;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
+.BLabelDecorator{
+	margin: 4px;
+	position:relative
+}
+.BLabelDecorator .BLabelDecoratorLabel{
+	width:30%;
+	display:inline-block;
+	vertical-align:top;
+}
+.BLabelDecorator .BInfoDecorator{
+	width:65%;
+}
+.BLabelDecorator input[type="text"]{
+	width:65%;
+}
+.BLabelDecorator .BDatePickerTextBox{
+	width:70px !important;
+}
+.BLabelDecorator textarea[type="text"]{
+	width:65%;
+}
+.BLabelDecorator select{
+	width:65%;
+}
+.BLabelDecoratorRight{
+	width:100%; 
+	clear:both;
+}
+.BLabelDecoratorRightLabel{
+	width:50%; 
+	float:left;
+}
+.BLabelDecoratedControl{
+	display:inline-block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
  /**
  *  Info Decorator
@@ -102,103 +396,14 @@ fieldset{border-color:#999999;}
 .BDatePickerTextBox{width:70px !important;}
  
  
- /**
- *
- * Button
- *
- */
- .BButton{
- 	border-radius:3px;
- 	-moz-border-radius: 3px;
- 	background-image: url(../images/buttongradient.jpg);
- 	background-repeat: repeat-x;
- 	border:1px solid #666666;
- 	font-size:12px;
- 	padding:3px 10px 4px;
- 	cursor:pointer; 
- 	-moz-box-sizing: border-box;
- 	-ms-box-sizing: border-box;
- 	-webkit-box-sizing: border-box;
- 	}
- .BButton label{cursor:pointer;}
- .BButton:hover{background-image: url(../images/buttongradient_hover.jpg);}
+ 
  
 
  
  
- /**
- * Datagrid
- *
- */
-.BDataGrid {position:relative;width:100%;font-size:12px;}
-.BDataGrid table{position:relative;width:100%;width:100%;}
-.BDataGrid th{border-left:1px solid #666666;border-bottom:1px solid #666666;}
-.BDataGridRow{}
-.BDataGridRowAlt{}
-.BDataGridRowSelected{}
-
-.BDataGridSearch{padding:0px;width:150px;border:1px solid #777777;float:right;height:22px;margin-top:2px;margin-right:2px;}
-.BDataGridSearch:focus{}
-.BDataGridRow{}
-.BDataGridFilter{font-size:12px;height:22px;width:130px;margin-top:4px;}
-.BDataGridRowAlt{}
-.BDataGridRowSelected{background-color:#999999;filter:alpha(opacity=90);-moz-opacity:0.9;-khtml-opacity: 0.9;opacity: 0.9;}
-.BDatagridRowArrowIndicator{background-image:url(../images/arrowbended.png); margin-top:8px;margin-left:4px;float:left;width:16px; height:16px;}
-.BDataGridEmptyTemplate{color:red;font-size:12px; margin-left:4px;}
-
-.BDataGridTileTitleCover{position:absolute;z-index:2000;height:24px;width:100%; background-color:#444444;filter:alpha(opacity=80);-moz-opacity:0.8;-khtml-opacity: 0.8;opacity: 0.8;}
-.BDataGridTileTitle{z-index:2400;margin-left:4px;position:absolute;}
-.BDataGridTileButtonCover{z-index:2000; height:24px;background-color:#444444; width:100%;filter:alpha(opacity=80);-moz-opacity:0.8;-khtml-opacity: 0.8;opacity: 0.8;}
-.BDataGridTile{font-size:11px;border:1px solid #666666;float:left;-moz-box-sizing:border-box;margin-top:5px;}
-.BDataGridTileSelected{font-weight:bold;border:1px solid lightblue;}
-.BDataGridTileMouseOver{border:1px solid #999999;}
-.datagridmouseover{background-color:#75858C; color:white;}
-/*
-.BDataGridPagerButton{padding:0px;height:24px;min-width:20px;padding-left:0px; padding-right:0px;}
-.BDataGridPagerButtonLabel{line-height:24px;margin-left:0px;margin-right:0px;padding-left:4px;}
-*/
-
-/**
-* AdvancedDatagrid tree
-*
-*/
-.BTreeListNodeClosed{background-image: url(../images/nodeclosed.png);border-style: none}
-.BTreeListNodeClosed:hover{background-image: url(../images/nodeclosedmouseover.png);}
-.BTreeListNodeOpen{background-image: url(../images/nodeopen.png);border-style: none}
-.BTreeListNodeOpen:hover{background-image: url(../images/nodeopenmouseover.png);}
-.BTreeListNodeLoader{background-image: url(../images/ajax-loader-small.gif);}
-.BTreeListNodeEmpty{background-image: url(../images/nodeempty.png);float:left;width:20px;height:20px;}
-.BTreeListNodeItemRender{padding-right:2px;padding-left:2px;border:1px solid #999999;border-radius:2px;-moz-border-radius: 2px; }
-.BTreeListNodeItemRender:hover{border:1px solid lightblue;display:inline-block; }
-.BTreeListNodeItemRenderSelected{
-	border:1px solid lime;display:inline-block; 
-	background: -moz-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 0.2));
-	background: -webkit-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 0.2));
-	
-	}
-
-/**
-* Datagrid control panel
-*
-*/
-.BDataGridControlTopPanel{height:30px;border-bottom:1px solid #555555;padding-top:4px;}
-.BDataGridControlMiddlePanel{height:30px;border-bottom:1px solid #555555;}
-.BDataGridControlBottomPanel{height:30px;border-bottom:1px solid #555555;}
-.BDataGridControlBottomPanel .BButton{float:left;margin-top:3px;margin-left:1px;}
-.BDataGridControlBottomPanel .BDropDown{float:left;margin-top:3px;margin-left:1px;}
 
 
-/**
-* Datagrid filters
-*
-*/
-.BDataGridPagerFilter{float:right;}
-.BDataGridPagerFilter .BDropDown{width:50px;height:24px;float:right; margin-right:5px; border:1px solid #777777;}
-.BDataGridPagerFilter .BButton{padding-left:5px; padding-right:5px;}
-.BDataGridPagerFilter .BLabel{}
-.BDataGridPagerFilterButtonContainer{float:left;height:24px;}
-.BDataGridPagerFilterButton{color:#333333;}
-.BDataGridPagerFilterButtonSelected{color:black;font-weight:bold;}
+
 
 /**
 * Datagrid list renders
@@ -228,17 +433,7 @@ fieldset{border-color:#999999;}
 
 
  
- /**
- * Modal
- *
- */
-.BModal{font-size:12px;z-index:99999;width:60%;background-color:#eeeeee;margin-bottom:200px;position:absolute;top:0px;border:1px solid #666666;border-radius:4px;-moz-border-radius: 5px;}
-.BModalCover{z-index:99999;background-color:#666666; width:100%; height:100%;left:0px;top:0px; position:absolute;opacity:0.4;filter:alpha(opacity=40);}
-.BModalCloseButton{background-image: url(../images/close.png);float:right;cursor:pointer;width:20px;height:20px;}
-.BModalAntiPadding{	-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;margin-left:5px;margin-right:5px;}
-.BModalContentContainer{background-color:#eeeee;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;padding:2px;border:1px solid #666666;}
-.BModalButtonContainer{width:100%;float:left;margin-top:5px;margin-bottom:2px;}
-
+ 
  
  /**
  * Loader
@@ -261,7 +456,8 @@ fieldset{border-color:#999999;}
 	filter:alpha(opacity=70);
 	width:100%;
 	background-color:#222222;
-	position:absolute;}
+	position:absolute;
+}
 	
 .BLoaderTransparantContainer{
 	border:1px solid #eeeeee;
@@ -270,7 +466,8 @@ fieldset{border-color:#999999;}
 	filter:alpha(opacity=70);
 	background-color:#555555;
 	border-radius:5px;
-	-moz-border-radius: 5px;} 
+	-moz-border-radius: 5px;
+} 
 .BLoaderContainer{
 }
 .BLoaderImage{
@@ -279,7 +476,14 @@ fieldset{border-color:#999999;}
 	width:30px;
 	height:30px;
 }
-.BLoaderTextLabel{color:white;float:left;width:80%;margin-left:20px;margin-top:5px;font-weight:bold;}
+.BLoaderTextLabel{
+	color:white;
+	float:left;
+	width:80%;
+	margin-left:20px;
+	margin-top:5px;
+	font-weight:bold;
+	}
  
 
  /**
@@ -296,7 +500,7 @@ fieldset{border-color:#999999;}
  /**
  * Window
  */
-.BWindow{display: block;margin: 5px;background-color:#eeeeee;background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#eeeeee));border: 1px solid #999999;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;box-shadow: rgba(255, 255, 255, 0.4) 1px 1px;}
+.BWindow{border: 1px solid #999999;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;box-shadow: rgba(255, 255, 255, 0.4) 1px 1px;}
 .BWindow .BWindowHeader {color:#333333;font-weight: bold;}
 .BWindow .BWindowHeader .BWindowSwitch {margin: 2px 5px;cursor:pointer;vertical-align: middle;display: inline-block;}
 .BWindow .BWindowHeader .BWindowTitle {font-size:12px;display: inline-block;}

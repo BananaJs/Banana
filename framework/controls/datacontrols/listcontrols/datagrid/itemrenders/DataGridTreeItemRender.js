@@ -26,7 +26,7 @@ namespace('Banana.Controls').DataGridTreeItemRender = Banana.Controls.DataGridIt
 	createComponents : function()
 	{
 		this.panel = new Banana.Controls.Panel().setStyle('float:left;');
-		this.panel.addCssClass('BTreeListNodeItemRender');
+		this.panel.addCssClass('BDataGridTreeItemRender');
 		
 		this.label = new Banana.Controls.Label().setStyle('float:left;');
 		this.panel.addControl(this.label);
@@ -55,7 +55,7 @@ namespace('Banana.Controls').DataGridTreeItemRender = Banana.Controls.DataGridIt
 	 */
 	select : function()
 	{
-		this.panel.addCssClass('BTreeListNodeItemRenderSelected');
+		this.panel.addCssClass('BDataGridTreeItemRenderSelected');
 	},
 	
 	/**
@@ -63,7 +63,7 @@ namespace('Banana.Controls').DataGridTreeItemRender = Banana.Controls.DataGridIt
 	 */
 	deselect : function()
 	{
-		this.panel.removeCssClass('BTreeListNodeItemRenderSelected');
+		this.panel.removeCssClass('BDataGridTreeItemRenderSelected');
 	},
 	
 	/**

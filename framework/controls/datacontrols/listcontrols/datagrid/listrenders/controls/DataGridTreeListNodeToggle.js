@@ -31,13 +31,13 @@ namespace('Banana.Controls').DataGridTreeListNodeToggle = Banana.Controls.Panel.
 	{
 		if (this.on)
 		{
-			this.removeCssClass("BTreeListNodeClosed");
-			this.addCssClass("BTreeListNodeOpen");
+			this.removeCssClass("BDataGridTreeNodeClosed");
+			this.addCssClass("BDataGridTreeNodeOpen");
 		}
 		else
 		{
-			this.removeCssClass("BTreeListNodeOpen");
-			this.addCssClass("BTreeListNodeClosed");
+			this.removeCssClass("BDataGridTreeNodeOpen");
+			this.addCssClass("BDataGridTreeNodeClosed");
 		}
 	},
 	
