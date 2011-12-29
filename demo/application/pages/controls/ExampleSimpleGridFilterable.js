@@ -125,7 +125,7 @@ namespace('Application.Controls.Examples').SimpleGridFilterable = Application.Co
          {id:3,'name':'Banana','description':'Llis eros eget mauri','country':'Spain','color':1},
          {id:4,'name':'Orange','description':'Morbi sollicitudin','country':'Peru','color':2},
          {id:5,'name':'Bolwara','description':'Er in adipiscing turpis.','country':'Peru','color':1},
-         {id:6,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:6,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1}
         ]
 		
 		var filterData = this.filterManager.getFilterData();
