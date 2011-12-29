@@ -24,7 +24,9 @@ namespace('Banana.Controls').DataGridBaseListRender = Banana.Controls.CustomList
 	{
 		this._super();
 		
-		this.addCssClass("BDataGridListRender")
+		this.addCssClass("BDataGridListRender");
+		
+		this.indexItemRenderFactory = []; //this array consists out of factory's or strings
 		
 		this.indexKey = 'id';
 		this.useAutoIndexing = false;

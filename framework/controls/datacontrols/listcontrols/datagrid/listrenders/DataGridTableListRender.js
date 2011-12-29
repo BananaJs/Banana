@@ -75,8 +75,6 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 		
 		this.columns = [];
 		this.indexRowMap = [];
-		this.indexItemRenderFactory = []; //this array consists out of factory's or strings
-		this.indexRenderedItemRenderMap = []; //these are the real ui item renders
 		this.dataItemRenderMap = new Banana.Util.ArrayBiCollection(); //mapping of item renders to data
 		
 		this.defaultHeaderItemRender = Banana.Controls.DataGridTableHeaderItemRender;

@@ -63,7 +63,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 		this.indexKey = null; //specifies the indexkey used to indentify items
 		
 		this.indexTilePlaceHolderMap = [];
-		this.indexItemRenderFactory = []; //this array consists out of factory's or strings
+		
 		this.dataItemRenderMap = new Banana.Util.ArrayBiCollection(); //mapping of item renders to data
 		
 		this.defaultContentItemRender = Banana.Controls.DataGridTileItemRender;
