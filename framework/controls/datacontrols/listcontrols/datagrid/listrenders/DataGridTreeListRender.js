@@ -788,7 +788,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 			source[this.childKey].push(target);
 		}
 		
-		nodeData.childCount+=childsToAdd;
+		//nodeData.childCount+=childsToAdd;
 		
 		this.toLogger('current childcount prop',nodeData.childCount,"children",source[this.childKey].length);
 		
