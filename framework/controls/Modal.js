@@ -26,10 +26,10 @@ namespace('Banana.Controls').Modal = Banana.Controls.Panel.extend(
 		this._super();
 		this.antiPaddingBug = new Banana.Controls.Panel();
 		this.antiPaddingBug.addCssClass('BModalAntiPadding')
-		this.contentContainer = new Banana.Controls.Panel().setStyle('float:left;width:100%;');
-		this.contentContainer.addCssClass('BModalContentContainer')
+		this.contentContainer = new Banana.Controls.Panel();
+		this.contentContainer.addCssClass('BModalContent')
 		this.contentContainer.setId('content');
-		this.titleLabel = new Banana.Controls.Label().setStyle('float:left;padding-left:5px;');
+		this.titleLabel = new Banana.Controls.Label().addCssClass("BModalTitle")
 		this.buttonContainer = new Banana.Controls.Panel().addCssClass('BModalButtonContainer')
 	},
 
@@ -147,8 +147,7 @@ namespace('Banana.Controls').Modal = Banana.Controls.Panel.extend(
 		this.container.addCssClass('BModal');
 		this.container.setStyle(this.style);
 
-		var controlbar = new Banana.Controls.Panel().setStyle('font-weight:bold; height:20px; width:100%;');
-		var close = new Banana.Controls.Panel().addCssClass('BModalCloseButton');
+		var controlbar = new Banana.Controls.Panel().addCssClass("BModalControlBar");
 
 		controlbar.addControl(this.titleLabel);
 
@@ -163,11 +162,6 @@ namespace('Banana.Controls').Modal = Banana.Controls.Panel.extend(
 		this.addControl(this.container,true);
 
 		this.bind('renderComplete',this.getProxy(this.center));
-		
-		close.bind('click',this.getProxy(function(){
-			
-			this.hide();
-		}));
 	},
 
 	/**
