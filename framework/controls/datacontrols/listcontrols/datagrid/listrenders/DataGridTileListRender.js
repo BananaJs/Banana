@@ -177,7 +177,6 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 		{
 			this.removeItemRenderPlaceHolderByIndex(index);
 		}
-		this.removeItemRenderPlaceHolderByIndex(index);
 	},
 	
 	/**
