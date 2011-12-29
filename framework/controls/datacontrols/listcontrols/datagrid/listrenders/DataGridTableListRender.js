@@ -201,7 +201,16 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 	 */
 	setItemRenderByIndices : function(indices,renderFactory)
 	{
-		if (!indices.length) return;
+		if (!indices)
+		{
+			return;
+		}
+		
+		if (!indices instanceof Array)
+		{
+			log.error("Calling setItemRenderByIndices without indices specified in listrender "+this.id);
+			return;
+		}
 		
 		//if we set more than 4 item renders we rerender whole list once. otherwise per item
 		//TODO could be smarter. like somekind of percentage of total list count
