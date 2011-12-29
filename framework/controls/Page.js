@@ -521,6 +521,11 @@ Banana.Page.prototype.removeControl = function(control,dontRemoveDom)
 	
 	control.unload();
 
+	if (!dontRemoveDom)
+	{
+		Banana.Util.DomHelper.remove(control);
+	}
+	
 	//if our control got a parent, then we also need to remove it from the parent array controls
 	//we only do this is we directly call remove on this control, otherwise we remove the controls array anywayy
 	var parent = control.parent;
