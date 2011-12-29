@@ -273,13 +273,20 @@ Banana.Control.prototype.findControl = function(id)
 };
 
 /**
- * removes this control with all its children
+ * If control is part of a collection belonging to a page it has a page defined.
+ * we let the page handle the removement of the control.
+ * If it is a standalone control, we just unregister the events
+ * TODO: should maybe also remove dom in the situation where control is not part of a collection
  */
 Banana.Control.prototype.remove = function()
 {
 	if (this.getPage() instanceof Banana.UiControl)
 	{
 		this.getPage().removeControl(this);
+	}
+	else
+	{
+		this.unregisterEvents();
 	}
 };
 
@@ -552,7 +559,7 @@ Banana.Control.prototype.unregisterEvents = function()
 	{
 		return;
 	}
-
+	
 	this.debugEvent(3, "", "Unregister all events CONTROL");
 
 	jQuery(this).unbind(); //and all custom events
