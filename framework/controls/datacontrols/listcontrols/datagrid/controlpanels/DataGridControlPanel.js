@@ -153,19 +153,17 @@ namespace('Banana.Controls').DataGridControlPanel = Banana.Control.extend(
 	 */
 	createLayout : function()
 	{
-		this.top = new Banana.Controls.Panel().addCssClass('BDataGridControlTopPanel');
-		this.middle = new Banana.Controls.Panel().addCssClass('BDataGridControlMiddlePanel');
-		this.bottom = new Banana.Controls.Panel().addCssClass('BDataGridControlBottomPanel');
+		this.top = new Banana.Controls.Panel().addCssClass('BDataGridControlPanelTop');
+		this.middle = new Banana.Controls.Panel().addCssClass('BDataGridControlPanelCenter');
+		this.bottom = new Banana.Controls.Panel().addCssClass('BDataGridControlPanelBottom');
 		
 		this.addControl(this.top);
 		this.addControl(this.middle);
 		this.addControl(this.bottom);
 		
-		this.arrow = new Banana.Controls.Panel().addCssClass('BDatagridRowArrowIndicator');
+		this.arrow = new Banana.Controls.Panel().addCssClass('BDataGridControlArrow');
 		//default is invisible. later when we add filters we make it visible
 		this.arrow.setVisible(false);
 		this.bottom.addControl(this.arrow);		
-		
-		this.addControl("<div style='clear:both;'></div>");
 	}
 });
