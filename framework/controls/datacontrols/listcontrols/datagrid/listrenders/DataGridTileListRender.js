@@ -225,7 +225,7 @@ namespace('Banana.Controls').DataGridTileListRender = Banana.Controls.DataGridBa
 		//could be handy when we set an item render and later change the datasource
 		//the item location could be changed then. itemrender - index relation is 
 		//in that situation not enough
-		if (!ignoreDataItemRenderMap && this.datasource[index])
+		if (!ignoreDataItemRenderMap && this.datasource && this.datasource[index])
 		{
 			//TODO this is the only place a mapping between data and render is set.
 			//this should also be possible at a later moment.
