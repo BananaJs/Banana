@@ -6,6 +6,8 @@ goog.require('Application.Controls.Examples.ExampleBasicDataControls');
 goog.require('Application.Controls.Examples.ExampleBasicDataControls2');
 goog.require('Application.Controls.Examples.ExampleSimpleGridFilterable');
 goog.require('Application.Controls.Examples.ExampleTreeDataGrid');
+goog.require('Application.Controls.Examples.ExampleTreeDataGrid2');
+goog.require('Application.Controls.Examples.ExampleTreeDataGrid3');
 goog.require('Application.Controls.Examples.ExampleTreeDataGridDynamic');
 goog.require('Application.Controls.Examples.ExampleTileSimple');
 goog.require('Application.Controls.Examples.ExampleTileSimple2');
@@ -61,8 +63,10 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 			    {'title':'Tree Datagrid', 
 		  			 "urlEntry":"TreeListControls",
 		  			 "examples":[ 
+		  			             {"title":"Tree datagrid","example":"ExampleTreeDataGrid"},
+		  			             {"title":"Tree datagrid auto sorted/custom itemrender","example":"ExampleTreeDataGrid3"},
 		  			             {"title":"Tree datagrid dynamic data","example":"TreeDataGridDynamic"},
-		  			             {"title":"Tree datagrid data","example":"TreeDataGrid"}
+		  			             {"title":"Tree datagrid checkbox","example":"ExampleTreeDataGrid2"}
 		  			            ]
 				}
 			];

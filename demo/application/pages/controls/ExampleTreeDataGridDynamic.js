@@ -9,21 +9,21 @@ namespace('Application.Controls.Examples').TreeDataGridDynamic = Application.Con
 	init : function()
 	{
 		this._super();
-		this.childRequestSize =1;
+		this.childRequestSize = 2;
 	},
 	
 	createComponents : function()
 	{
 		var items = [];
 		//put first nodes in it.
-		var s1 = {'name':'1','children':[]};
-		var s2 = {'name':'2','children':[]};
-		var s3 = {'name':'3','children':[]};		
-		var s4 = {'name':'4','children':[]};
+		var s1 = {'name':'node 1','children':[]};
+		var s2 = {'name':'node 2','children':[]};
+		var s3 = {'name':'node 3','children':[]};		
+		var s4 = {'name':'node 4','children':[]};
 		
-		var s5 = {'name':'5','children':[]};
+		var s5 = {'name':'node 5','children':[]};
 		
-		var s6 = {'name':'6','children':[]};
+		var s6 = {'name':'node 6','children':[]};
 
 		s1.children.push(s4);
 		s4.children.push(s5);
