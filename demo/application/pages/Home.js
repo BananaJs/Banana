@@ -1,16 +1,15 @@
 goog.provide('Application.Pages.Home');
+goog.require('Application.Controls.Examples.DemoPage');
 
-namespace('Application.Pages').Home = Banana.Page.extend( {
+namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.extend( {
 
     /**
      * @inheritDoc
      */
     init: function() {
     	
-		this._super();
-    	
+		this._super();    	
 	},
-
 
 	createComponents: function()
 	{
@@ -36,7 +35,7 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 	createTitle : function()
 	{
 		var title = new Banana.Controls.Label();
-		title.setData("Banana Javascript Framework");
+		title.setData("Short description of Banana");
 		title.addCssClass("frameworktitle")
 		
 		this.top.addControl(title);
@@ -104,7 +103,7 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 		var link = new Banana.Controls.Link();
 		link.addCssClass("menusublink");
 		link.addControl("Examples");
-		link.bind('click',this.getProxy(function(e){
+		sub.bind('click',this.getProxy(function(e){
 			
 			Banana.Application.loadPage("Examples");
 			e.preventDefault();

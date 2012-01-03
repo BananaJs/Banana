@@ -17,8 +17,13 @@ namespace('Application.Pages.PageTemplates').PageTemplate = Banana.PageTemplate.
 		
 		this.addControl(con);
 		
+		var link = new Banana.Controls.Link();
+		link.addControl("Banana Javascript Framework");
+		link.setHref("#section=Home");
+		link.addCssClass("HomeLink")
+		
 		var menuBar = new Banana.Controls.Panel().addCssClass("Header");
-		menuBar.addControl("")
+		menuBar.addControl(link)
 		con.addControl(menuBar);
 		
 		con.addControl(this.content);

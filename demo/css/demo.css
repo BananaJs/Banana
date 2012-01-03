@@ -5,10 +5,26 @@
 
 .BPageTemplate{background-color:0;}
 
-.Header {
-	height: 20px;
+.header:link {
+	color:red;
 }
 
+.header:visited{
+	color:blue;
+}
+.Header {
+	letter-spacing: 0.2px;
+	font-weight: bold;
+	font-size: 23px;
+	font-variant: small-caps;
+	margin:10px
+}
+
+.HomeLink{color:#222222;;text-decoration:none;}
+
+.BDemoHome{
+	background-color:#777777;
+}
 
 .HeaderText {
 	float: left;
@@ -32,7 +48,7 @@
 	-webkit-box-shadow: 2px 2px 6px 2px #333333;
 	-moz-box-shadow: 2px 2px 6px 2px #333333;
 	box-shadow: 2px 2px 6px 2px #333333;
-	border-bottom-left-radius: 70px;
+	border-bottom-left-radius: 40px;
 }
 
 .TextPanel {
@@ -123,7 +139,6 @@
 .toppanel {
 	width: 100%;
 	height: 40px;
-	background-color:#777777;
 }
 
 .rightpanel {
@@ -137,6 +152,7 @@
 
 .leftpanel {
 	width: 40%;
+	background-color: #777777;
 	float: left;
 }
 
@@ -149,12 +165,11 @@
 }
 
 .frameworktitle {
-	letter-spacing: 0.2px;
-	font-weight: bold;
-	color: #222222;
-	font-size: 25px;
-	font-variant: small-caps;
-	margin-left: 10px;
+	margin-left:10px;
+	margin-top:10px;
+	float:left;
+	font-size:17px;
+	color:white;
 }
 
 .frameworkexpl {
@@ -438,13 +453,5 @@ float:right;
 
 .examplesCustomItemRender{
 	padding-left:0;padding-top:0;background-color:#555555;
-}
-
- /**
- * Datagrid Tile List Render
- *
- */
-.BDataGridTileListRender{
-	border:1px solid #eeeeee;	
 }
 

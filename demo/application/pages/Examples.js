@@ -32,7 +32,6 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
     	
 		this._super();
 		
-		
 		this.content = [
 	  			{'title':'Basic Controls',
 	  			 "urlEntry":"BasicControls",
@@ -79,25 +78,7 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 			  			 "examples":[
 			  			             {"title":"Validation examples","example":"ExampleValidatorControls"}
 			  			            ]
-					    },
-			  			{'title':'Databinding',
-				  			 "urlEntry":"Validsas",
-				  			 "examples":[
-				  			             {"title":"Basic controls","example":"BasicDataControls"}
-				  			            ]
-						},
-			  			{'title':'Dynamic rendering',
-				  			 "urlEntry":"ValidadsadsatorControls",
-				  			 "examples":[
-				  			             {"title":"Basic controls","example":"BasicDataControls"}
-				  			            ]
-						},
-			  			{'title':'Url History management',
-				  			 "urlEntry":"ValidadsadstorControls",
-				  			 "examples":[
-				  			             {"title":"Basic controls","example":"BasicDataControls"}
-				  			            ]
-						}
+					    }
 					];
     	
 	},
@@ -127,7 +108,7 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 	createTitle : function()
 	{
 		var title = new Banana.Controls.Label();
-		title.setData("Control examples");
+		title.setData("Examples of Banana components");
 		title.addCssClass("frameworktitle")
 		
 		this.top.addControl(title);
