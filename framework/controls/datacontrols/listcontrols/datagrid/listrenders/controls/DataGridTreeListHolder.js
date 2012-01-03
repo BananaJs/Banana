@@ -36,6 +36,42 @@ namespace('Banana.Controls').DataGridTreeListHolder = Banana.Controls.Panel.exte
 	},	
 	
 	/**
+	 * returns the holder where item render is rendered in
+	 * @return {Banana.Controls.Panel}
+	 */
+	getItemRenderHolder : function()
+	{
+		return this.itemRenderHolder;
+	},
+	
+	/**
+	 * returns the holder where toggle button is rendered in
+	 * @return {Banana.Controls.Panel}
+	 */	
+	getToggleHolder : function()
+	{
+		return this.toggleHolder;
+	},
+	
+	/**
+	 * returns the holder where childs are rendered in
+	 * @return {Banana.Controls.Panel}
+	 */	
+	getChildHolder : function()
+	{
+		return this.childsHolder;
+	},
+	
+	/**
+	 * returns the holder where buttons are rendered in
+	 * @return {Banana.Controls.Panel}
+	 */	
+	getButtonHolder : function()
+	{
+		return this.buttonHolder;
+	},
+	
+	/**
 	 * @ignore
 	 */
 	updateDisplay : function()

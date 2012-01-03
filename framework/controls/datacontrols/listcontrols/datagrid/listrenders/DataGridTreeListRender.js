@@ -135,7 +135,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		this.indexItemRenderFactory[index] = ir;
 		
 		return this;
-	}, 
+	},
 	
 	/**
 	 * By default only the root nodes are opened.
@@ -171,6 +171,41 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 	{
 		this.sortFunc = sf;
 		return this;
+	},
+	
+	/**
+	 * Use this to change item render on a specific index.
+	 * By default the list render will rerender the new item render
+	 * 
+	 * @param {int} index
+	 * @param {String} render
+	 * @param {Boolean} dontCreate
+	 * @param {Boolean} ignoreDataItemRenderMap
+	 */
+	setItemRenderByIndex : function(index,render,dontCreate,ignoreDataItemRenderMap)
+	{
+		this.indexItemRenderFactory[index] = render;
+		
+		//also save the item render data map relation
+		//could be handy when we set an item render and later change the datasource
+		//the item location could be changed then. itemrender - index relation is 
+		//in that situation not enough
+		var datasource = this.getDataSourceByIndex(index);
+
+		if (!ignoreDataItemRenderMap && datasource)
+		{
+			this.dataItemRenderMap.addItem(datasource[this.indexKey],render);
+		}
+		
+		if (!dontCreate)
+		{
+			//first check if holder is rendered
+			if (this.getHolder(index))
+			{
+				this.createItemRenderByIndex(index, true, true);
+				this.triggerEvent('itemRenderChanged');
+			}			
+		}		
 	},
 	
 	/**
@@ -603,7 +638,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 			}
 		}
 	},
-		
+	
 	/**
 	 * create nodes and child nodes if they exist.
 	 * 
@@ -1158,7 +1193,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 	 *  
 	 *  @ignore
 	 */
-	createItemRenderByIndex : function(index,instantRerender)
+	createItemRenderByIndex : function(index,instantRerender,useExistingHolder)
 	{
 		var datasource = this.getDataSourceByIndex(index);
 		var nodeData = this.nodeData[datasource[this.indexKey]];
@@ -1215,19 +1250,28 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		itemRender.setListRender(this);
 
 		var parentHolder = this.getParentHolder(index);
-		
 		var holder = null;
 		
-		if (!parentHolder)
-		{	
-			this.rootHolder = new Banana.Controls.DataGridTreeListRootHolder();;
-			this.addControl(this.rootHolder);
-			holder = this.rootHolder;
+		//if we use existing holder we need to clear the item render inside
+		if (useExistingHolder)
+		{
+			holder = this.getHolder(index);
+			holder.getItemRenderHolder().clear();
 		}
 		else
 		{
-			//create a holder to put our itemrender in
-			holder = new Banana.Controls.DataGridTreeListHolder();
+			if (!parentHolder)
+			{	
+				this.rootHolder = new Banana.Controls.DataGridTreeListRootHolder();
+				this.addControl(this.rootHolder);
+				holder = this.rootHolder;
+			}
+			else
+			{
+				holder = this.getHolder(index);
+				//create a holder to put our itemrender in
+				var holder = new Banana.Controls.DataGridTreeListHolder();
+			}
 		}
 		
 		//give a reference of this to the holder
@@ -1252,7 +1296,12 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 				holder.addCssClass("BDataGridTreeItemHolderRoot");
 			}
 			
-			parentHolder.childsHolder.addControl(holder);
+			//if we use existing holder we dont need to add it
+			if (!useExistingHolder)
+			{
+				parentHolder.childsHolder.addControl(holder);
+			}
+			
 			holder.itemRenderHolder.addControl(itemRender);
 			
 			if (nodeData.childProperty || nodeData.needsChilds)
@@ -1279,7 +1328,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		{
 			if (parentHolder)
 			{
-				parentHolder.invalidateDisplay();
+				holder.invalidateDisplay();
 			}
 			else
 			{
