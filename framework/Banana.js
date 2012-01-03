@@ -212,6 +212,7 @@ namespace('Banana').Application = Banana.Control.extend(
 		log = new Banana.Util.LogManager();
 		log.addLogger(new Banana.Util.Logger.Console());
 		log.setLevel("error", true);
+		log.setLevel("warning", true);
 				
 		try
 		{
