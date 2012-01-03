@@ -97,7 +97,6 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		//this.debug = true;
 		
 		this.columns = [];
-		this.indexItemRenderFactory = []; //this array consists out of factory's or strings
 		this.dataItemRenderMap = new Banana.Util.ArrayBiCollection(); //mapping of item renders to data
 		this.keyDataIndex = []; //mapping between key and datasource
 		this.dataKeyIndex = []; //mapping between data key and index
@@ -105,10 +104,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		this.indexOrder = [];
 		
 		//default sort function
-		this.sortFunc = this.getProxy(function(a,b)
-		{
-			return a[this.indexKey].toString().toLowerCase().localeCompare(b[this.indexKey].toString().toLowerCase());
-		});
+		this.sortFunc = null;
 		
 		this.childRequestSizeLimit = 20;
 		this.childKey = 'children';
@@ -139,7 +135,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		this.indexItemRenderFactory[index] = ir;
 		
 		return this;
-	},
+	}, 
 	
 	/**
 	 * By default only the root nodes are opened.
@@ -341,6 +337,11 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 	 */
 	getDataSourceByIndex : function(i)
 	{
+		if (!this.datasource)
+		{
+			return null;
+		}
+		
 		i = i.toString();
 		var split = i.split("-");
 		var result = null;
@@ -1208,9 +1209,14 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		//save mapping between itemRender and data
 		this.dataItemRenderMap.addItem(key,itemRenderFactory);
 
+		//save mapping between index and item render
+		this.indexRenderedItemRenderMap[index] = itemRender;
+		
 		itemRender.setListRender(this);
 
 		var parentHolder = this.getParentHolder(index);
+		
+		var holder = null;
 		
 		if (!parentHolder)
 		{	
@@ -1221,7 +1227,7 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		else
 		{
 			//create a holder to put our itemrender in
-			var holder = new Banana.Controls.DataGridTreeListHolder();
+			holder = new Banana.Controls.DataGridTreeListHolder();
 		}
 		
 		//give a reference of this to the holder
@@ -1268,6 +1274,18 @@ namespace('Banana.Controls').DataGridTreeListRender = Banana.Controls.DataGridBa
 		}
 		
 		this.currentIndexCreation = undefined;
+		
+		if (instantRerender)
+		{
+			if (parentHolder)
+			{
+				parentHolder.invalidateDisplay();
+			}
+			else
+			{
+				this.rootHolder.invalidateDisplay();
+			}
+		}
 	},	
 	
 	/**
