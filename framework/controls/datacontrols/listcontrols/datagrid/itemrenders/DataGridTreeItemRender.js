@@ -43,7 +43,7 @@ namespace('Banana.Controls').DataGridTreeItemRender = Banana.Controls.DataGridIt
 	{
 		var index = this.listRender.getNodeDataByData(this.data);
 		{
-			if (this.data && this.data.name)
+			if (this.data && this.data.name && this.label)
 			{
 				this.label.setData(this.data.name);
 			}
