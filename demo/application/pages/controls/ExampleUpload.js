@@ -118,15 +118,13 @@ namespace('Banana.Controls').FileInput = Banana.Controls.InputControl.extend({
 	{
 		var files = document.getElementById(this.getClientId()).files;
 		return files;
-	},
+	}
 });
 
 namespace('Banana.Controls').FileInputFile = Banana.Control.extend({
 	
 	
 });
-
-
 
 namespace('Banana.Controls').Upload = Banana.Controls.Panel.extend({
 	
@@ -362,5 +360,5 @@ namespace('Banana.Controls').Upload = Banana.Controls.Panel.extend({
 		{
 			return false;
 		}
-	},
+	}
 });
