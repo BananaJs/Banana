@@ -19,6 +19,7 @@ namespace('Banana.Controls').Panel = Banana.UiControl.extend(
 	 
 	 var panel = new Panel();
 	 panel.setStyle("height:100px; width:200px; background-color:red;");
+	 panel.addCssClass("Foo");
 	 
 	 this.addControl(panel); //add to collection
 	 
