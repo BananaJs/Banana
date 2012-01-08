@@ -10,14 +10,19 @@ namespace('Application.Controls.Examples').ExampleTileSimple = Application.Contr
 		                 "a","b","c"
 		                  ];
 		
-		grid = new Banana.Controls.DataGrid();
+		var grid = new Banana.Controls.DataGrid();
 		
-		var listRender = new Banana.Controls.DataGridTileListRender()
+		var listRender = new Banana.Controls.DataGridTileListRender();
 
 		grid.setListRender(listRender);
 				
 		grid.setDataSource(datasource);	
 
 		this.addControl(grid);		
+	},
+	
+	getCode : function()
+	{
+		return 'createComponents : function() { var datasource = [ "a","b","c" ]; var grid = new Banana.Controls.DataGrid(); var listRender = new Banana.Controls.DataGridTileListRender(); grid.setListRender(listRender); grid.setDataSource(datasource);  this.addControl(grid);}';
 	}
 });

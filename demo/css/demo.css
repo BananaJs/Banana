@@ -446,7 +446,19 @@ float:right;
 
 .BModal{
 	border:4px solid #666666;
-	width:40%;
+	width:60%;
+}
+
+.BModalControlBar {
+height: 20px;
+width: 100%;
+background-color: #333333;
+border-bottom: 4px solid #666;
+font-size:13px;
+}
+
+.codeModalText{
+	font-size:11px;
 }
 
 
