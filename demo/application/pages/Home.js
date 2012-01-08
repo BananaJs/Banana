@@ -53,15 +53,23 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 		ul.addControl(l1);
 		
 		var l1 = new Banana.Controls.ListItem();
-		l1.addControl("Component driven");
+		l1.addControl("Easy to use");
 		ul.addControl(l1);
 		
-		var l2 = new Banana.Controls.ListItem();
-		l2.addControl("Efficient fast render");
-		ul.addControl(l2);
+		var l1 = new Banana.Controls.ListItem();
+		l1.addControl("Free");
+		ul.addControl(l1);
 		
+		var l1 = new Banana.Controls.ListItem();
+		l1.addControl("Component driven");
+		ul.addControl(l1);
+				
+		var l1 = new Banana.Controls.ListItem();
+		l1.addControl("Customizable");
+		ul.addControl(l1);
+				
 		var l2 = new Banana.Controls.ListItem();
-		l2.addControl("Super dynamic");
+		l2.addControl("Fast dynamic rendering");
 		ul.addControl(l2);
 		
 		var l3 = new Banana.Controls.ListItem();
@@ -76,9 +84,6 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 		l5.addControl("Large control collection");
 		ul.addControl(l5);
 		
-		var l6 = new Banana.Controls.ListItem();
-		l6.addControl("Custom control support");
-		ul.addControl(l6);
 		
 		var l6 = new Banana.Controls.ListItem();
 		l6.addControl("JQuery powered");
