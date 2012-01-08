@@ -53,15 +53,19 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 		ul.addControl(l1);
 		
 		var l1 = new Banana.Controls.ListItem();
-		l1.addControl("Easy to use");
-		ul.addControl(l1);
-		
-		var l1 = new Banana.Controls.ListItem();
-		l1.addControl("Free");
-		ul.addControl(l1);
-		
-		var l1 = new Banana.Controls.ListItem();
 		l1.addControl("Component driven");
+		ul.addControl(l1);
+		
+		var l1 = new Banana.Controls.ListItem();
+		l1.addControl("Very fast");
+		ul.addControl(l1);
+		
+		var l1 = new Banana.Controls.ListItem();
+		l1.addControl("100% Free");
+		ul.addControl(l1);
+		
+		var l1 = new Banana.Controls.ListItem();
+		l1.addControl("Desktop and Mobile");
 		ul.addControl(l1);
 				
 		var l1 = new Banana.Controls.ListItem();
