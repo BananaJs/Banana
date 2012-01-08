@@ -18,7 +18,7 @@ goog.require('Application.Controls.Examples.ExampleTileCustomItemRender');
 goog.require('Application.Controls.Examples.ExampleTileMultipleItemRender');
 goog.require('Application.Controls.Examples.ExampleUpload');
 goog.require('Application.Controls.Examples.ExampleDataset');
- 
+goog.require('Application.Controls.Examples.ExampleStartPage'); 
 
 goog.require('Application.Controls.Examples.CodeModal');
 
@@ -225,7 +225,6 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 				{
 					if (urlEntry == this.content[i].urlEntry)
 					{
-						console.log(this.content[i].urlEntry)
 						examples = this.content[i].examples;
 						continue;
 					}
@@ -235,7 +234,6 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 				{
 					if (urlEntry == this.content2[i].urlEntry)
 					{
-						console.log(this.content2[i].urlEntry)
 						examples = this.content2[i].examples;
 						continue;
 					}
@@ -249,19 +247,12 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 			}
 			else
 			{
-				return;
+				examples = [{"title":"Banana Examples","example":"ExampleStartPage"}];
 			}
 		}
-		
-		
+				
 		this.right.clear();
-		
-		if (window.aap)
-		{
-			return;
-		}
-		
-		
+
 		var i;
 		for (i=0;i<examples.length;i++)
 		{
