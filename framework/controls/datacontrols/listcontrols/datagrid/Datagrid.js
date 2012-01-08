@@ -65,6 +65,7 @@ namespace('Banana.Controls').DataGrid = Banana.Controls.ListControl.extend(
 		this.datasource = [];
 		
 		this.listRender = null;
+		this.listRenderCreated = false;
 		
 		this.createBasicControls();
 	},
@@ -76,6 +77,17 @@ namespace('Banana.Controls').DataGrid = Banana.Controls.ListControl.extend(
 	createComponents : function()
 	{
 		this.triggerEvent('datagridReady');
+	},
+	
+	/**
+	 * @ignore
+	 */
+	updateDisplay : function()
+	{
+		if (!this.listRenderCreated)
+		{
+			this.createEmptyTemplate();
+		}
 	},
 	
 	/**
@@ -227,6 +239,7 @@ namespace('Banana.Controls').DataGrid = Banana.Controls.ListControl.extend(
 		{
 			this.listHolder.addControl(this.listRender);
 			this.listRender.datagrid = this;
+			this.listRenderCreated = true;
 					
 			//bind event. if source is 0 we create empty template, otherwise remove it
 			this.listRender.bind('dataSourceChanged',this.getProxy(function(e,f){
