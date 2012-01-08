@@ -40,7 +40,7 @@ namespace('Banana.Controls').MultiSelect = Banana.Controls.DropDown.extend(
 	{
 		this._super();
 
-		this.addCssClass('BDropDown');
+		this.addCssClass('BMultiSelect');
 		
 		this.optGroupField = "group";
 

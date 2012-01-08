@@ -21,6 +21,7 @@ namespace('Banana.Controls').Window = Banana.Controls.Panel.extend(
 	init : function()
 	{	
 		this._super();
+		this.addCssClass("BWindow");
 		
 		this.collapsed = false;
 		

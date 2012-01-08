@@ -2,11 +2,14 @@
  * Page control
  */
 .BPage{
-	font-size:16px;
 	color:white;
 	background-color:#222222;
 }
 
+/**
+* Page Template control
+*/
+.BPageTemplate{}
 
  /**
  * Label Control
@@ -45,6 +48,11 @@
  	background-color:#444444;
  }
 
+/**
+* MultiSelect control
+*/
+.BMultiSelect{}
+
  /**
  * DropDown Control
  */
@@ -58,30 +66,180 @@
 }
 .BDropDownOption{}
 
- /**
- * CheckBoxList Control
- */
- .BCheckBoxList{}
- .BCheckBoxListItemContainer{}
+/**
+* CheckBoxList Control
+*/
+.BCheckBoxList{}
+.BCheckBoxListItemContainer{}
  
-  /**
- * RadioButtonBoxList Control
- */
- .BRadioButtonList{}
- .BRadioButtonListItemContainer{}
+/**
+* RadioButtonBoxList Control
+*/
+.BRadioButtonList{}
+.BRadioButtonListItemContainer{}
+
+/**
+* Fieldset Control
+*/
+.BFieldset{
+	border-color:#999999;
+}
+ 
+/**
+* Legend Control
+*/
+.BLegend{
+}
+ 
 
  /**
- * Fieldset Control
+ * Datagrid
+ *
  */
- .BFieldset{
- 	border-color:#999999;
- }
- 
+.BDataGrid {
+	position:relative;
+	width:100%;
+	clear:left;
+}
+
+/**
+ * Datagrid Empty Template
+ *
+ */
+.BDataGridEmptyTemplate{
+	margin-left:2px;
+	color:red;
+}
+
  /**
- * Legend Control
+ * Datagrid List Render
+ *
  */
- .BLegend{
- }
+.BDataGridListRender{}
+
+ /**
+ * Datagrid Table List Render
+ *
+ */
+.BDataGridTableListRender table{
+	position:relative;
+	width:100%;
+}
+.BDataGridTableListRender th{
+	border-left:1px solid #666666;
+	border-bottom:1px solid #666666;
+}
+.BDataGridTableListRenderRow{}
+.BDataGridTableListRenderRowAlt{}
+.BDataGridTableListRenderSelected{
+	background-color:#777777;
+}
+.BDataGridTableListRenderMouseover{
+	background-color:#555555;
+}
+
+ /**
+ * Datagrid Tile List Render
+ *
+ */
+.BDataGridTileListRender{}
+.BDataGridTile{
+	border:1px solid #666666;
+}
+.BDataGridTileItem{}
+.BDataGridTileItemAlt{}
+.BDataGridTilePlaceHolder{}
+.BDataGridTileTilePlaceHolderSelected{
+	background-color:#555555;
+}
+.BDataGridTileSelected{
+	font-weight:bold;
+	border:1px solid lightblue;
+}
+.BDataGridTileMouseOver{
+	border:1px solid #999999;
+}
+
+ /**
+ * Datagrid Tree List Render
+ *
+ */
+.BDataGridTree{}
+.BDataGridTreeItemHolder{}
+.BDataGridTreeItemHolderRoot{}
+.BDataGridTreeToggle{}
+.BDataGridTreeEmptyNode{
+	background-image: url(../images/nodeempty.png);
+}
+.BDataGridTreeLoader{
+	background-image: url(../images/ajax-loader-small.gif);
+}
+.BDataGridTreeLoadNextButton{}
+.BDataGridTreeLoadNextButtonRoot{}
+.BDataGridTreeNodeClosed{
+	background-image: url(../images/nodeclosed.png);
+}
+.BDataGridTreeNodeClosed:hover{
+	background-image: url(../images/nodeclosedmouseover.png);
+}
+.BDataGridTreeNodeOpen{
+	background-image: url(../images/nodeopen.png);
+}
+.BDataGridTreeNodeOpen:hover{
+	background-image: url(../images/nodeopenmouseover.png);
+}
+.BDataGridTreeNodeEmpty{
+	background-image: url(../images/nodeempty.png);
+}
+.BDataGridTreeItemRender{}
+.BDataGridTreeItemRender:hover{
+	border:1px solid lightblue;
+}
+.BDataGridTreeItemRenderSelected{
+	border:1px solid white; 
+	background: -moz-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 0.2));
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 0.2));
+}
+
+/**
+* Datagrid control panel
+*
+*/
+.BDataGridControlPanelTop{
+	border-bottom:1px solid #555555;
+}
+.BDataGridControlPanelCenter{
+	border-bottom:1px solid #555555;
+}
+.BDataGridControlPanelBottom{
+	border-bottom:1px solid #555555;
+}
+.BDataGridControlPanelBottom .BButton{}
+.BDataGridControlPanelBottom .BDropDown{}
+.BDataGridControlArrow{
+	background-image:url(../images/arrowbended.png);
+}
+
+/**
+* Datagrid filters
+*
+*/
+.BDataGridFilter{}
+.BDataGridSearchFilter{}
+.BDataGridPagerFilter{}
+.BDataGridPagerFilter .BDropDown{
+	border:1px solid #777777;
+}
+.BDataGridPagerFilter .BButton{}
+.BDataGridPagerFilter .BLabel{}
+.BDataGridPagerFilterButtonContainer{}
+.BDataGridPagerFilterButton{
+	color:#333333;
+}
+.BDataGridPagerFilterButtonSelected{
+	color:black;
+	font-weight:bold;
+}
 
  /**
  * Modal Control
@@ -90,44 +248,103 @@
 	background-color:#444444;
 	border:1px solid #666666;
 }
-
 .BModalCover{
 	background-color:#222222;
 	opacity:0.7;
 	filter:alpha(opacity=70); 
 }
-
 .BModalTitle{
 	color:white;
 	font-weight:bold;
 }
-
 .BModalContent{
 	color:white;
 	border:1px solid #666666;
 }
 
+/**
+ * Confirm modal
+ *
+ */
+.BConfirmModal {
+	background-color: #eeeeee;
+}
+.BConfirmModalImage {
+	background-image: url(../images/icons/icon_exclamation_24.png);
+}
+.BConfirmModalContainer {}
+.BConfirmModalTitle {
+	color: #222222;
+}
+.BConfirmModalText {}
+
+/**
+ * Window
+ */
+.BWindow {
+	border: 1px solid #999999;
+	background-color:#222222;
+	box-shadow: rgba(255, 255, 255, 0.4) 1px 1px;
+}
+.BWindow .BWindowHeader {
+	background-color:#222222; 
+	font-weight: bold;
+}
+.BWindow .BWindowHeader .BWindowSwitch {}
+.BWindow .BWindowHeader .BWindowTitle {}
+.BWindow .BWindowContent {
+	background-color:#333333;
+	border: 1px solid #666666;
+}
+
+/**
+ * Loader
+ *
+ */
+.BLoader{} 
+.BLoaderCover {
+	opacity:0.7;
+	filter:alpha(opacity=70);
+	background-color:#222222;
+}
+.BLoaderTransparantContainer{
+	border:1px solid #eeeeee;
+	opacity:0.7;
+	filter:alpha(opacity=70);
+	background-color:#555555;
+} 
+.BLoaderContainer{}
+.BLoaderImage{
+	background-image: url(../images/ajax-loader.gif);
+}
+.BLoaderTextLabel{
+	color:white;
+	font-weight:bold;
+}
+
  /**
  * Label decorator control
  */
-.BLabelDecorator{
-	
-}
+.BLabelDecorator{}
 .BLabelDecorator .BLabelDecoratorLabel{}
 .BLabelDecorator .BInfoDecorator{}
 .BLabelDecorator input[type="text"]{}
 .BLabelDecorator .BDatePickerTextBox{}
 .BLabelDecorator input[disabled="disabled"] { 
-	color:#888888;background-color:#eeeeee;
+	color:#888888;
+	background-color:#eeeeee;
 }
 .BLabelDecorator input[disabled=""] {
-	color:#888888;background-color:#eeeeee;
+	color:#888888;
+	background-color:#eeeeee;
 }
 .BLabelDecorator select[disabled="disabled"] { 
-	color:#888888;background-color:#eeeeee;
+	color:#888888;
+	background-color:#eeeeee;
 }
 .BLabelDecorator select[disabled=""] { 
-	color:#888888;background-color:#333333;
+	color:#888888;
+	background-color:#333333;
 }
 .BLabelDecorator textarea[type="text"]{}
 .BLabelDecorator select{}
@@ -135,15 +352,33 @@
 .BLabelDecoratorRightLabel{}
 .BLabelDecoratedControl{}
 
+/**
+ *  Info Decorator
+ */
+.BInfoDecorator input[type="text"] {}
+.BInfoDecorator select[type="text"] {}
+.BInfoDecorator textarea[type="text"] {}
+.BInfoDecoratorInfoImage {
+	background: url(../images/info.png);
+}
 
-
-
-
-
-
-
-
-
-
-
-
+/**
+* Validator
+*
+*/
+.BValidatorArrow {
+	background-image: url(../images/validatorarrow.png);
+}
+.BValidatorStar {
+	background-image: url(../images/validatorstar.png);
+}
+.BValidatorLabel {
+	background-color: #cb2e2e;
+}
+.BValidatorInfo{}
+.BValidatorIconPlaceHolder {}
+.BValidatorInfoPlaceHolder {}
+.BValidatorDecorated {}
+.BValidatorControlInvalidated {
+	border: 1px solid red;
+}
