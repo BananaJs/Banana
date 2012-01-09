@@ -462,16 +462,6 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 				file.loaded += data.loaded;
 				file.completion = (file.loaded/file.size*100);
 
-//				eta.setTimecode( eta.getTimecode()/percentage*(100-percentage) );
-//
-//				// Filter it
-//				var alpha=0.1;
-//				eta.setTimecode( eta.getTimecode()*alpha + this.tcOldEta.getTimecode()*(1-alpha) );
-//
-//				this.status.setData( this.status.getData() + ' (remaining: ' + eta.getTime('%H:%M:%S')+')' );
-//				this.tcOldEta.setTimecode(eta.getTimecode());
-
-			//	this.triggerEvent("fileUploading",{"file":file});
 				this.processFileChunkFrom(file,++index,cb);
 			}
 			
@@ -516,7 +506,9 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 
 		var xhr = new XMLHttpRequest();
 		
-		xhr.addEventListener("error",this.getProxy(function(e){}));
+		xhr.addEventListener("error",this.getProxy(function(e){
+			file.uploadError = true;
+		}));
 
 		var $this = this;
 
@@ -525,13 +517,19 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 
 			var func = function(e,f)
 			{
-				if (e.target.readyState == 4)
+				if (xhr.readyState == 4 ) 
 				{
-					if (e.target.status != 200)
-					{
-						file.uploadError = true;
-					}
+		            if (xhr.status == 200 || xhr.status == 0 ) 
+		            {
+		               //ok
+		            } 
+		            else 
+		            {
+		            	file.uploadError = true;
+		            	return;
+		            }
 				}
+				
 			}
 			return jQuery.proxy( func, $this);
 
@@ -544,7 +542,10 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 						
 			var func = function(e,f)
 			{
-				file = this.getFile(file.name);
+				if (file.uploadError)
+				{
+					return;
+				}
 
 				var newPerc = ((file.loaded+e.loaded) / file.size) * 100
 				file.completion = Math.max(0,Math.min(newPerc,100));
@@ -562,7 +563,6 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 				}
 
 				file.eta = eta;
-				
 				this.triggerEvent("fileUploading",{"file":file});
 			}
 			
@@ -578,7 +578,6 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 			{
 				var data = {};
 				data.loaded = chunk.size;
-	
 				cb(data);
 			}
 			
