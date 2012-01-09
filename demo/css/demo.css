@@ -17,7 +17,15 @@
 	font-weight: bold;
 	font-size: 23px;
 	font-variant: small-caps;
-	margin:10px
+	margin:10px;
+	height:35px;
+}
+
+.headerButtons{
+	background-color:#444444;
+	float:right;
+	height:5px;font-size:15px;font-weight:100;
+	margin-top:15px;
 }
 
 .HomeLink{color:#222222;;text-decoration:none;}
@@ -39,7 +47,7 @@
 	border: 4px solid #999999;
 	border-radius: 15px;
 	background-color: #777777;
-	width: 90%;
+	width: 70%;
 	left: 0;
 	right: 0;
 	margin: auto;
@@ -228,74 +236,54 @@ body {
 	text-align: center;
 	padding: 10px;
 	border-radius: 5px;
-	margin: 22px;
-	margin-top: 32px;
-	margin-bottom: 32px;
+	margin: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
 	border: 2px solid #888888;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	background-image: linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -o-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -moz-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -webkit-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -ms-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.26, rgb(54,
-		54, 54) ), color-stop(0.63, rgb(87, 87, 87) ),
-		color-stop(0.82, rgb(107, 107, 107) ) );
+background-image: linear-gradient(bottom, rgb(51,51,51) 31%, rgb(68,68,68) 60%);
+background-image: -o-linear-gradient(bottom, rgb(51,51,51) 31%, rgb(68,68,68) 60%);
+background-image: -moz-linear-gradient(bottom, rgb(51,51,51) 31%, rgb(68,68,68) 60%);
+background-image: -webkit-linear-gradient(bottom, rgb(51,51,51) 31%, rgb(68,68,68) 60%);
+background-image: -ms-linear-gradient(bottom, rgb(51,51,51) 31%, rgb(68,68,68) 60%);
+
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.31, rgb(51,51,51)),
+	color-stop(0.6, rgb(68,68,68))
+);
 }
 
 .menusub2 {
-	background-image: linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -o-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -moz-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -webkit-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -ms-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.26, rgb(54,
-		54, 54) ), color-stop(0.63, rgb(87, 87, 87) ),
-		color-stop(0.82, rgb(107, 107, 107) ) );
+
 }
 
 .menusub3 {
-	background-image: linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -o-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -moz-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -webkit-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -ms-linear-gradient(bottom, rgb(54, 54, 54) 26%,
-		rgb(87, 87, 87) 63%, rgb(107, 107, 107) 82% );
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.26, rgb(54,
-		54, 54) ), color-stop(0.63, rgb(87, 87, 87) ),
-		color-stop(0.82, rgb(107, 107, 107) ) );
+
 }
 
+
 .menusub:hover {
-	background-image: linear-gradient(bottom, rgb(77, 20, 221) 26%,
-		rgb(108, 46, 255) 63%, rgb(141, 74, 255) 82% );
-	background-image: -o-linear-gradient(bottom, rgb(77, 20, 221) 26%,
-		rgb(108, 46, 255) 63%, rgb(141, 74, 255) 82% );
-	background-image: -moz-linear-gradient(bottom, rgb(77, 20, 221) 26%,
-		rgb(108, 46, 255) 63%, rgb(141, 74, 255) 82% );
-	background-image: -webkit-linear-gradient(bottom, rgb(77, 20, 221) 26%,
-		rgb(108, 46, 255) 63%, rgb(141, 74, 255) 82% );
-	background-image: -ms-linear-gradient(bottom, rgb(77, 20, 221) 26%,
-		rgb(108, 46, 255) 63%, rgb(141, 74, 255) 82% );
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.26, rgb(77,
-		20, 221) ), color-stop(0.63, rgb(108, 46, 255) ),
-		color-stop(0.82, rgb(141, 74, 255) ) );
+	width:100%;
+	
+	color:black !important;
+	background-image: linear-gradient(bottom, rgb(255,119,0) 8%, rgb(214,214,79) 60%);
+background-image: -o-linear-gradient(bottom, rgb(255,119,0) 8%, rgb(214,214,79) 60%);
+background-image: -moz-linear-gradient(bottom, rgb(255,119,0) 8%, rgb(214,214,79) 60%);
+background-image: -webkit-linear-gradient(bottom, rgb(255,119,0) 8%, rgb(214,214,79) 60%);
+background-image: -ms-linear-gradient(bottom, rgb(255,119,0) 8%, rgb(214,214,79) 60%);
+
+background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left top,
+	color-stop(0.08, rgb(255,119,0)),
+	color-stop(0.6, rgb(214,214,79))
+);
 }
 
 .cube {
@@ -307,8 +295,12 @@ body {
 	float: left;
 }
 
-.menusublink {
+a{
 	color: white;
+	text-decoration:none;
+}
+
+.menusublink {
 	font-size: 18px;
 }
 

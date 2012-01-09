@@ -24,6 +24,53 @@ namespace('Application.Pages.PageTemplates').PageTemplate = Banana.PageTemplate.
 		
 		var menuBar = new Banana.Controls.Panel().addCssClass("Header");
 		menuBar.addControl(link)
+		
+		
+	
+		
+		var p = new Banana.Controls.Panel().addCssClass("headerButtons")
+		//p.addCssClass("borderPanel")
+		
+		var link = new Banana.Controls.Link();
+		link.addCssClass("menusub");;
+		link.addControl("Examples");
+		link.bind('click',this.getProxy(function(e){
+			
+			Banana.Application.loadPage("Examples");
+			e.preventDefault();
+		}));
+		link.setHref("#section=Examples");
+		p.addControl(link);
+		
+		var link = new Banana.Controls.Link();
+		link.addCssClass("menusub");;
+		link.addControl("Download");
+		link.bind('click',this.getProxy(function(e){
+			
+			Banana.Application.loadPage("Examples");
+			e.preventDefault();
+		}));
+		link.setHref("#section=Examples");
+		p.addControl(link);
+
+		var link = new Banana.Controls.Link();
+		link.addCssClass("menusub");;
+		link.addControl("Documention");
+		link.bind('click',this.getProxy(function(e){
+			
+			Banana.Application.loadPage("Examples");
+			e.preventDefault();
+		}));
+		link.setHref("#section=Examples");
+		p.addControl(link);
+
+		
+		
+		menuBar.addControl(p)
+		
+		
+		
+		
 		con.addControl(menuBar);
 		
 		con.addControl(this.content);
