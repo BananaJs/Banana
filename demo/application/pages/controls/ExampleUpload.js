@@ -16,10 +16,12 @@ namespace('Application.Controls.Examples').ExampleUpload = Application.Controls.
 	{
 		var upload = new Banana.Controls.ChunkedUpload();
 		upload.setMultipleFilesUpload(true);
+		upload.setMaxSimultaneousUpload(5);
 		upload.setChunkSize(2000000);
 		upload.setPostUrl("upload.php");
 
 		upload.bind("filesSelected",this.getProxy(function(e,data){
+			upload.uploadFiles(data.files);
 			this.createFileProgression(data.files);
 		}));
 		
@@ -31,13 +33,16 @@ namespace('Application.Controls.Examples').ExampleUpload = Application.Controls.
 			this.finishFileIndicator(data.file);
 		}));
 
+		upload.bind('filesUploaded',this.getProxy(function(e,data){
+			this.updateFilesCompletion(data.files);
+		}));
+
 		upload.bind('fileUploadError',this.getProxy(function(e,data){
 			alert('error')
 			this.errorFileIndicator(data.file);
 		}));
 
 		upload.bind("browserNotSupported",this.getProxy(function(e,data){
-		
 			this.addControl("Chunk upload not supported by the browser");
 		}));
 		
@@ -46,7 +51,6 @@ namespace('Application.Controls.Examples').ExampleUpload = Application.Controls.
 		
 		this.uploadPanel = new Banana.Controls.Panel();
 		this.addControl(this.uploadPanel);
-		
 	},
 	
 	createFileProgression :  function(files)
@@ -66,6 +70,15 @@ namespace('Application.Controls.Examples').ExampleUpload = Application.Controls.
 		}
 		
 		this.uploadPanel.invalidateDisplay();
+	},
+
+	updateFilesCompletion : function(files)
+	{
+		for (i=0,len=files.length;i < len; i++)
+		{
+			var indicator =  this.fileIndicators[files[i].name];
+			indicator.setCss({"background-color":"lime"});
+		}
 	},
 	
 	updateFileIndicator : function(file)
@@ -177,7 +190,9 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 	 * currently only supported by chrome and firefox.
 	 * uploads file is small chunks. the upload control ensures that chunks are send to the
 	 * server in the correct order. Server is responsible to reconstruct the chunks to one file
-	 * first time a file is uploaded we
+	 * during file upload the first time a chunk is uploaded we append "firstChunk" to the post params
+	 * last time a chunk is uploaded we append "lastChunk" to the post params.
+	 * a "uid" param is appended to identify the file serverside
 	 * @constructs
 	 * @extends Banana.Controls.Panel
 	 */
@@ -191,14 +206,11 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 			log.error("chunk upload not supported by the browser");
 			return;
 		}
-		
-		this.debug = true;
+
 		this.files = [];
-		this.previousLoadedChunk = {};
-		
 		this.chunkSize = 2000000;
-		///this.uploadFile = 'http://192.168.250.72/~gillis/upload.php';
-		
+		this.maxSimultaneousUpload = 2;
+
 		var form = new Banana.Controls.Form();
 		form.setAttribute('enctype',"multipart/form-data");
 		form.setAttribute('method',"post");
@@ -217,9 +229,14 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 		form.addControl(maxInput);
 		form.addControl(fileInput);
 		
-		this.addControl(form);	
+		this.addControl(form);
+
+		this.registerCustomEvents();
 	},
 
+	/**
+	 * @ignore
+	 */
 	createComponents : function()
 	{
 		if (this.triggerError)
@@ -238,6 +255,19 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 		this.chunkSize = chunkSize;
 	},
 
+	/**
+	 * max upload at the same time
+	 * @param {int} maxSimultaneousUpload
+	 */
+	setMaxSimultaneousUpload : function(maxSimultaneousUpload)
+	{
+		this.maxSimultaneousUpload = maxSimultaneousUpload;
+	},
+
+	/**
+	 *
+	 * @param {boolean} bool when true filedialog supports multiple file selection
+	 */
 	setMultipleFilesUpload : function(bool)
 	{
 		var control = this.findControl('fileInput');
@@ -278,23 +308,78 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 	    var xhr = new XMLHttpRequest();
 	    return !! (xhr && ('upload' in xhr) && ('onprogress' in xhr.upload));
 	},
-	
+
+	/**
+	 * Handle file selected
+	 * @param files
+	 */
 	handleFilesSelected : function(files)
 	{
+		this.currentUploading = 0;
+		this.currentUploaded = 0;
+		this.currentFileCount = files.length;
+		this.formFiles = files;
+		this.files = [];
+		
 		this.triggerEvent("filesSelected",{"files":files});
-		this.uploadFiles(files);
+	},
+
+	/**
+	 * Here we listen to the fileupload event.
+	 * we create a construction here to use maxSimultaneousUpload and
+	 * ensure completion of all files
+	 */
+	registerCustomEvents : function()
+	{
+		this.bind('fileUploadedInternal',this.getProxy(function(e,data){
+
+			this.currentUploaded++;
+			this.currentUploading--;
+
+			///console.log('finished file '+data.file.name+' uploaded. currentUploaded',this.currentUploaded, 'currentUploading',this.currentUploading);
+			//all files are uploaded
+			if (this.currentUploaded == this.currentFileCount)
+			{
+				this.triggerEvent('filesUploaded',{files:this.formFiles});
+				return;
+			}
+
+			//all files are at least busy
+			if (this.currentUploading+this.currentUploaded == this.currentFileCount)
+			{
+				return;
+			}
+
+			//all files beeing uploaded are uploaded. do we have more files to upload?
+			if (this.currentUploading < this.maxSimultaneousUpload)
+			{
+				this.uploadFiles(this.formFiles,this.currentUploaded+this.currentUploading,this.currentUploaded+this.currentUploading+this.maxSimultaneousUpload-this.currentUploading);
+			}
+		}));
 	},
 
 	/**
 	 * Executes the upload procedure
 	 * @param {Array} of files
 	 */
-	uploadFiles : function(files)
+	uploadFiles : function(files,from,to)
 	{
-		this.previousLoadedChunk = {};
-		
+		//from and to are used to maximize simultaneous uploads
+		if (!from)
+		{
+			from = 0;
+		}
+		if (!to)
+		{
+			to	= this.maxSimultaneousUpload > files.length ? files.length : this.maxSimultaneousUpload;
+		}
+
+		//console.log('from',from,'to',to);
+
+		this.currentUploading+=to-from;
+
 		var i,len;
-		for (i=0,len=files.length;i < len; i++)
+		for (i=from,len=to;i < len; i++)
 		{
 			var file = files[i];
 			file.loaded = 0;
@@ -332,6 +417,7 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 		if (start >= file.size)
 		{
 			this.triggerEvent("fileUploaded",{"file":file});
+			this.triggerEvent("fileUploadedInternal",{"file":file});
 			return;
 		}
 
@@ -366,7 +452,7 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 				
 				file.loaded += data.loaded;
 				file.completion = (file.loaded/file.size*100);
-				
+
 				this.triggerEvent("fileUploading",{"file":file});
 				this.processFileChunkFrom(file,++index,cb);
 			}
@@ -416,6 +502,7 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 
 		var $this = this;
 
+		//triggered every file state change
 		xhr.addEventListener("readystatechange",function(file){
 
 			var func = function(e,f)
@@ -432,6 +519,7 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 
 		}(file));
 
+		//triggered every few ms
 		xhr.upload.addEventListener("progress",function(file){
 						
 			var func = function(e,f)
@@ -440,7 +528,6 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 
 				var newPerc = ((file.loaded+e.loaded) / file.size) * 100
 				file.completion = Math.max(0,Math.min(newPerc,100));
-
 				this.triggerEvent("fileUploading",{"file":file});
 			}
 			
@@ -448,7 +535,8 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 			
 			
 		}(file));
-		
+
+		//triggered when chunk is complete uploading. here we call the complete callback
 		xhr.upload.addEventListener("load",function(chunk,cb){
 			
 			var func = function(e)
@@ -465,13 +553,17 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 		
 		xhr.open("POST",this.uploadFile);
 		xhr.send(fd);
-	}, 
+	},
 
-	showDebug : function(message)
+	/**
+	 * get a more readable string by given string of bytes
+	 * @param {String} bytes
+	 * @return {String}
+	 */
+	getReadablizeBytes : function(bytes)
 	{
-		if (!this.debug)
-		{
-			return false;
-		}
+		var s = ['bytes', 'kb', 'Mb', 'Gb', 'Tb', 'Pb'];
+		var e = Math.floor(Math.log(bytes)/Math.log(1024));
+		return (bytes/Math.pow(1024, Math.floor(e))).toFixed(1)+' '+s[e];
 	}
 });
