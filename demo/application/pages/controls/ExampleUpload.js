@@ -16,8 +16,8 @@ namespace('Application.Controls.Examples').ExampleUpload = Application.Controls.
 	{
 		var upload = new Banana.Controls.ChunkedUpload();
 		upload.setMultipleFilesUpload(true);
-		upload.setMaxSimultaneousUpload(5);
-		upload.setChunkSize(2000000);
+		upload.setMaxSimultaneousUpload(2);
+		upload.setChunkSize(1500000);
 		upload.setPostUrl("upload.php");
 
 		upload.bind("filesSelected",this.getProxy(function(e,data){
@@ -62,8 +62,16 @@ namespace('Application.Controls.Examples').ExampleUpload = Application.Controls.
 		for (i=0,len=files.length;i < len; i++)
 		{
 			var sin = new Banana.Controls.Panel();
-			sin.setStyle("width:0%;background-color:blue;height:30px;");
-			sin.addControl(files[i].name);
+			sin.setStyle("width:100%;height:30px;position:relative;");
+
+			completion =new Banana.Controls.Panel().setStyle('position:absolute;height:30px;background-color:blue;');
+			title =new Banana.Controls.Panel().setStyle('position:absolute;height:30px;');
+			eta =new Banana.Controls.Label().setStyle('position:absolute;height:30px;right:0');
+			sin.addControl(completion)
+			sin.addControl(title);
+			sin.addControl(eta);
+
+			title.addControl(files[i].name);
 			this.uploadPanel.addControl(sin);
 			
 			this.fileIndicators[files[i].name] = sin;
@@ -77,31 +85,31 @@ namespace('Application.Controls.Examples').ExampleUpload = Application.Controls.
 		for (i=0,len=files.length;i < len; i++)
 		{
 			var indicator =  this.fileIndicators[files[i].name];
-			indicator.setCss({"background-color":"lime"});
+			indicator.controls[0].setCss({"background-color":"green"});
 		}
 	},
 	
 	updateFileIndicator : function(file)
 	{
 		var indicator = this.fileIndicators[file.name];
-	
-		
-		//console.log('p',file.loaded,file.size)
+
 		var perc = Math.round((file.loaded/file.size)*100);
 			
-		indicator.setCss({"width":file.completion+"%"});
+		indicator.controls[0].setCss({"width":file.completion+"%"});
+		indicator.controls[2].setData(new Banana.Util.DateTimecode(file.eta).getTime());
 	},
 	
 	finishFileIndicator : function(file)
 	{	
 		var indicator = this.fileIndicators[file.name];
-		indicator.setCss({"background-color":"green"});
+		indicator.controls[0].setCss({"background-color":"lime"});
+		indicator.controls[2].setData("");
 	},
 
 	errorFileIndicator : function(file)
 	{
 		var indicator = this.fileIndicators[file.name];
-		indicator.setCss({"background-color":"red"});
+		indicator.controls[0].setCss({"background-color":"red"});
 	}
 });
 
@@ -320,6 +328,7 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 		this.currentFileCount = files.length;
 		this.formFiles = files;
 		this.files = [];
+		this.startTime = new Date().getTime();
 		
 		this.triggerEvent("filesSelected",{"files":files});
 	},
@@ -453,7 +462,16 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 				file.loaded += data.loaded;
 				file.completion = (file.loaded/file.size*100);
 
-				this.triggerEvent("fileUploading",{"file":file});
+//				eta.setTimecode( eta.getTimecode()/percentage*(100-percentage) );
+//
+//				// Filter it
+//				var alpha=0.1;
+//				eta.setTimecode( eta.getTimecode()*alpha + this.tcOldEta.getTimecode()*(1-alpha) );
+//
+//				this.status.setData( this.status.getData() + ' (remaining: ' + eta.getTime('%H:%M:%S')+')' );
+//				this.tcOldEta.setTimecode(eta.getTimecode());
+
+			//	this.triggerEvent("fileUploading",{"file":file});
 				this.processFileChunkFrom(file,++index,cb);
 			}
 			
@@ -519,6 +537,8 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 
 		}(file));
 
+		var startTime = this.startTime;
+
 		//triggered every few ms
 		xhr.upload.addEventListener("progress",function(file){
 						
@@ -528,6 +548,14 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 
 				var newPerc = ((file.loaded+e.loaded) / file.size) * 100
 				file.completion = Math.max(0,Math.min(newPerc,100));
+
+				var eta=new Date().getTime();
+				eta -= this.startTime;
+
+				eta = eta/file.completion * (100-file.completion);
+
+				file.eta = eta;
+				
 				this.triggerEvent("fileUploading",{"file":file});
 			}
 			
