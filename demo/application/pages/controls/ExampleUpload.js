@@ -96,7 +96,7 @@ namespace('Application.Controls.Examples').ExampleUpload = Application.Controls.
 		var perc = Math.round((file.loaded/file.size)*100);
 			
 		indicator.controls[0].setCss({"width":file.completion+"%"});
-		indicator.controls[2].setData(new Banana.Util.DateTimecode(file.eta).getTime());
+		indicator.controls[2].setData("eta: "+new Banana.Util.DateTimecode(file.eta).getTime('%H:%M:%S'));
 	},
 	
 	finishFileIndicator : function(file)
@@ -553,6 +553,13 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 				eta -= this.startTime;
 
 				eta = eta/file.completion * (100-file.completion);
+
+				//filter
+				if (file.eta)
+				{
+					var alpha=0.1;
+					eta =  eta * alpha + file.eta*(1-alpha);
+				}
 
 				file.eta = eta;
 				
