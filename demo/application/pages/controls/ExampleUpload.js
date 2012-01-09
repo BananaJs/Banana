@@ -15,6 +15,7 @@ namespace('Application.Controls.Examples').ExampleUpload = Application.Controls.
 	createComponents : function()
 	{
 		var upload = new Banana.Controls.Upload();
+		upload.setUploadUrl("upload.php");
 		
 		upload.bind("filesSelected",this.getProxy(function(e,data){
 			this.createFileProgression(data.files);
@@ -164,6 +165,12 @@ namespace('Banana.Controls').Upload = Banana.Controls.Panel.extend({
 		form.addControl(fileInput);
 		
 		this.addControl(form);	
+	},
+
+	setPostUrl : function(url)
+	{
+		this.uploadFile = url;
+		return this; 
 	},
 	
 	supportAjaxUploadProgressEvents : function() 
