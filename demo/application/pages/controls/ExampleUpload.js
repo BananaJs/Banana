@@ -62,14 +62,16 @@ namespace('Application.Controls.Examples').ExampleUpload = Application.Controls.
 		for (i=0,len=files.length;i < len; i++)
 		{
 			var sin = new Banana.Controls.Panel();
-			sin.setStyle("width:100%;height:30px;position:relative;");
+			sin.setStyle("width:100%;height:50px;position:relative;");
 
 			completion =new Banana.Controls.Panel().setStyle('position:absolute;height:30px;background-color:blue;');
 			title =new Banana.Controls.Panel().setStyle('position:absolute;height:30px;');
-			eta =new Banana.Controls.Label().setStyle('position:absolute;height:30px;right:0');
+			eta =new Banana.Controls.Label().setStyle('position:absolute;height:30px;right:0;');
+			bps =new Banana.Controls.Label().setStyle('position:absolute;height:30px;left:0;bottom:0');
 			sin.addControl(completion)
 			sin.addControl(title);
 			sin.addControl(eta);
+			sin.addControl(bps);
 
 			title.addControl(files[i].name);
 			this.uploadPanel.addControl(sin);
@@ -97,6 +99,7 @@ namespace('Application.Controls.Examples').ExampleUpload = Application.Controls.
 			
 		indicator.controls[0].setCss({"width":file.completion+"%"});
 		indicator.controls[2].setData("eta: "+new Banana.Util.DateTimecode(file.eta).getTime('%H:%M:%S'));
+		indicator.controls[3].setData(file.speed+'/s');
 	},
 	
 	finishFileIndicator : function(file)
@@ -383,8 +386,6 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 			to	= this.maxSimultaneousUpload > files.length ? files.length : this.maxSimultaneousUpload;
 		}
 
-		//console.log('from',from,'to',to);
-
 		this.currentUploading+=to-from;
 
 		var i,len;
@@ -425,6 +426,10 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 		//we always end up here when all chunks are uploaded
 		if (start >= file.size)
 		{
+			//trigger this event to make sure we always received a fileUploading event prior to fileUploaded
+			//specialy with small files the progress event is sometimes not fired by the browser
+			this.triggerEvent("fileUploading",{"file":file});
+
 			this.triggerEvent("fileUploaded",{"file":file});
 			this.triggerEvent("fileUploadedInternal",{"file":file});
 			return;
@@ -458,8 +463,13 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 			var func = function(data)
 			{
 				file = this.getFile(file.name);
-				
+
+				//we overwrite the loaded property here, because the ammount of loaded data
+				//set in the progress event is chunkdata + header data from the xhr request.
+				//the real amount of loaded bytes is index * chunksize
+				//file.loaded += (index+2)*this.chunkSize;
 				file.loaded += data.loaded;
+
 				file.completion = (file.loaded/file.size*100);
 
 				this.processFileChunkFrom(file,++index,cb);
@@ -506,7 +516,8 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 
 		var xhr = new XMLHttpRequest();
 		
-		xhr.addEventListener("error",this.getProxy(function(e){
+		xhr.addEventListener("error",this.getProxy(function(e)
+		{
 			file.uploadError = true;
 		}));
 
@@ -517,19 +528,16 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 
 			var func = function(e,f)
 			{
-				if (xhr.readyState == 4 ) 
+				if (e.target.readyState == 4)
 				{
-		            if (xhr.status == 200 || xhr.status == 0 ) 
-		            {
-		               //ok
-		            } 
-		            else 
-		            {
-		            	file.uploadError = true;
-		            	return;
-		            }
+					if (e.target.status == 200 || e.target.status == 0 )
+					{
+					}
+					else
+					{
+						file.uploadError = true;
+					}
 				}
-				
 			}
 			return jQuery.proxy( func, $this);
 
@@ -542,17 +550,24 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 						
 			var func = function(e,f)
 			{
-				if (file.uploadError)
-				{
-					return;
-				}
+				file = this.getFile(file.name);
 
-				var newPerc = ((file.loaded+e.loaded) / file.size) * 100
+				//note that this is an indicative size. loaded bytes is complete xhr request
+				//the actual chunk size is smaller. Bacause of that we set the actual correct size after each chunk completion
+				//this happends in the callback in the load event
+				var bytesLoaded = file.loaded+e.loaded;
+
+				var newPerc = (bytesLoaded / file.size) * 100;
 				file.completion = Math.max(0,Math.min(newPerc,100));
 
-				var eta=new Date().getTime();
-				eta -= this.startTime;
+				//calculates bytes/s	//calculate eta
+				var now =new Date().getTime();
 
+				file.Bps = bytesLoaded/ ((now-this.startTime)/1000);
+
+				file.speed = this.getReadablizeBytes(file.Bps);
+
+				var eta = now - this.startTime;
 				eta = eta/file.completion * (100-file.completion);
 
 				//filter
@@ -563,6 +578,7 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 				}
 
 				file.eta = eta;
+
 				this.triggerEvent("fileUploading",{"file":file});
 			}
 			
@@ -578,6 +594,7 @@ namespace('Banana.Controls').ChunkedUpload = Banana.Controls.Panel.extend({
 			{
 				var data = {};
 				data.loaded = chunk.size;
+				
 				cb(data);
 			}
 			
