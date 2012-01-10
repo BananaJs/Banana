@@ -108,6 +108,8 @@ goog.require('Banana.Controls.Fieldset');
 goog.require('Banana.Controls.Legend');
 goog.require('Banana.Controls.Title');
 goog.require('Banana.Controls.Loader');
+goog.require('Banana.Controls.Form');
+goog.require('Banana.Controls.FileInput');
 
 goog.require('Banana.Controls.Decorators.Decorator');
 goog.require('Banana.Controls.Decorators.TimecodeFieldValidator');
