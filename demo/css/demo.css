@@ -154,8 +154,6 @@ letter-spacing: 2.75px;
 	text-transform:uppercase;
 	letter-spacing:-0.05em;
 	font-size:2.1em;
-	margin-bottom:30px;
-	float:left;
 	width:100%;
 	font:1.5em/1.5em 'Chivo', Helvetica, Arial, sans-serif;
 	color:#333333;
@@ -191,6 +189,7 @@ background-color:#866a53;
 
 .toppanelExamples{
 	margin-bottom:4px;
+	margin-bottom:30px;
 }
 
 .leftPanelExamples{
