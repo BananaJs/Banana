@@ -87,7 +87,6 @@
 */
 .BDataGrid {
 	position:relative;
-	width:100%;
 	clear:left;
 }
 
@@ -130,7 +129,6 @@
 .BDataGridTileItem{}
 .BDataGridTileItemAlt{}
 .BDataGridTilePlaceHolder{
-	width:100%;
 	float:left;position:relative;
 }
 .BDataGridTileTilePlaceHolderSelected{}
