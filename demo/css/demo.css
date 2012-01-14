@@ -1,9 +1,138 @@
-.BPage{
-	color:white;
-	background-color:white;
+body {
+	letter-spacing: .05px;
+	font-size: 14px;
+	font-weight: 200;
+	letter-spacing: 0.75px;
+	line-height: 19px;
+	font-family: verdana;
+	height: 100%;
+	margin: 0;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-color:#a58266;	 
 }
 
-.BPageTemplate{background-color:0;}
+
+.template{
+	background-color:a58266;
+}
+
+.topBar{height:50px; background-color:#b99870;width:100%;}
+
+.pageContent{
+	padding: 10px;
+	top:50px;
+	border-radius: 15px;
+	width: 100%;
+	max-width:950px;
+	left: 0;
+	right: 0;
+	margin: auto;
+	height: auto;
+	margin-top: 30px;
+	border-bottom-left-radius: 0px;	
+}
+
+.footer {
+	background-color: black;
+	width: 100%;
+	height: 70px;
+	bottom: 0;
+	margin:0px;
+	float:left;
+	margin-top:250px;	
+}
+
+.title{
+	color:white;
+	font-weight:bold;
+	text-decoration:none;
+	text-transform:uppercase;
+	letter-spacing:-0.05em;
+	font-size:2.3em;
+	margin-bottom:5px;
+}
+
+.subTitle {
+	font:1.5em/1.5em 'Chivo', Helvetica, Arial, sans-serif;
+	color:#333333;
+}
+
+
+.menugrid{
+	color:white;
+	margin-top:50px;
+	margin-bottom:50px;
+	font-size:14px;
+	padding:0;
+	float:left;
+}
+
+.menuitem{
+	
+	border-radius:5px;
+	margin:10px;
+	margin-right:40px;
+	cursor:pointer;
+}
+
+.menuitemHover{
+	background-color:#b99870;
+}
+
+.menuExample{
+	background-image: url(../images/example.png);
+	width:138px;
+	height:138px;
+}
+
+.menuDownload{
+	background-image: url(../images/download.png);
+	width:138px;
+	height:138px;
+}
+
+.menuDocumentation{
+	background-image: url(../images/documentation.png);
+	width:138px;
+	height:138px;
+}
+
+
+.summaryText {
+	line-height: 25px;
+	margin-top: 10px;
+	font-size: 14px;
+	color:white;
+	width:100%;
+	float:left;
+}
+
+.toplink{
+letter-spacing: 2.75px;
+	cursor: pointer;
+	text-align: center;
+	padding: 10px;
+	border-radius: 5px;
+	margin: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+
+
+
+
+
+
+
+
+.BPage{
+	font-family:Helvetica, Arial, sans-serif;
+	background-color:transparent !important;
+}
+
+.BPageTemplate{}
 
 .header:link {
 	color:red;
@@ -13,54 +142,78 @@
 	color:blue;
 }
 .Header {
-	letter-spacing: 0.2px;
-	font-weight: bold;
-	font-size: 23px;
-	font-variant: small-caps;
 	margin:10px;
-	height:35px;
+	margin-bottom:2px;
+}
+
+.toppanel {
+	width: 100%;
 }
 
 .headerButtons{
-	background-color:#444444;
+	
 	float:right;
 	height:5px;font-size:15px;font-weight:100;
 	margin-top:15px;
 }
 
-.HomeLink{color:#222222;;text-decoration:none;}
+.HomeLink{
+color:white;
+font-weight:bold;
+text-decoration:none;
+text-transform:uppercase;
+letter-spacing:-0.05em;
+font-size:2.3em;
+
+}
+
+.frameworktitle {
+	margin-left:10px;
+	margin-top:10px;
+	font-size:17px;
+	font:1.5em/1.5em 'Chivo', Helvetica, Arial, sans-serif;
+	color:black;
+}
 
 .BDemoHome{
-	background-color:#777777;
+	
+}
+
+.HomeTiles{
+	background-color:transparent;
 }
 
 .HeaderText {
 	float: left;
 	font-size: 16px;
 	margin: 5px;
+	color:white;
 	color: #341570;
 	font-weight: bold
 }
 
+.backgroundPanel{
+	
+	
+}
 .MainContainer {
 	padding: 2px;
-	border: 4px solid #999999;
+	top:50px;
+	z-index:3; 
+	border: 1px solid #999999;
 	border-radius: 15px;
-	background-color: #777777;
+	position:absolute;
 	width: 70%;
 	left: 0;
 	right: 0;
 	margin: auto;
 	height: auto;
 	margin-top: 20px;
-	-webkit-box-shadow: 2px 2px 6px 2px #333333;
-	-moz-box-shadow: 2px 2px 6px 2px #333333;
-	box-shadow: 2px 2px 6px 2px #333333;
-	border-bottom-left-radius: 40px;
+	border-bottom-left-radius: 0px;
 }
 
 .TextPanel {
-	font-size: 16px;
+	font-size: 19px;
 	border: 2px solid #666666;
 	background-color: #eeeeee;
 	padding: 2px;
@@ -124,14 +277,6 @@
 	background-color: #C25765;
 }
 
-.footer {
-	font-size: 11px;
-	text-align: center;
-	margin: 5px;
-	margin-top: 5px;
-	height: 10px;
-	float: right;
-}
 
 .IntroLeft {
 	width: 100%;
@@ -144,10 +289,6 @@
 	display: inline-block;
 }
 
-.toppanel {
-	width: 100%;
-	height: 40px;
-}
 
 .rightpanel {
 	width: 60%;
@@ -172,13 +313,6 @@
 	border: 5px solid #888888;
 }
 
-.frameworktitle {
-	margin-left:10px;
-	margin-top:10px;
-	float:left;
-	font-size:17px;
-	color:white;
-}
 
 .frameworkexpl {
 	-moz-box-sizing: border-box;
@@ -197,11 +331,7 @@
 	border-radius: 0 px;
 }
 
-.summaryText {
-	line-height: 25px;
-	margin-top: 10px;
-	font-size: 14px;
-}
+
 
 li {
 	color: #111111;
@@ -215,20 +345,7 @@ ul {
 	margin: 0;
 }
 
-body {
-	letter-spacing: .05px;
-	font-size: 14px;
-	font-weight: 200;
-	letter-spacing: 0.75px;
-	line-height: 19px;
-	font-family: verdana;
-	height: 100%;
-	margin: 0;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-color:;
-	 
-}
+
 
 .menusub {
 	letter-spacing: 2.75px;
@@ -304,13 +421,7 @@ a{
 	font-size: 18px;
 }
 
-.BDataGrid{
-	color:white;
-	background-color:#333333;
-	margin:0;
-	font-size:14px;
-	padding:0;
-}
+
 
 .leftPanelExamples{
 	width:30%;

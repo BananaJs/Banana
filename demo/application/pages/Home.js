@@ -13,6 +13,24 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 
 	createComponents: function()
 	{
+		this.setStyle('background-color:red;');
+		
+		this.top= new Banana.Controls.Panel();
+		this.addControl(this.top);
+		
+		this.center= new Banana.Controls.Panel();
+		this.addControl(this.center);
+		
+		this.bottom= new Banana.Controls.Panel();
+		this.addControl(this.bottom);
+		
+		this.createTitle();
+		this.createMenu();
+		this.createSubText();
+		
+		
+		
+		return;
 		this.top= new Banana.Controls.Panel();
 		this.left = new Banana.Controls.Panel();
 		this.right = new Banana.Controls.Panel();
@@ -22,6 +40,7 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 		this.right.addCssClass("rightpanel");
 		
 		this.addControl(this.top);
+		this.addControl(this.center);
 		this.addControl(this.left);
 		this.addControl(this.right);
 		
@@ -34,12 +53,18 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 	
 	createTitle : function()
 	{
+		var title = new Banana.Controls.Panel();
+		title.addControl("Banana JS Framework");
+		title.addCssClass("title")
+		this.top.addControl(title);
+		
 		var title = new Banana.Controls.Label();
-		title.setData("Short description of Banana");
-		title.addCssClass("frameworktitle")
+		title.setData("An opensource component based user interface toolkit");
+		title.addCssClass("subTitle")
 		
 		this.top.addControl(title);
 		
+		return;
 		var ex = new Banana.Controls.Panel();
 		ex.addCssClass("frameworkexpl");
 
@@ -92,136 +117,87 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 		var l6 = new Banana.Controls.ListItem();
 		l6.addControl("Google closure build integration");
 		ul.addControl(l6);
-		
-		
+			
 		
 		ex.addControl(ul);
 	},
 	
-	createSubs : function()
+	createMenu : function()
 	{
-		return;
-		var pan = new Banana.Controls.Panel();
-		pan.addCssClass("borderPanewl");
-		pan.setStyle("background-color:red;height:200px;width:200px;float:left;margin:5px;");
-		this.right.addControl(pan);
-		
-		var pan = new Banana.Controls.Panel();
-		pan.addCssClass("borderPanwel");
-		pan.setStyle("background-color:blue;height:200px;width:200px;float:left;margin:5px;");
-		this.right.addControl(pan);
-		
-		var from = 0;
-		var to = 100;
-		
-		var colorStopStart = "0.08";
-		var colorStopStop = "0.08";
-		var rStart = 255;
-		var gStart = 0;
-		var bStart = 0;
-		var rEnd = 219;
-		var gEnd = 3;
-		var bEnd = 66;
-		
-		var steps = 30;
-		var currentStep = 1;
-		var dir = 1;
-		
-		var currentR = rStart;
-		var currentG = gStart;
-		var currentB = bStart;
-		
-		
-		
-		var s1Start = -14;
-		var s2Start = 4;
-		
-		var s1End = 40;
-		var s2End = -33;
+		var datasource = [
+			                 {'iconcss':'menuExample'},{'iconcss':'menuDownload'},{'iconcss':'menuDocumentation'}
+			                  ];
 			
-		currents1 = s1Start;
-		currents2 = s2Start;
+		grid = new Banana.Controls.DataGrid();
+		grid.addCssClass("menugrid");
 		
-		function a()
-		{
-			
-			if (currentStep > steps)dir = -1
-			if (currentStep < 0) dir = 1;
-			
-			if (dir ==1 ) currentStep++;
-			if (dir == -1) currentStep--;
-			
-			var rStepSize = ((rEnd-rStart)/30) * dir;
-			var gStepSize = ((gEnd-gStart)/30) * dir;
-			var bStepSize = ((bEnd-bStart)/30) * dir;
-			
-			var s1StepSize = ((s1End-s1Start)/30) * dir;
-			var s2StepSize = ((s2End-s2Start)/30) * dir;
-			
-			
-			currentR+=Math.round(rStepSize);
-			currentG+=Math.round(gStepSize);
-			currentB+=Math.round(bStepSize);
-			
-			currents1+=s1StepSize;
-			currents2+=s2StepSize;
-			console.log(currents1,currents2)
-
-			pan.setCss(
-					{
-						'background-image':'-webkit-gradient(linear,left bottom,left top, color-stop(0.08, rgb('+currentR+','+currentG+','+currentB+')),color-stop(0.6, rgb(255,0,0)))',
-						'-webkit-box-shadow':currents1+'px '+currents2+'px 4px 4px #222222;'
-					})
-
-			//color-stop(0.08, rgb(255,0,0)),
-			//color-stop(0.6, rgb(219,3,3))
-			
-			console.log('set')
-						
-			setTimeout(function(){
+		var listRender = new Banana.Controls.DataGridTileListRender()
+		listRender.setItemRender(function(){
+			return new Application.Controls.Demo.MenuItemRender();
+		})
+		
+		listRender.addCssClass("HomeTiles");
+		listRender.setPlaceHolderWidth("");
+		
+		grid.setListRender(listRender);
 				
-				a();
-			},20);
-		}
+		grid.setDataSource(datasource);	
+
+		this.center.addControl(grid);	
 		
-		a();
-		
+		this.grid = grid;
 	},
 	
-	createRands : function()
+	createSubText : function()
 	{
-		var bottom = new Banana.Controls.Panel();
-		bottom.addCssClass("bottom");
-		this.addControl(bottom);
-			
 		var summary = new Banana.Controls.Panel();
 		summary.addCssClass("summaryText");
-		summary.addControl("Banana is an opensource javascript application framework designed to create pure javascript webpages. Banana is designed with the single goal to help developers write fast and efficient websites. Compatible with all major desktop and mobile browsers, Banana gives developers a component driven platform to develop applications just in the same way regular interface toolkits provides.");
+		summary.addControl("Banana is an opensource javascript application framework designed to create pure desktop and mobile applications. Banana is designed with the single goal to help developers write dynamic fast website applications. Compatible with all major desktop and mobile browsers, Banana gives developers a component driven platform to develop applications just in the same way regular interface toolkits provides.");
 		
-		bottom.addControl(summary);
-		
-		var cube = new Banana.Controls.Panel();
-		cube.addControl('.');
-		cube.addCssClass("cube")
-		//bottom.addControl(cube);
-		
-		var cube = new Banana.Controls.Panel();
-		cube.addControl('.');
-		cube.addCssClass("cube")
-		//bottom.addControl(cube);
-		
-		var cube = new Banana.Controls.Panel();
-		cube.addControl('.');
-		cube.addCssClass("cube")
-		//bottom.addControl(cube);
-		
+		this.bottom.addControl(summary);
+				
 	},
-	
 	
 	updateDisplay : function()
 	{
+		//center the grid
+		var centerWidth = this.center.getDimensions().width;
+		var gridWidth = this.grid.getDimensions().width;
 		
+		var diff = centerWidth - gridWidth;
 		
+		if (diff < 0)
+		{
+			return;
+		}
+		
+		this.grid.setCss({'margin-left':diff/2+'px'});
 	}
 
+});
+
+
+namespace('Application.Controls.Demo').MenuItemRender =  Banana.Controls.DataGridTileItemRender.extend({
+	
+	createComponents : function()
+	{
+		var cube = new Banana.Controls.Panel();
+		this.addControl(cube);
+		cube.addCssClass("menuitem");
+		
+		cube.addCssClass(this.data.iconcss);
+		this.cube = cube;
+	},
+	
+	mouseOver : function()
+	{
+		this.cube.addCssClass("menuitemHover");
+	},
+	
+	mouseOut : function()
+	{
+		this.cube.removeCssClass("menuitemHover");
+	}
+	
+	
 });
