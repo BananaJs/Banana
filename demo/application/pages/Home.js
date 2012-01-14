@@ -63,69 +63,12 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 		title.addCssClass("subTitle")
 		
 		this.top.addControl(title);
-		
-		return;
-		var ex = new Banana.Controls.Panel();
-		ex.addCssClass("frameworkexpl");
-
-		this.left.addControl(ex);
-		
-		
-		var ul = new Banana.Controls.UnorderedList();
-		
-		var l1 = new Banana.Controls.ListItem();
-		l1.addControl("100% Javascript");
-		ul.addControl(l1);
-		
-		var l1 = new Banana.Controls.ListItem();
-		l1.addControl("Component driven");
-		ul.addControl(l1);
-		
-		var l1 = new Banana.Controls.ListItem();
-		l1.addControl("fast render engine");
-		ul.addControl(l1);
-		
-		var l1 = new Banana.Controls.ListItem();
-		l1.addControl("Free for commercial use");
-		ul.addControl(l1);
-		
-		var l1 = new Banana.Controls.ListItem();
-		l1.addControl("Desktop and Mobile");
-		ul.addControl(l1);
-				
-		var l1 = new Banana.Controls.ListItem();
-		l1.addControl("Customizable");
-		ul.addControl(l1);
-		
-		var l3 = new Banana.Controls.ListItem();
-		l3.addControl("Databinding ");
-		ul.addControl(l3);
-		
-		var l4 = new Banana.Controls.ListItem();
-		l4.addControl("Validation");
-		ul.addControl(l4);
-		
-		var l5 = new Banana.Controls.ListItem();
-		l5.addControl("Large control collection");
-		ul.addControl(l5);
-		
-		
-		var l6 = new Banana.Controls.ListItem();
-		l6.addControl("JQuery powered");
-		ul.addControl(l6);
-		
-		var l6 = new Banana.Controls.ListItem();
-		l6.addControl("Google closure build integration");
-		ul.addControl(l6);
-			
-		
-		ex.addControl(ul);
 	},
 	
 	createMenu : function()
 	{
 		var datasource = [
-			                 {'iconcss':'menuExample'},{'iconcss':'menuDownload'},{'iconcss':'menuDocumentation'}
+			                 {'iconcss':'menuExample',"section":"Examples"},{'iconcss':'menuDownload',"section":'Download'},{'iconcss':'menuDocumentation',"section":"Documentation"}
 			                  ];
 			
 		grid = new Banana.Controls.DataGrid();
@@ -181,7 +124,8 @@ namespace('Application.Controls.Demo').MenuItemRender =  Banana.Controls.DataGri
 	
 	createComponents : function()
 	{
-		var cube = new Banana.Controls.Panel();
+		var cube = new Banana.Controls.Link();
+		cube.setHref("#section="+this.data.section);
 		this.addControl(cube);
 		cube.addCssClass("menuitem");
 		

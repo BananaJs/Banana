@@ -13,7 +13,7 @@ namespace('Application.Controls.Examples').ExampleTileSimple = Application.Contr
 		var grid = new Banana.Controls.DataGrid();
 		
 		var listRender = new Banana.Controls.DataGridTileListRender();
-
+		listRender.setPlaceHolderWidth('100%');
 		grid.setListRender(listRender);
 				
 		grid.setDataSource(datasource);	

@@ -103,7 +103,7 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 		this.left = new Banana.Controls.Panel();
 		this.right = new Banana.Controls.Panel();
 		
-		this.top.addCssClass("toppanel");
+		this.top.addCssClass("toppanelExamples");
 		this.left.addCssClass("leftPanelExamples");
 		this.right.addCssClass("rightpanelExamples");
 		
@@ -122,8 +122,8 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 	createTitle : function()
 	{
 		var title = new Banana.Controls.Label();
-		title.setData("Examples of Banana components");
-		title.addCssClass("frameworktitle")
+		title.setData("Examples");
+		title.addCssClass("exampleTitle");
 		
 		this.top.addControl(title);
 	},
@@ -131,7 +131,8 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 	createControlTiles : function()
 	{	
 		grid = new Banana.Controls.DataGrid();
-		grid.addCssClass("borderPanel");
+		grid.setStyle('margin-bottom:30px;');
+		//grid.addCssClass("borderPanel");
 		
 		var listRender = new Banana.Controls.DataGridTileListRender()
 		listRender.setPlaceHolderWidth("100%");
@@ -153,7 +154,7 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 	createControl2Tiles : function()
 	{	
 		grid = new Banana.Controls.DataGrid();
-		grid.addCssClass("borderPanel");
+		//grid.addCssClass("borderPanel");
 		
 		var listRender = new Banana.Controls.DataGridTileListRender()
 		listRender.setPlaceHolderWidth("100%");

@@ -19,9 +19,9 @@ namespace('Application.Pages.PageTemplates').PageTemplate = Banana.PageTemplate.
 		this.top.addCssClass("topBar");		
 		this.addControl(this.top);
 		
+		this.createLogo();
 		this.createLinks();
-		
-		
+			
 		var content = new Banana.Controls.Panel();
 		content.addCssClass("pageContent");
 		this.addControl(content);
@@ -33,6 +33,14 @@ namespace('Application.Pages.PageTemplates').PageTemplate = Banana.PageTemplate.
 		this.addControl(footer);
 		
 		this.addControl('<div style="clear:both;"></div>');
+	},
+	
+	createLogo : function()
+	{
+		var logo = new Banana.Controls.Link();
+		logo.setHref("#section=Home");
+		logo.addCssClass("logo")
+		this.top.addControl(logo);
 	},
 	
 	createLinks : function()
@@ -73,7 +81,19 @@ namespace('Application.Pages.PageTemplates').PageTemplate = Banana.PageTemplate.
 			e.preventDefault();
 		}));
 		link.setHref("#section=Examples");
-		linkPanel.addControl(link);				
+		linkPanel.addControl(link);		
+		
+		
+		var link = new Banana.Controls.Link();
+		link.addCssClass("toplink");
+		link.addControl("Contact");
+		link.bind('click',this.getProxy(function(e){
+			
+			Banana.Application.loadPage("Contact");
+			e.preventDefault();
+		}));
+		link.setHref("#section=Contact");
+		linkPanel.addControl(link);	
 	},
 	
 	showLoader : function(text)

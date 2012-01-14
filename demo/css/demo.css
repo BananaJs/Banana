@@ -12,12 +12,25 @@ body {
 	background-color:#a58266;	 
 }
 
+.BPage{
+	font-family:Helvetica, Arial, sans-serif;
+	background-color:transparent !important;
+}
+
+
+a{
+	color: white;
+	text-decoration:none;
+}
+
 
 .template{
 	background-color:a58266;
 }
 
 .topBar{height:50px; background-color:#b99870;width:100%;}
+
+.logo{width:48px; float:left;height:44px; float:left;margin-left:4px;margin-top:2px;background-image: url(../images/banana.png);}
 
 .pageContent{
 	padding: 10px;
@@ -40,7 +53,7 @@ body {
 	bottom: 0;
 	margin:0px;
 	float:left;
-	margin-top:250px;	
+	margin-top:350px;	
 }
 
 .title{
@@ -56,6 +69,7 @@ body {
 .subTitle {
 	font:1.5em/1.5em 'Chivo', Helvetica, Arial, sans-serif;
 	color:#333333;
+	float:left;
 }
 
 
@@ -71,8 +85,8 @@ body {
 .menuitem{
 	
 	border-radius:5px;
-	margin:10px;
-	margin-right:40px;
+	margin:30px;
+	float:left;
 	cursor:pointer;
 }
 
@@ -121,35 +135,6 @@ letter-spacing: 2.75px;
 
 
 
-
-
-
-
-
-
-.BPage{
-	font-family:Helvetica, Arial, sans-serif;
-	background-color:transparent !important;
-}
-
-.BPageTemplate{}
-
-.header:link {
-	color:red;
-}
-
-.header:visited{
-	color:blue;
-}
-.Header {
-	margin:10px;
-	margin-bottom:2px;
-}
-
-.toppanel {
-	width: 100%;
-}
-
 .headerButtons{
 	
 	float:right;
@@ -157,179 +142,132 @@ letter-spacing: 2.75px;
 	margin-top:15px;
 }
 
-.HomeLink{
-color:white;
-font-weight:bold;
-text-decoration:none;
-text-transform:uppercase;
-letter-spacing:-0.05em;
-font-size:2.3em;
 
-}
 
-.frameworktitle {
-	margin-left:10px;
-	margin-top:10px;
-	font-size:17px;
-	font:1.5em/1.5em 'Chivo', Helvetica, Arial, sans-serif;
-	color:black;
-}
 
-.BDemoHome{
-	
-}
 
-.HomeTiles{
-	background-color:transparent;
-}
 
-.HeaderText {
-	float: left;
-	font-size: 16px;
-	margin: 5px;
+.exampleTitle{
 	color:white;
-	color: #341570;
-	font-weight: bold
-}
-
-.backgroundPanel{
+	font-weight:bold;
+	text-decoration:none;
+	text-transform:uppercase;
+	letter-spacing:-0.05em;
+	font-size:2.1em;
+	margin-bottom:30px;
+	float:left;
+	width:100%;
+	font:1.5em/1.5em 'Chivo', Helvetica, Arial, sans-serif;
+	color:#333333;
 	
-	
-}
-.MainContainer {
-	padding: 2px;
-	top:50px;
-	z-index:3; 
-	border: 1px solid #999999;
-	border-radius: 15px;
-	position:absolute;
-	width: 70%;
-	left: 0;
-	right: 0;
-	margin: auto;
-	height: auto;
-	margin-top: 20px;
-	border-bottom-left-radius: 0px;
 }
 
-.TextPanel {
-	font-size: 19px;
-	border: 2px solid #666666;
-	background-color: #eeeeee;
-	padding: 2px;
-	margin: 3px;
-	border-radius: 4px;
-}
+.exampleTile{
 
-.TextPanelTitle {
-	color: #444444;
-	font-size: 16px;
-	margin-top: 5px;
-	margin-bottom: 10px;
-	font-weight: bold;
-}
-
-.TextPanelText {
-	color: #555555;
-}
-
-.buttonLabel {
-	position: absolute;
-	font-size: 20px;
-	display: block;
-	margin-top: 30px;
-	margin-left: 10px;
-	color: #444444;
-}
-
-.button {
-	position: relative;
-	height: 100px;
-	background-color: #eeeeee;
-	margin: 3px;
-	border: 1px solid #666666;
-	border-radius: 4px;
-}
-
-.button:hover {
-	background-color: lightblue;
-}
-
-.TopButtonContainer {
-	margin-top: 4px;
-	width: 100%;
-	height: 35px;
-}
-
-.TopButtonContainer .BButton {
-	background-color: #5770C2;
-	color: white;
-	font-size: 18px;
-	margin-right: 4px;
-	border: 2px solid #555555;
-	text-align: center;
-	width: 175px;
-	float: left;
-	background-image: none;
-}
-
-.TopButtonContainer .BButton:hover {
-	background-color: #C25765;
-}
-
-
-.IntroLeft {
-	width: 100%;
-	display: inline-block;
-}
-
-.IntroRight {
-	width: 0%;
-	background-color: red;
-	display: inline-block;
-}
-
-
-.rightpanel {
-	width: 60%;
-	float: left;
-	background-color: #444444;
-	border-bottom-right-radius: 10px;
-	border-top-right-radius: 10px;
-	border-top-left-radius: 10px;
-}
-
-.leftpanel {
-	width: 40%;
-	background-color: #777777;
-	float: left;
-}
-
-.buttonPanel {
-	width: auto;
-	border-bottom-right-radius: 10px;
-	border-top-right-radius: 10px;
-	border-top-left-radius: 10px;
-	border: 5px solid #888888;
-}
-
-
-.frameworkexpl {
+	border-radius: 3px;
+	margin-bottom:4px;
+	padding:4px;
+	color:white;
+	text-align:left;
+	font-size:15px;
+	font-weight:bold;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	margin-right: 20px;
 }
 
-.bottom {
-	left: 0;
-	right: 0;
-	padding: 20px;
-	border-top: 0px solid red;
-	margin: 0px;
-	clear: left;
-	border-radius: 0 px;
+.exampleTile:hover{
+cursor:pointer;
+background-color:#866a53;
 }
+
+
+.controlOverviewPanel{
+	margin-left:5px;
+	background-color:
+	color:black;
+	
+}
+
+.toppanelExamples{
+	margin-bottom:4px;
+}
+
+.leftPanelExamples{
+	width:20%;
+	float:left;
+	padding-bottom:50px;
+} 
+.rightpanelExamples{
+	
+	width:70%;
+	float:left;
+}
+
+.borderPanel{
+	
+	border-radius: 3px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-bottom:20px;
+}
+
+.controlOverviewtitleContainer
+{	
+	padding:4px;
+	font-weight:bold;
+	background-color:#b99870;
+	color:white;
+	font:1.1em 'Chivo', Helvetica, Arial, sans-serif;
+	font-weight:bold;
+	text-decoration:none;
+	letter-spacing:-0.05em;
+}
+
+
+.controlOverview{
+	color:#111111;
+	font-size:14px;
+	letter-spacing:0.09em;
+}
+
+
+
+.controlOverviewPanel input,select{
+
+}
+
+
+.controlOverviewtitle{
+	float:left;
+}
+
+.controlOverViewShowCodeButton{
+
+line-height:12px;
+height:24px;
+float:right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -347,161 +285,9 @@ ul {
 
 
 
-.menusub {
-	letter-spacing: 2.75px;
-	cursor: pointer;
-	text-align: center;
-	padding: 10px;
-	border-radius: 5px;
-	margin: 4px;
-	margin-top: 4px;
-	margin-bottom: 4px;
-	border: 2px solid #888888;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-background-image: linear-gradient(bottom, rgb(51,51,51) 31%, rgb(68,68,68) 60%);
-background-image: -o-linear-gradient(bottom, rgb(51,51,51) 31%, rgb(68,68,68) 60%);
-background-image: -moz-linear-gradient(bottom, rgb(51,51,51) 31%, rgb(68,68,68) 60%);
-background-image: -webkit-linear-gradient(bottom, rgb(51,51,51) 31%, rgb(68,68,68) 60%);
-background-image: -ms-linear-gradient(bottom, rgb(51,51,51) 31%, rgb(68,68,68) 60%);
-
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0.31, rgb(51,51,51)),
-	color-stop(0.6, rgb(68,68,68))
-);
-}
-
-.menusub2 {
-
-}
-
-.menusub3 {
-
-}
-
-
-.menusub:hover {
-	width:100%;
-	
-	color:black !important;
-	background-image: linear-gradient(bottom, rgb(255,119,0) 8%, rgb(214,214,79) 60%);
-background-image: -o-linear-gradient(bottom, rgb(255,119,0) 8%, rgb(214,214,79) 60%);
-background-image: -moz-linear-gradient(bottom, rgb(255,119,0) 8%, rgb(214,214,79) 60%);
-background-image: -webkit-linear-gradient(bottom, rgb(255,119,0) 8%, rgb(214,214,79) 60%);
-background-image: -ms-linear-gradient(bottom, rgb(255,119,0) 8%, rgb(214,214,79) 60%);
-
-background-image: -webkit-gradient(
-	linear,
-	left bottom,
-	left top,
-	color-stop(0.08, rgb(255,119,0)),
-	color-stop(0.6, rgb(214,214,79))
-);
-}
-
-.cube {
-	width: 30%;
-	height: 120px;
-	background-color: #444444;
-	border: 1px solid #999999;
-	margin: 10px;
-	float: left;
-}
-
-a{
-	color: white;
-	text-decoration:none;
-}
-
-.menusublink {
-	font-size: 18px;
-}
 
 
 
-.leftPanelExamples{
-	width:30%;
-	float:left;
-	padding-bottom:50px;
-} 
-.rightpanelExamples{
-	
-	width:70%;
-	float:left;
-}
-
-.borderPanel{
-	border:4px solid #999999;
-	border-radius: 3px;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	margin-bottom:5px;
-} 
-
-.controlOverviewPanel{
-	margin-left:5px;
-	background-color:#333333;
-}
-
-.controlOverview{
-	
-}
-
-.controlOverviewPanel .BLabelDecorator{
-	font-size:16px;
-	color:#eeeeee;
-}
-
-.controlOverviewPanel input,select{
-	
-}
-
-.controlOverviewtitleContainer
-{	
-	font-size:15px;
-	padding:4px;
-	border-bottom: 4px solid #999999;
-	background-color:#222222;
-	font-weight:bold;
-	font-variant:small-caps;
-	color:white;
-}
-
-.controlOverviewtitle{
-	float:left;
-}
-
-.controlOverViewShowCodeButton{
-
-line-height:12px;
-height:20px;
-float:right;
-}
-
-.controlOverViewShowCodeButton input{
-}
- 
-.exampleTile{
-	border: 1px solid #555555;
-	border-radius: 3px;
-	margin:4px;
-	padding:4px;
-	color:white;
-	background-color:#222222;
-	text-align:left;
-	font-size:15px;
-	font-weight:bold;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-.exampleTile:hover{cursor:pointer;background-color:#222222;border:1px solid lightblue;}
 
 
 .ExampleTileSimple2 .BDataGridTilePlaceHolder{
@@ -510,7 +296,7 @@ float:right;
 
 .ExampleTileSimple2ItemRender{
 	padding:2px;
-	border:1px solid white;
+	border:1px solid #c9b49a;
 	cursor:pointer;
 	margin:2px;
 }
@@ -518,7 +304,7 @@ float:right;
 .ExampleTileSimple2ItemRender2{
 	padding:2px;
 	border-radius:8px;
-	border:2px solid white;
+	border:2px solid #c9b49a;
 	margin:1px;
 }
 
@@ -531,15 +317,16 @@ float:right;
 	height:50px;
 	margin:2px;
 	float:left;
-	border:1px solid lightblue;
+	border:1px solid #c9b49a;
+	background-color:#a68e72;
 }
 
 .ExampleTileSimple2ItemRenderSelected{
-	background-color:#999999;
+	background-color:#288cc6;
 }
 
 .ExampleTileSimple2ItemRenderMouseover{
-	border:1px dotted #999999
+	border:1px dotted white;
 }
 
 .BValidatorControlValidated{
@@ -548,25 +335,66 @@ float:right;
 }
 
 .BModal{
-	border:4px solid #666666;
+	border:1px solid white;
 	width:60%;
+	background-color:#b99870;
 }
 
 .BModalControlBar {
 height: 20px;
 width: 100%;
-background-color: #333333;
-border-bottom: 4px solid #666;
-font-size:13px;
+color:white;
+
+font-size:15px;
 }
 
 .codeModalText{
 	font-size:11px;
 }
 
-
-
+.BModalCover{
+	background-color:#524133;
+	opacity:0.7;
+	filter:alpha(opacity=70); 
+}
 .examplesCustomItemRender{
-	padding-left:0;padding-top:0;background-color:#555555;
+	padding-left:0;padding-top:0;
+}
+
+
+
+
+
+.BDataGridTreeEmptyNode{
+	background-image: url(../../images/nodeempty.png);
+}
+.BDataGridTreeLoader{
+	background-image: url(../../images/ajax-loader-small.gif);
+}
+.BDataGridTreeLoadNextButton{}
+.BDataGridTreeLoadNextButtonRoot{}
+.BDataGridTreeNodeClosed{
+	background-image: url(../../images/nodeclosed.png);
+}
+.BDataGridTreeNodeClosed:hover{
+	background-image: url(../../images/nodeclosedmouseover.png);
+}
+.BDataGridTreeNodeOpen{
+	background-image: url(../../images/nodeopen.png);
+}
+.BDataGridTreeNodeOpen:hover{
+	background-image: url(../../images/nodeopenmouseover.png);
+}
+.BDataGridTreeNodeEmpty{
+	background-image: url(../images/../nodeempty.png);
+}
+.BDataGridTreeItemRender{}
+.BDataGridTreeItemRender:hover{
+	border:1px solid lightblue;
+}
+.BDataGridTreeItemRenderSelected{
+	border:1px solid white; 
+	background: -moz-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 0.2));
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255, 0.2));
 }
 
