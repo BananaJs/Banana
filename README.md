@@ -43,7 +43,7 @@ To build you need GNU make, Java, and Python.
 2. Another way is to just use the minified application.min.js in a new or existing project.
 The minified version got all functionalities of the Banana framework.
 
-Read wiki on https://github.com/vivesta/Banana/wiki for more installation help
+See http://www.bananajs.com or Read wiki on https://github.com/vivesta/Banana/wiki for more installation help
 
 Contributing
 ------------
