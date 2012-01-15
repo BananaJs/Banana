@@ -1,5 +1,5 @@
 body {
-	letter-spacing: .05px;
+	letter-spacing: .09px;
 	font-size: 14px;
 	font-weight: 200;
 	letter-spacing: 0.75px;
@@ -21,6 +21,10 @@ body {
 a{
 	color: white;
 	text-decoration:none;
+}
+
+a:hover{
+	color:#8ce0a5;
 }
 
 
@@ -53,7 +57,7 @@ a{
 	bottom: 0;
 	margin:0px;
 	float:left;
-	margin-top:350px;	
+	margin-top:550px;	
 }
 
 .title{
@@ -192,6 +196,11 @@ background-color:#866a53;
 	margin-bottom:30px;
 }
 
+.centerpanelExamples{
+	margin-bottom:4px;
+	margin-bottom:30px;
+}
+
 .leftPanelExamples{
 	width:20%;
 	float:left;
@@ -214,11 +223,11 @@ background-color:#866a53;
 
 .controlOverviewtitleContainer
 {	
-	padding:4px;
+	padding:2px;
 	font-weight:bold;
-	background-color:#b99870;
+background-color:#90725a;
 	color:white;
-	font:1.1em 'Chivo', Helvetica, Arial, sans-serif;
+	font:1.0	em 'Chivo', Helvetica, Arial, sans-serif;
 	font-weight:bold;
 	text-decoration:none;
 	letter-spacing:-0.05em;
@@ -245,7 +254,8 @@ background-color:#866a53;
 .controlOverViewShowCodeButton{
 
 line-height:12px;
-height:24px;
+height:22px;
+cursor:pointer;
 float:right;
 }
 
@@ -327,6 +337,15 @@ ul {
 .ExampleTileSimple2ItemRenderMouseover{
 	border:1px dotted white;
 }
+
+
+.downloadIntroText{
+	margin-top:20px;
+	letter-spacing:0.09em;
+	font:1.1em/1.1em 'Chivo', Helvetica, Arial, sans-serif;
+}
+
+
 
 .BValidatorControlValidated{
 	border:1px solid green;

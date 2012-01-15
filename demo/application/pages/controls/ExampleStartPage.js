@@ -8,7 +8,7 @@ namespace('Application.Controls.Examples').ExampleStartPage = Application.Contro
 	{
 		var panel = new Banana.Controls.Panel().setStyle('line-height:20px;padding:4px;');
 		
-		panel.addControl("To view examples click on one of the categories left. <br> Note that the pages you are currently viewing are completely made in Banana.");
+		panel.addControl("To view examples click on one of the categories left.");
 		
 		this.addControl(panel);
 	}

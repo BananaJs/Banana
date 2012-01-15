@@ -27,6 +27,7 @@ namespace('Application.Pages.PageTemplates').PageTemplate = Banana.PageTemplate.
 		this.addControl(content);
 		
 		content.addControl(this.content);
+		content.addControl('<div style="clear:both;"></div>');
 		
 		var footer = new Banana.Controls.Panel().addCssClass("footer");
 		footer.addControl("Banana Framework 2011");
@@ -66,33 +67,33 @@ namespace('Application.Pages.PageTemplates').PageTemplate = Banana.PageTemplate.
 		link.addControl("Download");
 		link.bind('click',this.getProxy(function(e){
 			
-			Banana.Application.loadPage("Examples");
+			Banana.Application.loadPage("Download");
 			e.preventDefault();
 		}));
-		link.setHref("#section=Examples");
+		link.setHref("#section=Download");
 		linkPanel.addControl(link);
 		
 		var link = new Banana.Controls.Link();
 		link.addCssClass("toplink");
-		link.addControl("Documentation");
+		link.addControl("Features");
 		link.bind('click',this.getProxy(function(e){
 			
-			Banana.Application.loadPage("Examples");
+			Banana.Application.loadPage("Features");
 			e.preventDefault();
 		}));
-		link.setHref("#section=Examples");
+		link.setHref("#section=Features");
 		linkPanel.addControl(link);		
 		
 		
 		var link = new Banana.Controls.Link();
 		link.addCssClass("toplink");
-		link.addControl("Contact");
+		link.addControl("About");
 		link.bind('click',this.getProxy(function(e){
 			
-			Banana.Application.loadPage("Contact");
+			Banana.Application.loadPage("About");
 			e.preventDefault();
 		}));
-		link.setHref("#section=Contact");
+		link.setHref("#section=About");
 		linkPanel.addControl(link);	
 	},
 	

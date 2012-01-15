@@ -13,8 +13,6 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 
 	createComponents: function()
 	{
-		this.setStyle('background-color:red;');
-		
 		this.top= new Banana.Controls.Panel();
 		this.addControl(this.top);
 		
@@ -27,28 +25,6 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 		this.createTitle();
 		this.createMenu();
 		this.createSubText();
-		
-		
-		
-		return;
-		this.top= new Banana.Controls.Panel();
-		this.left = new Banana.Controls.Panel();
-		this.right = new Banana.Controls.Panel();
-		
-		this.top.addCssClass("toppanel");
-		this.left.addCssClass("leftpanel");
-		this.right.addCssClass("rightpanel");
-		
-		this.addControl(this.top);
-		this.addControl(this.center);
-		this.addControl(this.left);
-		this.addControl(this.right);
-		
-		this.createTitle();
-		
-		this.createSubs();
-		
-		this.createRands();
 	},
 	
 	createTitle : function()
@@ -59,7 +35,7 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 		this.top.addControl(title);
 		
 		var title = new Banana.Controls.Label();
-		title.setData("An opensource component based user interface toolkit");
+		title.setData("Free opensource component based user interface toolkit");
 		title.addCssClass("subTitle")
 		
 		this.top.addControl(title);

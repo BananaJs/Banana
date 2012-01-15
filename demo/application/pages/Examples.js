@@ -69,6 +69,12 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 		  			             {"title":"Tree datagrid dynamic data","example":"TreeDataGridDynamic"},
 		  			             {"title":"Tree datagrid checkbox","example":"ExampleTreeDataGrid2"}
 		  			            ]
+				},
+	  			{'title':'Upload',
+		  			 "urlEntry":"UploadControls",
+		  			 "examples":[
+		  			             {"title":"Xhr Chunked Upload","example":"ExampleUpload"}
+		  			            ]
 				}
 			];
 		
@@ -85,12 +91,6 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 				  			 "urlEntry":"DatasetControls",
 				  			 "examples":[
 				  			             {"title":"Dataset example","example":"ExampleDataset"}
-				  			            ]
-						    },
-			  			{'title':'Upload',
-				  			 "urlEntry":"UploadControls",
-				  			 "examples":[
-				  			             {"title":"Xhr Chunked Upload","example":"ExampleUpload"}
 				  			            ]
 						    }
 					];
@@ -172,33 +172,7 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 
 		this.left.addControl(grid);		
 	},
-	
-	createControl3Tiles : function()
-	{	
-		grid = new Banana.Controls.DataGrid();
-		grid.addCssClass("borderPanel");
-		
-		var listRender = new Banana.Controls.DataGridTileListRender()
-		listRender.setPlaceHolderWidth("100%");
-		listRender.setItemRender(function(){return new Application.Controls.Examples.DataGridTileItemRender()});
-		
-		grid.setListRender(listRender);
-		
-		var content = [
-			{'title':'Dynamic rendering',"type":"Validation"}
-			];
-		
-		
-		//invoked after clicking on a item. this is triggered by the itemrender itself
-		listRender.bind('onItemClick',this.getProxy(function(e,type){
-			
-			this.createControlOverview(type);
-		}));
-		
-		grid.setDataSource(content);	
 
-		this.left.addControl(grid);		
-	},
 	
 	/**
 	 * @param {String} type of the controloverview
