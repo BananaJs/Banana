@@ -16,7 +16,7 @@ namespace('Banana.Controls').UnorderedList = Banana.Controls.DataControl.extend(
 	 * @constructs
 	 * @extends Banana.Controls.DataControl
 	 */
-	init : function(mask)
+	init : function()
 	{
 		this._super();
 	}
