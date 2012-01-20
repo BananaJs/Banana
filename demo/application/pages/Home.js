@@ -25,6 +25,7 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 		this.createTitle();
 		this.createMenu();
 		this.createSubText();
+
 	},
 	
 	createTitle : function()
@@ -44,7 +45,7 @@ namespace('Application.Pages').Home = Application.Controls.Examples.DemoPage.ext
 	createMenu : function()
 	{
 		var datasource = [
-			                 {'iconcss':'menuExample',"section":"Examples"},{'iconcss':'menuDownload',"section":'Download'},{'iconcss':'menuDocumentation',"section":"Documentation"}
+			                 {'iconcss':'menuExample',"section":"Examples"},{'iconcss':'menuDownload',"section":'Download'},{'iconcss':'menuDocumentation',"link":"/docs"}
 			                  ];
 			
 		grid = new Banana.Controls.DataGrid();
@@ -101,7 +102,15 @@ namespace('Application.Controls.Demo').MenuItemRender =  Banana.Controls.DataGri
 	createComponents : function()
 	{
 		var cube = new Banana.Controls.Link();
-		cube.setHref("#section="+this.data.section);
+		
+		if (this.data.section)
+		{
+			cube.setHref("#section="+this.data.section);
+		}
+		else
+		{
+			cube.setHref(this.data.link);
+		}
 		this.addControl(cube);
 		cube.addCssClass("menuitem");
 		

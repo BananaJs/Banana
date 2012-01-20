@@ -11,6 +11,7 @@ namespace('Application.Pages').About = Banana.Page.extend({
 		this.addControl(this.center);
 		
 		this.createTitle();
+	
 		this.createAbout();
 		
 
@@ -28,13 +29,11 @@ namespace('Application.Pages').About = Banana.Page.extend({
 	createAbout : function()
 	{
 		var text = new Banana.Controls.Panel();
-		text.addControl("Banana is an evolutionary project. Original design started in 2008 by Gillis Haasnoot and Maarten van Schaijk at <a href='http://vivesta.com'>Vivesta</a>. Currently running as various business applications at different companies.<br><br> If you have any questions mail gillis.haasnoot@gmail.com. Code contributions are welcome at <a href='https://github.com/BananaJs/Banana'>github</a>");
+		text.addControl("Banana is an evolutionary project. Original design started in 2008 by Gillis Haasnoot and Maarten van Schaijk. Currently running various business applications at different companies.<br><br> If you have any questions mail gillis.haasnoot@gmail.com. Code contributions are welcome at <a href='https://github.com/BananaJs/Banana'>github</a>");
 		
 		text.addCssClass("downloadIntroText");
 
-		
-		this.addControl(text);
-		
-		
+
+		this.addControl(text);	
 	}
 });
