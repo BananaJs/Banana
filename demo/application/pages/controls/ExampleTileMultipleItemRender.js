@@ -55,7 +55,7 @@ namespace('Application.Controls.Examples').ExampleTileCustomItemRenderControl2 =
 	createComponents : function()
 	{
 		this.panel = new Banana.Controls.Panel();
-		this.panel.setStyle("border:2px solid white;margin:2px;font-size:10px;height:100px;");
+		this.panel.addCssClass("ExampleTileSimple3ItemRender1")
 		
 		var ix = new Banana.Controls.Panel();
 		
@@ -130,7 +130,7 @@ namespace('Application.Controls.Examples').ExampleTileCustomItemRenderControl3 =
 	createComponents : function()
 	{
 		this.panel = new Banana.Controls.Panel();
-		this.panel.setStyle("border:2px solid white;margin:2px;font-size:10px;height:100px;");
+		this.panel.addCssClass("ExampleTileSimple3ItemRender2")
 		
 		var ix = new Banana.Controls.Panel();
 		

@@ -9,7 +9,7 @@ body {
 	margin: 0;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-color:#a58266;	 
+	background-color:#408BDB;	 
 }
 
 .BPage{
@@ -32,7 +32,7 @@ a:hover{
 	background-color:a58266;
 }
 
-.topBar{height:50px; background-color:#b99870;width:100%;}
+.topBar{height:50px; background-color:#264E78;width:100%;}
 
 .logo{width:48px; float:left;height:44px; float:left;margin-left:4px;margin-top:2px;background-image: url(../images/banana.png);}
 
@@ -95,7 +95,7 @@ a:hover{
 }
 
 .menuitemHover{
-	background-color:#b99870;
+	background-color:#264E78;
 }
 
 .menuExample{
@@ -157,10 +157,11 @@ letter-spacing: 2.75px;
 	text-decoration:none;
 	text-transform:uppercase;
 	letter-spacing:-0.05em;
-	font-size:2.1em;
+	font-size:2.2em;
+	font-weight:bold;
 	width:100%;
-	font:1.5em/1.5em 'Chivo', Helvetica, Arial, sans-serif;
-	color:#333333;
+	
+	color:white;
 	
 }
 
@@ -180,7 +181,7 @@ letter-spacing: 2.75px;
 
 .exampleTile:hover{
 cursor:pointer;
-background-color:#866a53;
+background-color:#264E78;
 }
 
 
@@ -225,7 +226,7 @@ background-color:#866a53;
 {	
 	padding:2px;
 	font-weight:bold;
-background-color:#90725a;
+background-color:#264E78;
 	color:white;
 	font:1.0	em 'Chivo', Helvetica, Arial, sans-serif;
 	font-weight:bold;
@@ -305,16 +306,42 @@ ul {
 
 .ExampleTileSimple2ItemRender{
 	padding:2px;
+	
 	border:1px solid #c9b49a;
+	background-color:#E01B74;
+	color:white;
+	height:30px;
+	border-radius:5px;
 	cursor:pointer;
 	margin:2px;
+	padding-top:13px;
+	letter-spacing:-0.05em;
+	text-align:center;
+	font-size:1.6em;
 }
 
 .ExampleTileSimple2ItemRender2{
 	padding:2px;
+	background-color:#E0491B;
 	border-radius:8px;
 	border:2px solid #c9b49a;
-	margin:1px;
+	margin-top:4px;
+}
+
+.ExampleTileSimple3ItemRender1{
+	border:2px solid white;
+	margin:2px;
+	font-size:10px;
+	height:100px;
+	background-color:#E0D91B;
+}
+
+.ExampleTileSimple3ItemRender2{
+	border:2px solid white;
+	margin:2px;
+	font-size:10px;
+	height:100px;
+	background-color:#E01B1E;
 }
 
 .ExampleTileSimple2ItemRenderBox2{
@@ -355,7 +382,7 @@ ul {
 .BModal{
 	border:1px solid white;
 	width:60%;
-	background-color:#b99870;
+	background-color:#B9D1EB;
 }
 
 .BModalControlBar {

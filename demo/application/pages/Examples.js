@@ -90,7 +90,7 @@ namespace('Application.Pages').Examples = Application.Controls.Examples.DemoPage
 			  			{'title':'Data binding',
 				  			 "urlEntry":"DatasetControls",
 				  			 "examples":[
-				  			             {"title":"Dataset example","example":"ExampleDataset"}
+				  			             {"title":"Dataset datagrid example","example":"ExampleDataset"}
 				  			            ]
 						    }
 					];
