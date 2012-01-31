@@ -282,7 +282,7 @@
  * Window
  */
 .BWindow {
-	border: 1px solid #999999;
+	border: 1px solid #555555;
 	background-color:#222222;
 	box-shadow: rgba(255, 255, 255, 0.4) 1px 1px;
 }
