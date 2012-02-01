@@ -205,17 +205,17 @@
 * Datagrid control panel
 *
 */
-.BDataGridControlPanel{
-	background-color:#444444;
-}
 .BDataGridControlPanelTop{
 	border-bottom:1px solid #555555;
+	background-color:#444444;
 }
 .BDataGridControlPanelCenter{
 	border-bottom:1px solid #555555;
+	background-color:#444444;
 }
 .BDataGridControlPanelBottom{
 	border-bottom:1px solid #555555;
+	background-color:#444444;
 }
 .BDataGridControlPanelBottom .BButton{}
 .BDataGridControlPanelBottom .BDropDown{}
