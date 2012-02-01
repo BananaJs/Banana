@@ -23,6 +23,7 @@ namespace('Banana.Controls').DataGridControlPanel = Banana.Control.extend(
 	init : function()
 	{
 		this._super();
+		this.addCssClass("BDataGridControlPanel");
 		this.createLayout();
 		this.buttons = [];
 		this.topButtons = [];
