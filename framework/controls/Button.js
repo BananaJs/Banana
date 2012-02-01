@@ -42,6 +42,8 @@ namespace('Banana.Controls').Button = Banana.Controls.Panel.extend(
 				e.stopImmediatePropagation();
 				e.stopPropagation();//needed?? dont think so
 			}
+
+			return false;
 		}));
 	},
 	
