@@ -61,7 +61,11 @@ namespace('Banana.Controls').DataGridControlPanel = Banana.Control.extend(
 			else if (filters[i] instanceof Banana.Controls.DataGridDateFilter)
 			{
 				this.setDateFilter(filters[i]);
-			}			
+			}
+			else if (filters[i] instanceof Banana.Controls.DataGridCheckboxFilter)
+			{
+				this.setCheckboxFilter(filters[i]);
+			}
 			else
 			{
 				log.error('Filter ' + filters[i] + ' not supported by datagrid control panel!');
@@ -85,6 +89,16 @@ namespace('Banana.Controls').DataGridControlPanel = Banana.Control.extend(
 	setPagerFilter : function(pager)
 	{
 		this.bottom.addControl(pager);
+	},
+	
+	/**
+	 * sets checkbox filter
+	 * @param {Banana.Controls.DataGridCheckboxFilter} filter
+	 */
+	setCheckboxFilter : function(filter)
+	{
+		filter.setStyle('float:left;');
+		this.top.addControl(filter);
 	},
 	
 	/**
