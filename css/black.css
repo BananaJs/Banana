@@ -205,6 +205,9 @@
 * Datagrid control panel
 *
 */
+.BDataGridControlPanel{
+	background-color:#444444;
+}
 .BDataGridControlPanelTop{
 	border-bottom:1px solid #555555;
 }
