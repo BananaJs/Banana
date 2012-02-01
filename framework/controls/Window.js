@@ -45,7 +45,7 @@ namespace('Banana.Controls').Window = Banana.Controls.Panel.extend(
 		this.content.addCssClass('BWindowContent');
 		this.addControl(this.content, true);
 		
-		this.addControl('<div style="height:4px;clear:both;font-size:1px;">&nbsp;</div>', true);
+		this.addControl('<div style="clear:both;"></div>');
 	},
 
 	/**
