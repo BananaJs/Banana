@@ -293,7 +293,7 @@
 .BWindow .BWindowHeader .BWindowSwitch {}
 .BWindow .BWindowHeader .BWindowTitle {}
 .BWindow .BWindowContent {
-	background-color:#333333;
+	background-color:#222222;
 	border: 1px solid #666666;
 }
 
