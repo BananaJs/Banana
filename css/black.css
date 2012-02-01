@@ -207,12 +207,15 @@
 */
 .BDataGridControlPanelTop{
 	border-bottom:1px solid #555555;
+	background-color:#444444;
 }
 .BDataGridControlPanelCenter{
 	border-bottom:1px solid #555555;
+	background-color:#444444;
 }
 .BDataGridControlPanelBottom{
 	border-bottom:1px solid #555555;
+	background-color:#444444;
 }
 .BDataGridControlPanelBottom .BButton{}
 .BDataGridControlPanelBottom .BDropDown{}
@@ -282,18 +285,18 @@
  * Window
  */
 .BWindow {
-	border: 1px solid #999999;
+	border: 1px solid #555555;
 	background-color:#222222;
 	box-shadow: rgba(255, 255, 255, 0.4) 1px 1px;
 }
 .BWindow .BWindowHeader {
-	background-color:#222222; 
+	background-color:#444444; 
 	font-weight: bold;
 }
 .BWindow .BWindowHeader .BWindowSwitch {}
 .BWindow .BWindowHeader .BWindowTitle {}
 .BWindow .BWindowContent {
-	background-color:#333333;
+	background-color:#222222;
 	border: 1px solid #666666;
 }
 

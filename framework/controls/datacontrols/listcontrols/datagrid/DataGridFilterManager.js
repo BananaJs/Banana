@@ -304,7 +304,7 @@ namespace('Banana.Controls').DataGridFilterManager = Banana.Control.extend(
 	 * @param {event} e
 	 * @ignore
 	 */
-	filterDataChanged : function(e)
+	filterDataChanged : function(e,dontTriggerChangeEvent)
 	{
 		//empty cache. 
 		this.clearCache();
@@ -320,7 +320,12 @@ namespace('Banana.Controls').DataGridFilterManager = Banana.Control.extend(
 		else
 		{
 			this.registerFilterValues(e.currentTarget);
-		}		
+		}
+		
+		if (dontTriggerChangeEvent)
+		{
+			return;
+		}
 		this.triggerEvent('filtersChanged',{'data':this.getFilterData(e),'filter':e.currentTarget});		
 	},
 	
