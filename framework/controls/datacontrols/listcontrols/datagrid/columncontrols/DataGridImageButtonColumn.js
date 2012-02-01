@@ -53,7 +53,9 @@ Banana.Controls.DataGridImageButtonColumn.prototype.getControl = function()
 		e.stopPropagation();
 
 		var params = {'commandName':this.commandName,
-				  'index':index};
+				'index':index,
+				'data':this.listRender.datasource[index]
+		};
 
 		this.listRender.triggerEvent('onCommand',params);
 	}));

@@ -35,19 +35,28 @@ Banana.Controls.DataGridButtonColumn.prototype.getControl = function()
 	b.setText('edit');
 	b.bind('click',this.getProxy(function(e)
 	{
-		e.stopPropagation();
-		var row = b.getParent().getParent();
-		var datagrid = row.dataGridOwner;
-
-		//for sake of compatibility -> hack -> in the futre we remove this, 
-		if (!datagrid)
+		function getItemRender(c)
 		{
-			datagrid = this.getListRender();
+			if (c instanceof Banana.Controls.DataGridTableItemRender)
+			{
+				return c;
+			}
+			
+			return getItemRender(c.getParent());
 		}
 		
-		var data = row.getData(); //TODO find a nicer solution
+		var ir = getItemRender(b);
+		
+		var index = this.listRender.getIndexByItemRender(ir);
+		
+		e.stopPropagation();
 
-		datagrid.triggerEvent('onCommand',{'commandName':this.commandName,'data':data});
+		var params = {'commandName':this.commandName,
+				'index':index,
+				'data':this.listRender.datasource[index]
+		};
+
+		this.listRender.triggerEvent('onCommand',params);
 	}));
 
 	return b;
