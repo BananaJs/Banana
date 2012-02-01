@@ -290,7 +290,7 @@
 	box-shadow: rgba(255, 255, 255, 0.4) 1px 1px;
 }
 .BWindow .BWindowHeader {
-	background-color:#333333; 
+	background-color:#444444; 
 	font-weight: bold;
 }
 .BWindow .BWindowHeader .BWindowSwitch {}
