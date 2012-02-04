@@ -1,5 +1,5 @@
 /*
-Copyright (c) <2011>, <Gillis Haasnoot, Maarten van Schaijk>
+Copyright (c) <2011>, <Gillis Haasnoot, Maarten van Schaik>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

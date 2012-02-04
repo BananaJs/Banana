@@ -1,5 +1,5 @@
 /**
- * @author Maarten van Schaijk
+ * @author Maarten van Schaik
  * @package Banana.Util
  * @summary DateTimecode 
  */
@@ -11,7 +11,7 @@ goog.provide('Banana.Util.DateTimecode');
  * Date timecode helper class. Behaves like the regular Date class with timecode support.
  * 
  * Example:
-   var date = new Banana.Util.DateTimecode("25-04-2011 20:23:12:33");
+   var date = new Banana.Util.DateTimecode("25-04-2011 20:23:12:13");
    var tc = date.getTimecode();
    var time = date.getTime(); 
  *
