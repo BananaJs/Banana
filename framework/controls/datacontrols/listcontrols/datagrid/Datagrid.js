@@ -143,6 +143,14 @@ namespace('Banana.Controls').DataGrid = Banana.Controls.ListControl.extend(
 	},
 	
 	/**
+	 * @return {Banana.Controls.DataGridControlPanel}
+	 */
+	getControlPanel : function()
+	{
+		return this.controlPanelHolder.controls[0];
+	},
+	
+	/**
 	 * An empty template is shown when no datasource or empty datasource is inside the datagrid.
 	 * @param {Banana.Controls.UiControl} c
 	 * @return {this} 
