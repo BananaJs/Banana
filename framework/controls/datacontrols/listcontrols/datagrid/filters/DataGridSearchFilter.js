@@ -56,7 +56,7 @@ namespace('Banana.Controls').DataGridSearchFilter = Banana.Controls.TextBox.exte
 			if (!this.preventEvent && !this.untouched)
 			{
 				this.previousSearch = this.getData();
-				this.triggerEvent('filterDataChanged',this.getData())
+				this.triggerEvent('filterDataChanged');
 
 				clearTimeout(this.timer);
 			}
