@@ -223,7 +223,7 @@ namespace('Banana').Application = Banana.Control.extend(
 		}
 		catch(e)
 		{
-			log.error("JQuery is not found. Minimum JQuery 1.6 required.");
+			log.error("JQuery is not found. JQuery required.");
 		}
 		
 		this.settings = settings;
@@ -239,6 +239,11 @@ namespace('Banana').Application = Banana.Control.extend(
 		else
 		{
 			namespace('Banana').Application = this;
+		}
+		
+		if (!settings.pageTemplate)
+		{
+			settings.pageTemplate = "PageTemplate";
 		}
 		
 		if (!settings.paths)
@@ -286,7 +291,7 @@ namespace('Banana').Application = Banana.Control.extend(
 	{
 		if (!this.settings.paths.pageTemplates)
 		{
-			log.error("Warning: Path to page template "+this.settings.pageTemplate+" not specified. Check application settings.")
+			log.warning("Path to page template "+this.settings.pageTemplate+" not specified. Check application settings.")
 			pageTemplateClass = Banana.PageTemplate;
 		}
 		else
