@@ -291,7 +291,6 @@ namespace('Banana').Application = Banana.Control.extend(
 	{
 		if (!this.settings.paths.pageTemplates)
 		{
-			log.warning("Path to page template "+this.settings.pageTemplate+" not specified. Check application settings.")
 			pageTemplateClass = Banana.PageTemplate;
 		}
 		else
