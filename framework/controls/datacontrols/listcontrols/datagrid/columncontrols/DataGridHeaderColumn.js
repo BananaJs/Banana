@@ -35,17 +35,5 @@ namespace('Banana.Controls').DataGridHeaderCol = Banana.Controls.TableHeaderCol.
 		{
 			this.triggerEvent('clicked',this);
 		}));
-
-		this.bind('mouseover',this.getProxy(function()
-		{
-			jQuery('#'+this.getClientId()).css({'background-color':'#999999'});
-
-		}));
-
-		this.bind('mouseout',this.getProxy(function(e)
-		{
-
-			jQuery('#'+this.getClientId()).css({'background-color':''});
-		}));
 	}
 });
