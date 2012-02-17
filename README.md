@@ -10,42 +10,77 @@ Some key features of Banana are:
 
 * 100% Javascript
 * Component driven
-* Fast render engine
+* Event based programming
+* Fast dom render engine
 * Flexible and dynamic
-* Basic control collection
+* History management
+* large control collection
 * Advanced list/item renders
 * Validation
 * Databinding
-* Very customizable
 * JQuery powered
-* Google closure build integration
+* Google Closure build integration
+
+Usage
+------------
+
+There are 2 common ways to use Banana
+
+1. Standalone application
+2. Widget in an existing enviroment
+
+1. Standalone application
+------------
+
+A standalone application means that the entire contents of your application is rendered by Banana framework.
+Banana offers its own paging engine with history management. 
+Sometimes large javascript applications gives developers problems with managing various javascript files spread accross the application. 
+Banana solves this by handling all the file inclusions. This is useful during development. For production enviroments Banana creates a minified js file of the entire application.   
+
+2. Widget in an existing enviroment
+-------------
+
+If you want to decorate your page with features from Banana you can include one or more instances of the Banana application.
+If offers the same functionality as the standalone application. Example is a static rendered webshop enviroment
+with dynamic generated search results.  
 
 Requirements
 ------------
 
-A webbrowser is what you need.
+During development the standalone application needs the following tools:
 
-How to use
+* googlecompiler.jar - for creating dependency files of required js files. 
+* GNU make
+* Java 
+* Python 
+
+Quick installation and usage tour for the standalone application.
 ------------
 
-There are several ways to use the Banana Framework
+1. Download Banana from http://www.bananajs.com or use git and unpack it somewhere locally or on a webserver.  
+2. Go to the application/pages folder in the root and open up Home.js
+3. Enter in the createComponents function "this.addControl("helloworld");" and save your file.
+4. Open up index_debug.html in your browser. Voila your first hello world.
+5. Open index.html. you will get an empty page. Index.html is an example of a production environment and not using the file inclusion stuff. Instead it just used a minified version of your application and Banana Framework. 
+   Run "make release" from your console to create a minified file. Now refresh index_debug.html to see the result.
+6. Create a new file in application/pages lets say "MyPage.js" 
+7. Open up Home.js and copy all the contents to MyPage.js. Change the classname to MyPage. Also change "goog.provide('Application.Pages.Home');" to "goog.provide('Application.Pages.MyPage')";  
+8. Open Application.js in the root and add "goog.require('Application.Pages.MyPage')"
+9. Go to your console and run "make" to create a deps.js file (required to ensure correct inclusion of js files)
+10.Also run "make release" to get the production enviroment working.
+11.Now open either index.html or index_html and change the parameter in the section tag to "MyPage". There you go!
 
-1. Working with dependency list
-Banana uses google closure to build compiled JavaScript files.
-It calculate orderings of script files in dependency order.
-This makes working in large projects a lot easier since all components are
-seperated in different files. During development and testing js files
-are loaded on the fly. For production usages you create a minified version of the
-framework + your files.
-To build you need GNU make, Java, and Python.
+A good reference and starting point for the standalone application is the helloworld_standalone_application in the demos folder.
 
+More information
+------------
 
-2. Another way is to just use the minified application.min.js in a new or existing project.
-The minified version got all functionalities of the Banana framework.
-
-See http://www.bananajs.com or Read wiki on https://github.com/vivesta/Banana/wiki for more installation help
+See http://www.bananajs.com for more information, demo's and references.
 
 Contributing
 ------------
 
-Banana is open source. We are open to user contributions.
+Banana is free, open source and waiting for user contributions. Banana loves to see people creating new controls to enrich
+the library of Banana.
+
+
