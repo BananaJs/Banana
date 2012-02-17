@@ -21,6 +21,7 @@ Some key features of Banana are:
 * JQuery powered
 * Google Closure build integration
 
+
 Usage
 ------------
 
@@ -28,6 +29,7 @@ There are 2 common ways to use Banana
 
 1. Standalone application
 2. Widget in an existing enviroment
+
 
 1. Standalone application
 ------------
@@ -37,12 +39,14 @@ Banana offers its own paging engine with history management.
 Sometimes large javascript applications gives developers problems with managing various javascript files spread accross the application. 
 Banana solves this by handling all the file inclusions. This is useful during development. For production enviroments Banana creates a minified js file of the entire application.   
 
+
 2. Widget in an existing enviroment
 -------------
 
 If you want to decorate your page with features from Banana you can include one or more instances of the Banana application.
 If offers the same functionality as the standalone application. Example is a static rendered webshop enviroment
 with dynamic generated search results.  
+
 
 Requirements
 ------------
@@ -53,6 +57,7 @@ During development the standalone application needs the following tools:
 * GNU make
 * Java 
 * Python 
+
 
 Quick installation and usage tour for the standalone application.
 ------------
@@ -72,15 +77,15 @@ Quick installation and usage tour for the standalone application.
 
 A good reference and starting point for the standalone application is the helloworld_standalone_application in the demos folder.
 
+
 More information
 ------------
 
 See http://www.bananajs.com for more information, demo's and references.
+
 
 Contributing
 ------------
 
 Banana is free, open source and waiting for user contributions. Banana loves to see people creating new controls to enrich
 the library of Banana.
-
-
