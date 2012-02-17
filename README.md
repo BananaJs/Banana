@@ -31,7 +31,7 @@ There are 2 common ways to use Banana
 2. Widget in an existing enviroment
 
 
-1. Standalone application
+Standalone application
 ------------
 
 A standalone application means that the entire contents of your application is rendered by Banana framework.
@@ -40,7 +40,7 @@ Sometimes large javascript applications gives developers problems with managing 
 Banana solves this by handling all the file inclusions. This is useful during development. For production enviroments Banana creates a minified js file of the entire application.   
 
 
-2. Widget in an existing enviroment
+Widget in an existing enviroment
 -------------
 
 If you want to decorate your page with features from Banana you can include one or more instances of the Banana application.
