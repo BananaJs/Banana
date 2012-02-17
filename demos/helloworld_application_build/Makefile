@@ -1,9 +1,9 @@
 
-CLOSUREDIR = ../closure
+CLOSUREDIR = ../../closure
 CALCDEPS = $(CLOSUREDIR)/bin/calcdeps.py
-FRAMEWORKDIR = ../framework
+FRAMEWORKDIR = ../../framework
 APPDIR = application
-BUILDDIR = ../build
+BUILDDIR = ../../build
 
 BANANA=${FRAMEWORKDIR}/Banana.js
 APP=Application.js
@@ -21,6 +21,14 @@ clean :
 	rm -f ${MINIFIED}
 
 deps : deps.js
+
+build/compiler.jar :
+	wget http://closure-compiler.googlecode.com/files/compiler-latest.zip
+#	curl -O http://closure-compiler.googlecode.com/files/compiler-latest.zip
+#	fetch http://closure-compiler.googlecode.com/files/compiler-latest.zip
+#	echo "Don't know how to download files! Please download the Google Closure Compiler manually to the build/ directory."
+	unzip compiler-latest.zip -d build
+	rm compiler-latest.zip
 
 release : ${MINIFIED}
 
