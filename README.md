@@ -62,18 +62,19 @@ During development the standalone application needs the following tools:
 Quick installation and usage tour for the standalone application.
 ------------
 
-1. Download Banana from http://www.bananajs.com or use git and unpack it somewhere locally or on a webserver.  
-2. Go to the application/pages folder in the root and open up Home.js
-3. Enter in the createComponents function "this.addControl("helloworld");" and save your file.
-4. Open up index_debug.html in your browser. Voila your first hello world.
-5. Open index.html. you will get an empty page. Index.html is an example of a production environment and not using the file inclusion stuff. Instead it just used a minified version of your application and Banana Framework. 
+1. Download Banana from http://www.bananajs.com or use git and unpack it somewhere locally or on a webserver. 
+2. from the root folder run make "build/compiler.jar" to install the required google closure compiler. It simply downloads compiler.jar and stores into the build directory.
+3. Go to the application/pages folder in the root and open up Home.js
+4. Enter in the createComponents function "this.addControl("helloworld");" and save your file.
+5. Open up index_debug.html in your browser. Voila your first hello world.
+6. Open index.html. you will get an empty page. Index.html is an example of a production environment and not using the file inclusion stuff. Instead it just used a minified version of your application and Banana Framework. 
    Run "make release" from your console to create a minified file. Now refresh index_debug.html to see the result.
-6. Create a new file in application/pages lets say "MyPage.js" 
-7. Open up Home.js and copy all the contents to MyPage.js. Change the classname to MyPage. Also change "goog.provide('Application.Pages.Home');" to "goog.provide('Application.Pages.MyPage')";  
-8. Open Application.js in the root and add "goog.require('Application.Pages.MyPage')"
-9. Go to your console and run "make" to create a deps.js file (required to ensure correct inclusion of js files)
-10.Also run "make release" to get the production enviroment working.
-11.Now open either index.html or index_html and change the parameter in the section tag to "MyPage". There you go!
+7. Create a new file in application/pages lets say "MyPage.js" 
+8. Open up Home.js and copy all the contents to MyPage.js. Change the classname to MyPage. Also change "goog.provide('Application.Pages.Home');" to "goog.provide('Application.Pages.MyPage')";  
+9. Open Application.js in the root and add "goog.require('Application.Pages.MyPage')"
+10. Go to your console and run "make" to create a deps.js file (required to ensure correct inclusion of js files)
+11.Also run "make release" to get the production enviroment working.
+12.Now open either index.html or index_html and change the parameter in the section tag to "MyPage". There you go!
 
 A good reference and starting point for the standalone application is the helloworld_standalone_application in the demos folder.
 
