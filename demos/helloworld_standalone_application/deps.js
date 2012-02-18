@@ -115,4 +115,4 @@ goog.addDependency("../../framework/3rdparty/jquery.maskedinput-1.2.2.js", ['thi
 goog.addDependency("../../framework/3rdparty/jquery-ui-1.8.16.custom.min.js", [], []);
 goog.addDependency("../../framework/3rdparty/jquery-1.7.1.min.js", [], []);
 goog.addDependency("../../framework/3rdparty/owl-clone.js", ['Banana.thirdParty.OWLClone'], []);
-goog.addDependency("../../demos/helloworld_application_build/application/pages/MyPage.js", ['Application.Pages.MyPage'], []);
+goog.addDependency("../../demos/helloworld_standalone_application/application/pages/MyPage.js", ['Application.Pages.MyPage'], []);

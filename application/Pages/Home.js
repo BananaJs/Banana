@@ -14,6 +14,7 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 	createComponents: function()
 	{
 		//User code here
+		this.addControl("Banana works");
 	},
 	
 	updateDisplay : function()
