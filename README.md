@@ -63,7 +63,7 @@ Quick installation and usage tour for the standalone application.
 ------------
 
 1. Download Banana from http://www.bananajs.com or use git and unpack it somewhere locally or on a webserver. 
-2. from the root folder run make "build/compiler.jar" to install the required google closure compiler. It simply downloads compiler.jar and stores into the build directory.
+2. from the root folder run in a console "make build/compiler.jar" to install the required google closure compiler. It simply downloads compiler.jar and stores into the build directory.
 3. Go to the application/pages folder in the root and open up Home.js
 4. Enter in the createComponents function "this.addControl("helloworld");" and save your file.
 5. Open up index_debug.html in your browser. Voila your first hello world.
