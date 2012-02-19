@@ -352,7 +352,7 @@
 }
 .BTabSliderLink{
 	background-color:#555555;
-	color:white;
+	color:#B0B0B0;
 	border:1px solid #333333;
 	border-radius:5px;
 	font-weight:bold;
@@ -362,6 +362,10 @@
 	border:1px solid #222222;
 	border-radius:5px;
 	background-color:#666666;
+}
+.BTabSliderLinkActive{
+	font-weight:bold;
+	color:white;
 }
 
 /**

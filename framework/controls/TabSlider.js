@@ -194,7 +194,6 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 			linkWrapper.addControl(button);
 
 			button.bind('click',this.getProxy(function(e){
-				
 				this.activatedTab = parseInt(e.data,10);
 				this.repositionPanels(this.slideSpeed);
 				return false;
@@ -270,6 +269,9 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		
 		var contentWidth = this.getDimensions().width;
 		var left = this.activatedTab * contentWidth * -1;
+		
+		jQuery('#'+this.buttonContainer.getClientId()+' .BTabSliderLink').removeClass("BTabSliderLinkActive");
+		jQuery('#'+this.buttonContainer.getClientId()+' .BTabSliderLink:eq('+(parseInt(this.activatedTab)+1)+')').addClass("BTabSliderLinkActive");
 		
 		jQuery("#"+this.contentContainer.getClientId()).animate({'left':left+"px"},{ duration: speed, easing: this.easing, complete:this.getProxy(function(){
 			
