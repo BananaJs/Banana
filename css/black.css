@@ -131,15 +131,15 @@
 	border-top:1px solid #666666;
 	border-bottom:1px solid #666666;
 }
-.BDataGridTableListRender th:last-child { 
-	border-right:1px solid #666666; 
+.BDataGridTableListRender th:first-child { 
+	border-left:none; 
 }
 .BDataGridTableListRender td{
 	border-left:1px solid #666666;
 	border-bottom:1px solid #666666;
 }
-.BDataGridTableListRender td:last-child { 
-	border-right:1px solid #666666; 
+.BDataGridTableListRender td:first-child { 
+	border-left:none; 
 }
 
 .BDataGridTableListRenderRow{
