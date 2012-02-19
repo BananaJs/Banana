@@ -6,7 +6,7 @@
 
 goog.provide('Banana.Controls.Link');
 
-/** @namespace Banana.Controls.Button */
+/** @namespace Banana.Controls.Link */
 namespace('Banana.Controls').Link = Banana.Controls.DataControl.extend(
 /** @lends Banana.Controls.Link.prototype */
 {

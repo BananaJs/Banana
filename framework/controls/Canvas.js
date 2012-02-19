@@ -6,9 +6,7 @@
 goog.provide('Banana.Controls.Canvas');
 goog.require('Banana.UiControl');
 
-/**
- * @namespace Banana.Controls
- */
+/** @namespace Banana.Controls.Canvas */
 namespace('Banana.Controls').Canvas = Banana.UiControl.extend(
 /** @lends Banana.Controls.Canvas.prototype */	
 {
