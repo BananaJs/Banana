@@ -319,6 +319,52 @@
 }
 
 /**
+ * TabSlider
+ *
+ */
+.BTabSlider{}
+.BTabSliderButtonContainer{}
+.BTabSliderContentWrapper{}
+.BTabSliderContentContainer{}
+.BTabSliderContentItemContainer{}
+.BTabSlider table{}
+.BTabSliderlinkWrapper{
+	background-color:#333333;
+}
+.BTabSliderLinkNext{
+
+	background-color:#555555;
+	background-image: url(../images/advance16.png);
+	background-repeat:no-repeat;
+	background-position:center;
+}
+.BTabSliderLinkPrevious{
+	
+	background-color:#555555;
+	background-image: url(../images/advance16.png);
+	background-repeat:no-repeat;
+	background-position:center;
+	-webkit-transform:scaleX(-1);
+    -moz-transform:scaleX(-1);
+    -ms-transform:scaleX(-1);
+    -o-transform:scaleX(-1);
+    transform:scaleX(-1);
+}
+.BTabSliderLink{
+	background-color:#555555;
+	color:white;
+	border:1px solid #333333;
+	border-radius:5px;
+	font-weight:bold;
+	text-decoration:none;
+}
+.BTabSliderLink:hover{
+	border:1px solid #222222;
+	border-radius:5px;
+	background-color:#666666;
+}
+
+/**
  * Loader
  *
  */
