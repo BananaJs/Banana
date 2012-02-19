@@ -127,10 +127,27 @@
 }
 .BDataGridTableListRender th{
 	border-left:1px solid #666666;
+	background-color:#444444;
+	border-top:1px solid #666666;
 	border-bottom:1px solid #666666;
 }
-.BDataGridTableListRenderRow{}
-.BDataGridTableListRenderRowAlt{}
+.BDataGridTableListRender th:last-child { 
+	border-right:1px solid #666666; 
+}
+.BDataGridTableListRender td{
+	border-left:1px solid #666666;
+	border-bottom:1px solid #666666;
+}
+.BDataGridTableListRender td:last-child { 
+	border-right:1px solid #666666; 
+}
+
+.BDataGridTableListRenderRow{
+	background-color:#222222;
+}
+.BDataGridTableListRenderRowAlt{
+	background-color:#262626;
+}
 .BDataGridTableListRenderSelected{
 	background-color:#777777;
 }
