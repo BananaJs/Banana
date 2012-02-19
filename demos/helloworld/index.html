@@ -20,7 +20,7 @@
 		<script>
 
 		//create a page body
-		namespace('Application.Pages').MyPage = Banana.Page.extend({
+		var widget = Banana.Page.extend({
 
 		        createComponents : function()
 		        {
@@ -34,14 +34,10 @@
 			var applicationParameters = {};
 			applicationParameters.renderTarget = 'target';//the id of the div where the application will be rendered in
 			applicationParameters.imagedir ='../../images';
-			applicationParameters.defaultSection="MyPage";
-			applicationParameters.pageTemplate="PageTemplate";
-			applicationParameters.paths = {};
 
-			applicationParameters.paths.pages = "Application.Pages";
-			applicationParameters.paths.pageTemplates = "Application.Pages.PageTemplates";
-		var app = new Banana.Application(applicationParameters);
-		app.run();
+
+		    var app = new Banana.Application(applicationParameters);
+	     	app.run(new widget());
 		});
 		</script>
 </body>
