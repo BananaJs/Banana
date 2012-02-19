@@ -220,11 +220,15 @@ namespace('Banana').Application = Banana.Control.extend(
 		try
 		{
 			jQuery();
-			$();
 		}
 		catch(e)
 		{
 			log.error("JQuery is not found. JQuery required.");
+		}
+
+		if (!settings)
+		{
+			settings = {};
 		}
 		
 		this.settings = settings;
