@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+<title>Demo - Tab slider</title>
+
+<link rel="stylesheet" type="text/css" href="../../css/banana.css" />
+<link rel="stylesheet" type="text/css" href="../../css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="../../css/dark.css" />
+
+</head>
+
+<body id="body">
+
+<script type="text/javascript" src="../../framework/3rdparty/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="../../framework/3rdparty/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="../../Application.min.js"></script>
+
+	<div id="target"></div>
+		<script>
+
+		//create a page body
+		var widget = Banana.Page.extend({
+
+			createComponents: function()
+			{
+				var t = new Banana.Controls.TabSlider();
+				t.setStyle("height:300px; width:300px; border:1px solid black;border:1px solid #666666;");
+				t.setUseUrlHistory(true);
+				this.addControl(t);
+				
+				var a = new Banana.Controls.Panel().setStyle('background-color:red;  height:100%;text-align:center;');
+				a.addControl('this is a');
+				var b = new Banana.Controls.Panel().setStyle('background-color:white;height:100%;text-align:center;color:black;');
+				b.addControl('and this is b');
+				var c = new Banana.Controls.Panel().setStyle('background-color:blue; height:100%;text-align:center;');
+				c.addControl('and c');
+				
+				t.addContent(a,"a");
+				t.addContent(b,"b");
+				t.addContent(c,"c");
+			}
+		});
+
+		//logic to run the application
+		$(document).ready(function(){
+
+			var applicationParameters = {};
+			applicationParameters.renderTarget = 'target';//the id of the div where the application will be rendered in
+			applicationParameters.imagedir ='../../images';
+
+		    var app = new Banana.Application(applicationParameters);
+	     	app.run(new widget());
+		});
+		</script>
+</body>
+</html>

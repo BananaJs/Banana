@@ -1,4 +1,8 @@
- /**
+body{
+	background-color:#111111;
+}
+
+/**
  * Page control
  */
 .BPage{
