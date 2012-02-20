@@ -38,10 +38,18 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		this.activatedTab = 0;
 		this.slideSpeed = 400;	
 		this.easing = 'swing';
+		this.useAutoHeight = false;
+		this.useUrlHistory = false;
 		
 		this.linkNextText = "&nbsp;";
 		this.linkPreviousText = "&nbsp;";
 	},
+	
+	onWindowResize : function()
+	{
+		this.repositionPanels();
+	},
+	
 	
 	/**
 	 * Adds content which is accessible through a tab link
@@ -69,6 +77,20 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 	setSlideSpeed : function(speed)
 	{
 		this.slideSpeed = speed;
+		return this;
+	},
+	
+	/**
+	 * When true we set the height of the tabslider based on the current active tab.
+	 * Note that css properties margin and padding are ignored. This is due the fact that the tabslider uses absolute
+	 * positioned divs. height should be set manually or calculated with javascript.
+	 * 
+	 * @param {boolean}
+	 * @return {this}
+	 */
+	setUseAutoHeight : function(bool)
+	{
+		this.useAutoHeight = bool
 		return this;
 	},
 	
@@ -130,7 +152,7 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		
 		this.contentContainer = new Banana.Controls.Panel().addCssClass("BTabSliderContentContainer");
 		contentWrapper.addControl(this.contentContainer);
-		
+
 		this.addControl(this.buttonContainer);
 		this.addControl(contentWrapper);
 		
@@ -143,7 +165,7 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 			var key = Banana.Util.UrlManager.getModule(this.urlKey);
 			if (key)
 			{
-				this.activatedTab = key.substr(1);
+				this.activatedTab = key;
 			}
 		}
 	},
@@ -152,7 +174,7 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 	 * @ignore
 	 */
 	updateDisplay : function()
-	{
+	{		
 		//clear first. ie after refresh
 		this.buttonContainer.clear();
 		this.contentContainer.clear();
@@ -164,10 +186,16 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		this.contentContainer.setCss({"width":containerWidth+"px"});
 		
 		//sizes for link place holders. we want them to equally spread out 
-		var edgeContainerSize = 50;
+		var edgeContainerSize = 40;
 		var centerContainersSize = (dim.width - (edgeContainerSize*2)) / this.content.length; 
 		
-		var firstLinkWrapper = new Banana.Controls.Panel().setCss({'width':edgeContainerSize+'px'}).addCssClass("BTabSliderlinkWrapper");
+		var widthToPerc = function(w)
+		{
+			return (w/dim.width) * 100 
+		}
+		
+		
+		var firstLinkWrapper = new Banana.Controls.Panel().setCss({'width':widthToPerc(edgeContainerSize)+'%'}).addCssClass("BTabSliderlinkWrapper");
 		this.buttonContainer.addControl(firstLinkWrapper);
 		
 		var buttonPrev = new Banana.Controls.Link().addCssClass("BTabSliderLink BTabSliderLinkPrevious");
@@ -185,7 +213,7 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		var i,len;
 		for (i=0, len=this.content.length; i< len; i++)
 		{
-			var linkWrapper = new Banana.Controls.Panel().setCss({'width':centerContainersSize+'px'}).addCssClass("BTabSliderlinkWrapper");
+			var linkWrapper = new Banana.Controls.Panel().setCss({'width':widthToPerc(centerContainersSize)+'%'}).addCssClass("BTabSliderlinkWrapper");
 			this.buttonContainer.addControl(linkWrapper);
 			
 			var button = new Banana.Controls.Link().addCssClass("BTabSliderLink");
@@ -206,7 +234,7 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 			this.contentContainer.addControl(panelHolder);
 		}
 		
-		var lastLinkWrapper = new Banana.Controls.Panel().setCss({'width':edgeContainerSize+'px'}).addCssClass("BTabSliderlinkWrapper");
+		var lastLinkWrapper = new Banana.Controls.Panel().setCss({'width':widthToPerc(edgeContainerSize)+'%'}).addCssClass("BTabSliderlinkWrapper");
 		this.buttonContainer.addControl(lastLinkWrapper);
 		
 		var buttonNext = new Banana.Controls.Link().addCssClass("BTabSliderLink BTabSliderLinkNext");
@@ -246,6 +274,17 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 	},
 	
 	/**
+	 * Auto sets height. Because the tabslider uses absolute positioned divs, we have to set the height
+	 * manually. this function calculates and sets the height based on the current active tab
+	 */
+	applyAutoHeight : function()
+	{
+		var height = this.content[this.activatedTab].content.getDimensions().height;
+		
+		this.setCss({'height':height+this.buttonContainer.getDimensions().height});		
+	},
+	
+	/**
 	 * @ignore
 	 * Registers url change listener to make sure that when the user changes the url we reposition the panels
 	 */
@@ -267,6 +306,11 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 	{
 		this.triggerEvent('onSlide');
 		
+		if (this.useAutoHeight)
+		{
+			this.applyAutoHeight();
+		}
+		
 		var contentWidth = this.getDimensions().width;
 		var left = this.activatedTab * contentWidth * -1;
 		
@@ -279,7 +323,7 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 			{
 				//unregister module to prevent endless event loop
 				Banana.Util.UrlManager.unlistenModule(this.urlKey);
-				Banana.Util.UrlManager.setModule(this.urlKey,">"+this.activatedTab);
+				Banana.Util.UrlManager.setModule(this.urlKey,this.activatedTab.toString());
 				this.registerUrlHistory();
 			}
 
