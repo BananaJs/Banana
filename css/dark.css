@@ -360,6 +360,7 @@ body{
 	border:1px solid #333333;
 	border-radius:5px;
 	font-weight:bold;
+	text-transform:uppercase;
 	text-decoration:none;
 }
 .BTabSliderLink:hover{

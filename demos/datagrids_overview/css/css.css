@@ -1,0 +1,109 @@
+html { height: 101%; }
+
+.DemoTemplate{
+	width:80%;
+	margin:auto;
+	border:3px solid #999999;
+	border-radius:10px;
+		-moz-box-shadow:0px 0px 2px 3px #444;
+    -webkit-box-shadow: 0px 0px 2px 3px #444;
+    box-shadow:         0px 0px 2px 3px #444;
+
+}
+
+.DemoTopContainer{padding:10px;}
+.DemoTopContainer a{
+		font-weight:bold;
+	color:white;
+	font-weight:bold;
+	text-decoration:none;
+	text-transform:uppercase;
+	letter-spacing:-0.05em;
+	font-size:1.0em;
+	
+}
+
+.DemoPageContent{
+	
+}
+
+.DemoHomeTile{
+	background-color:#444444;
+	border:3px solid #888888;
+	margin:5px;
+	border-radius:10px;	
+	-moz-box-shadow:0px 0px 2px 3px #444;
+    -webkit-box-shadow: 0px 0px 2px 3px #444;
+    box-shadow:         0px 0px 2px 3px #444;
+    position:relative;
+}
+
+.DemoHomeTileTitle{
+	
+	font-weight:bold;
+	color:white;
+	font-weight:bold;
+	text-decoration:none;
+	text-transform:uppercase;
+	letter-spacing:-0.05em;
+	font-size:1.0em;
+	margin:5px;
+	text-align:center;
+}
+
+.DemoHomeTileLinkContainer{
+	bottom:8px;
+	position:absolute;
+	width:100%;
+	text-align:center;
+}
+
+.DemoHomeTileLinkContainer a{
+	color:black;	
+	background-color:orange;
+	padding:5px 20px 5px 20px;
+	border-radius:8px;
+	text-transform:uppercase;
+	text-decoration:none;
+	border:1px solid #444444;
+}
+
+.DemoHomeTileLinkContainer a:hover{
+	background-color:#1B7EE0;
+}
+
+.DemoHomeTileContents{
+	background-color:#eeeeee;
+	width:auto;
+	left:0;
+	word-wrap:break-word;
+	right:0;
+	top:0;
+	bottom:0;
+	border:1px solid #888888;
+	margin:10px;
+	margin-top:50px;
+	margin-bottom:40px;
+	border-radius:10px;
+	position:absolute;
+	padding:5px;
+	color:#333333;
+	font-size:17px;
+}
+
+.DemoTableDataGrids a{
+	background-color:orange;
+}
+.DemoTileDataGrids a{
+	background-color:#2BFC2E;
+}
+
+.DemoTreeDataGrids a{
+	background-color:#C04DFA;
+}
+
+
+.BTabSliderLink{
+	font-size:15px!important;
+}
+
