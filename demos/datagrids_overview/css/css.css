@@ -13,7 +13,7 @@ html { height: 101%; }
 
 .DemoTopContainer{padding:10px;}
 .DemoTopContainer a{
-		font-weight:bold;
+	font-weight:bold;
 	color:white;
 	font-weight:bold;
 	text-decoration:none;
@@ -29,10 +29,14 @@ html { height: 101%; }
 
 .DemoHomeTile{
 	background-color:#444444;
-	border:3px solid #888888;
-	margin:5px;
-	border-radius:10px;	
+	border:1px solid #555555;
+	margin:0px;
+	border-radius:0px;	
     position:relative;
+     -moz-box-sizing: border-box;
+ 	-ms-box-sizing: border-box;
+ 	-webkit-box-sizing: border-box;
+    
 }
 
 .DemoHomeTileTitle{
@@ -63,6 +67,7 @@ html { height: 101%; }
 	text-transform:uppercase;
 	text-decoration:none;
 	border:1px solid #444444;
+	cursor:pointer;
 }
 
 .DemoHomeTileLinkContainer a:hover{
