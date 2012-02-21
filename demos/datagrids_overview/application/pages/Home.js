@@ -65,7 +65,7 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 			return new Application.Controls.HomeTileItemRender();
 		})
 		
-		listRender.setPlaceHolderWidth("33.32%;");
+		listRender.setPlaceHolderWidth((100/3)+"%;");
 		
 		grid.setListRender(listRender);
 				
@@ -117,7 +117,7 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 			return new Application.Controls.HomeTileItemRender();
 		})
 		
-		listRender.setPlaceHolderWidth("33.32%;");
+		listRender.setPlaceHolderWidth((100/3)+"%;");
 		
 		grid.setListRender(listRender);
 				
@@ -170,7 +170,7 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 			return new Application.Controls.HomeTileItemRender();
 		})
 		
-		listRender.setPlaceHolderWidth("33.32%;");
+		listRender.setPlaceHolderWidth((100/3)+"%;");
 		
 		grid.setListRender(listRender);
 				

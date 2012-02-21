@@ -1,13 +1,13 @@
 html { height: 101%; }
 
 .DemoTemplate{
-	width:80%;
+	width:70%;
 	margin:auto;
-	border:3px solid #999999;
-	border-radius:10px;
-		-moz-box-shadow:0px 0px 2px 3px #444;
-    -webkit-box-shadow: 0px 0px 2px 3px #444;
-    box-shadow:         0px 0px 2px 3px #444;
+	margin-top:20px;
+	border:2px solid #666666;
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+
 
 }
 
@@ -29,7 +29,8 @@ html { height: 101%; }
 
 .DemoHomeTile{
 	background-color:#444444;
-	border:1px solid #555555;
+	border-right:1px solid #555555;
+	border-top:1px solid #555555;
 	margin:0px;
 	border-radius:0px;	
     position:relative;
@@ -37,6 +38,13 @@ html { height: 101%; }
  	-ms-box-sizing: border-box;
  	-webkit-box-sizing: border-box;
     
+}
+
+.BDemoHomeTileBig{
+	z-index:999999;
+	left:0;
+	top:0;
+	background-color:#444444;
 }
 
 .DemoHomeTileTitle{
@@ -82,7 +90,7 @@ html { height: 101%; }
 	right:0;
 	top:0;
 	bottom:0;
-	border:1px solid #888888;
+	border:0px solid #888888;
 	margin:10px;
 	margin-top:50px;
 	margin-bottom:40px;
@@ -92,6 +100,7 @@ html { height: 101%; }
 	color:#333333;
 	font-size:17px;
 }
+
 
 .DemoTableDataGrids a{
 	background-color:orange;
