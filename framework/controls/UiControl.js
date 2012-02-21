@@ -83,6 +83,7 @@ Banana.UiControl.prototype.getDimensions = function()
 	params.height = jQuery('#'+this.getClientId()).height();
 	params.width = jQuery('#'+this.getClientId()).width();
 	params.offset = jQuery('#'+this.getClientId()).offset();
+	params.position = jQuery('#'+this.getClientId()).position();
 
 	return params;
 };
