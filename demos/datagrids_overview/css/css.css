@@ -1,7 +1,7 @@
 html { height: 101%; }
 
 .DemoTemplate{
-	width:70%;
+	width:80%;
 	margin:auto;
 	margin-top:20px;
 	border:2px solid #666666;
@@ -11,7 +11,8 @@ html { height: 101%; }
 
 }
 
-.DemoTopContainer{padding:10px;}
+.DemoTopContainer{padding:10px;
+}
 .DemoTopContainer a{
 	font-weight:bold;
 	color:white;
@@ -99,6 +100,15 @@ html { height: 101%; }
 	padding:5px;
 	color:#333333;
 	font-size:17px;
+}
+
+.DemoHomeTileBigContents{
+
+	padding:0;
+	color:#eeeeee;
+	border:1px solid #777777;
+	border-top:0;
+	border-radius:0px;
 }
 
 

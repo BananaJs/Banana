@@ -3,6 +3,10 @@ goog.provide('Application.Pages.MyPage');
 goog.require('Application.Pages.PageTemplates.PageTemplate');
 goog.require("Application.Controls.HomeTileItemRender");
 
+
+goog.require('Application.Controls.Datagrids.TablegridSimple');
+goog.require('Application.Controls.Datagrids.TablegridFilterable');
+
 namespace('Application.Pages').Home = Banana.Page.extend( {
 
 
@@ -27,12 +31,12 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 	{
 		var datasource = [
 			                 {'title':'Basic Table datagrid',
-			                  'link':"ewrwe",
+			                  'control':"Application.Controls.Datagrids.TablegridSimple",
 			                  'contents': "Table datagrid shows a vertical list of items devided in rows and columns."
 			                 },
 			                 
 			                 {'title':'Filterable',
-				              'link':"ewrwe",
+			                  'control':"Application.Controls.Datagrids.TablegridFilterable",
 				              'contents': "Table datagrid with filterable components"
 				             },
 				             

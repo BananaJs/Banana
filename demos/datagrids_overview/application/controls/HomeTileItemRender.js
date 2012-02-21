@@ -41,7 +41,7 @@ namespace('Application.Controls').HomeTileBig = Banana.Controls.DataControl.exte
 		title.addControl(this.data.title);
 		
 		var contents = new Banana.Controls.Panel();
-		contents.addCssClass("DemoHomeTileContents");
+		contents.addCssClass("DemoHomeTileContents DemoHomeTileBigContents");
 		//contents.addControl(this.data.contents);
 		
 		var link = new Banana.Controls.Link();
@@ -50,11 +50,12 @@ namespace('Application.Controls').HomeTileBig = Banana.Controls.DataControl.exte
 		//link.setHref('#section='+this.data.link);
 		link.bind('click',this.getProxy(function(){
 				
-			this.triggerEvent('onView');
+			this.triggerEvent('onClose');
 
 		}));
 		
 		this.link = link;
+		this.contents = contents;
 		
 		var linkContainer = new Banana.Controls.Panel();
 		linkContainer.addCssClass("DemoHomeTileLinkContainer");
@@ -68,16 +69,48 @@ namespace('Application.Controls').HomeTileBig = Banana.Controls.DataControl.exte
 	onGrown : function()
 	{
 		this.link.setVisible(true,300,"fadeIn");
+		
+		if (!this.data.control)
+		{
+			return;
+		}
+		
+		var controlClass = Banana.Util.NamespaceToFunction(this.data.control);
+		
+		if (!controlClass)
+		{
+			return;
+		}
+		
+		var inst = new controlClass();
+		inst.setVisible(false);
+		this.inst = inst;
+		
+		this.contents.addControl(inst,true);
+		
+		inst.setVisible(true,300,"fadeIn");
 	},
 	
 	onShrinkStart : function(cb)
 	{
 		this.link.setVisible(false,300);
-		
-		if (cb)
+	
+		if (!this.inst)
 		{
-			cb();
+			if (cb)
+			{
+				cb();
+			}
+			
+			return;
 		}
+		
+		this.inst.setVisible(false,100,"fadeOut",function(){
+			if (cb)
+			{
+				cb();
+			}
+		});
 	}
 	
 });
@@ -95,6 +128,13 @@ namespace('Application.Controls').HomeTileItemRender = Banana.Controls.DataGridT
 		tile.data = this.data;
 		tile.bind('onView',this.getProxy(function(){
 			
+			if (this.disableClicks)
+			{
+				return;
+			}
+			
+			this.disableClicks = true;
+			
 			this.grow();
 		}));
 		
@@ -105,12 +145,10 @@ namespace('Application.Controls').HomeTileItemRender = Banana.Controls.DataGridT
 	
 	grow : function()
 	{
-		this.panel.setCss({'z-index':'99'});
+		var that = this;
 		
 		var placeHolder = this.getListRender().getItemRenderPlaceHolderByItemRender(this);
 		
-		var dim = this.getListRender().getDimensions();
-		var panelDim = this.panel.getDimensions();
 		var placeHolderDim = placeHolder.getDimensions();
 				
 		var newPlaceHolder = new Banana.Controls.Panel();
@@ -123,11 +161,11 @@ namespace('Application.Controls').HomeTileItemRender = Banana.Controls.DataGridT
 			'top':placeHolderDim.position.top+'px',
 			'-webkit-box-sizing': 'border-box'
 		});
-		
+				
 		var tile = new Application.Controls.HomeTileBig();
 		tile.data = this.data;
 		tile.addCssClass("BDemoHomeTileeBig");
-		tile.bind('click',function(){
+		tile.bind('onClose',function(){
 			
 			tile.onShrinkStart(function(){
 				jQuery('#'+newPlaceHolder.clientId).animate({'width':(100/3)+'%',
@@ -140,6 +178,7 @@ namespace('Application.Controls').HomeTileItemRender = Banana.Controls.DataGridT
 
 							jQuery('#'+newPlaceHolder.clientId).siblings().css({'opacity':1});
 							newPlaceHolder.remove();
+							that.disableClicks = false;
 					}
 				});
 			});
@@ -153,9 +192,8 @@ namespace('Application.Controls').HomeTileItemRender = Banana.Controls.DataGridT
 		jQuery('#'+newPlaceHolder.clientId).animate({'width':'100%','height':'100%','left':0,'top':0},
 				{ duration: 300, easing: "swing", complete:this.getProxy(function(){
 					
-					//jQuery('#'+newPlaceHolder.clientId).siblings().css({'opacity':1});
 					tile.onGrown();
-					
+					that.disableClicks = false;
 				})
 		});		
 	},
