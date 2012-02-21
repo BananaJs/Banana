@@ -45,8 +45,6 @@ Banana.Util.NamespaceToFunction = function(ns)
 		fn = fn[s[i]];
 		if (!fn)
 		{
-			//s.splice(i+1);
-			//alert("Namespace \""+s[i]+"\" does not exist in \""+s.join('.')+"\"");
 			return null;
 		}
 	}
