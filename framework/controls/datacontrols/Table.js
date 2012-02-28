@@ -106,3 +106,53 @@ Banana.Controls.TableHeaderCol.prototype.getTagName = function()
 {
 	return 'th';
 };
+
+
+/** @namespace Banana.Controls.TableHead */
+namespace('Banana.Controls').TableHead = Banana.Controls.Panel.extend(
+/** @lends Banana.Controls.TableHead.prototype */
+{
+	/**
+	 * Creates a table head
+	 * @constructs
+	 * @extends Banana.Controls.Panel
+	 */
+	init : function()
+	{
+		this._super();
+	}
+});
+
+/**
+ * @override
+ * @return {String}
+ */
+Banana.Controls.TableHead.prototype.getTagName = function()
+{
+	return 'thead';
+};
+
+
+/** @namespace Banana.Controls.TableBody */
+namespace('Banana.Controls').TableBody = Banana.Controls.Panel.extend(
+/** @lends Banana.Controls.TableHead.prototype */
+{
+	/**
+	 * Creates a table body
+	 * @constructs
+	 * @extends Banana.Controls.Panel
+	 */
+	init : function()
+	{
+		this._super();
+	}
+});
+
+/**
+ * @override
+ * @return {String}
+ */
+Banana.Controls.TableBody.prototype.getTagName = function()
+{
+	return 'tbody';
+};
