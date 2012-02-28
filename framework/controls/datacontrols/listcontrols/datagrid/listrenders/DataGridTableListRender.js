@@ -130,7 +130,7 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 		
 		this.indexRowMap = [];
 		this.indexItemRenderFactory = [];
-		this.table.clear();		
+		this.tableBody.clear();		
 	},
 	
 	/**
@@ -243,12 +243,12 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 			this.setItemRenderByIndex(j,render,true)
 		}
 			
-		this.table.clear();
+		this.tableBody.clear();
 		this.createTableParts();
 
 		if (this.isRendered)
 		{
-			this.table.invalidateDisplay();
+			this.tableBody.invalidateDisplay();
 		}
 		this.triggerEvent('itemRenderChanged');
 		
@@ -383,9 +383,17 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 		this.selectedIndices.clear();
 		this._super();
 		
-		this.table = new Banana.Controls.Table();
+		this.table  = new Banana.Controls.Table();
 		this.table.setAttribute('cellspacing','0');
-
+		
+		this.tableHead = new Banana.Controls.TableHead();
+		this.tableHead.addCssClass("BDataGridTableListHead");
+		this.table.addControl(this.tableHead);
+		
+		this.tableBody = new Banana.Controls.TableBody();
+		this.tableBody.addCssClass("BDataGridTableListBody");
+		this.table.addControl(this.tableBody);
+		
 		this.table.bind('mousedown',this.getProxy(function(e){
 			// TODO: This is catching every event in the scope of the table
 			// This should first check if user is clicking inside a input box
@@ -435,7 +443,7 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 		
 		row.addControl(itemRender);
 		
-		this.table.addControl(row);		
+		this.tableHead.addControl(row);		
 	},
 	
 	/**
@@ -466,7 +474,7 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 		itemRender.setListRender(this);	
 		row.addControl(itemRender);
 		
-		this.table.addControl(row);
+		this.tableBody.addControl(row);
 	},
 	
 	/**
@@ -485,11 +493,11 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 		row.bind('mouseout',this.getProxy(function(e){this.onRowMouseOut(e)}),row);
 		row.bind('click',this.getProxy(function(e){this.onRowMouseClick(e)}),row);
 			
-		this.table.addControl(row,instantRender);
+		this.tableBody.addControl(row,instantRender);
 		
 		if (instantRender)
 		{
-			this.table.invalidateDisplay();
+			this.tableBody.invalidateDisplay();
 		}	
 		
 		this.indexRowMap[index] = row;
