@@ -104,10 +104,10 @@ html { height: 101%; }
 
 .DemoHomeTileBigContents{
 
+	background-color:#444444;
 	padding:0;
 	color:#eeeeee;
 	border:1px solid #777777;
-	border-top:0;
 	border-radius:0px;
 }
 

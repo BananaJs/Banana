@@ -116,8 +116,9 @@ goog.addDependency("../../framework/3rdparty/jquery.maskedinput-1.2.2.js", ['thi
 goog.addDependency("../../framework/3rdparty/jquery-ui-1.8.16.custom.min.js", [], []);
 goog.addDependency("../../framework/3rdparty/jquery-1.7.1.min.js", [], []);
 goog.addDependency("../../framework/3rdparty/owl-clone.js", ['Banana.thirdParty.OWLClone'], []);
-goog.addDependency("../../demos/datagrids_overview/application/pages/Home.js", ['Application.Pages.MyPage'], ['Application.Pages.PageTemplates.PageTemplate', 'Application.Controls.HomeTileItemRender', 'Application.Controls.Datagrids.TablegridSimple', 'Application.Controls.Datagrids.TablegridFilterable']);
+goog.addDependency("../../demos/datagrids_overview/application/pages/Home.js", ['Application.Pages.MyPage'], ['Application.Pages.PageTemplates.PageTemplate', 'Application.Controls.HomeTileItemRender', 'Application.Controls.Datagrids.TablegridSimple', 'Application.Controls.Datagrids.TablegridFilterable', 'Application.Controls.Datagrids.TablegridCustomItemRender']);
 goog.addDependency("../../demos/datagrids_overview/application/controls/HomeTileItemRender.js", ['Application.Controls.HomeTileItemRender'], []);
 goog.addDependency("../../demos/datagrids_overview/application/controls/datagrids/TablegridSimple.js", ['Application.Controls.Datagrids.TablegridSimple'], []);
 goog.addDependency("../../demos/datagrids_overview/application/controls/datagrids/TablegridFilterable.js", ['Application.Controls.Datagrids.TablegridFilterable'], []);
+goog.addDependency("../../demos/datagrids_overview/application/controls/datagrids/TablegridCustomItemRender.js", ['Application.Controls.Datagrids.TablegridCustomItemRender'], []);
 goog.addDependency("../../demos/datagrids_overview/application/pageTemplates/PageTemplate.js", ['Application.Pages.PageTemplates.PageTemplate'], []);

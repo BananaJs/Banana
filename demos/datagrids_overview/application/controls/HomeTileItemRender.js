@@ -173,12 +173,15 @@ namespace('Application.Controls').HomeTileItemRender = Banana.Controls.DataGridT
 					'left':placeHolderDim.position.left+'px',
 					'top':placeHolderDim.position.top+'px'},
 					{   duration: 300, 
-						easing: "swing", 
+						easing: "swing",  
 						complete:function(){
 
 							jQuery('#'+newPlaceHolder.clientId).siblings().css({'opacity':1});
 							newPlaceHolder.remove();
 							that.disableClicks = false;
+							
+							var index = that.listRender.getIndexByItemRender(that);
+							that.listRender.triggerEvent("onShrink",{'index':index});
 					}
 				});
 			});
@@ -193,6 +196,8 @@ namespace('Application.Controls').HomeTileItemRender = Banana.Controls.DataGridT
 				{ duration: 300, easing: "swing", complete:this.getProxy(function(){
 					
 					tile.onGrown();
+					var index = that.listRender.getIndexByItemRender(that);
+					that.listRender.triggerEvent("onGrow",{'index':index});
 					that.disableClicks = false;
 				})
 		});		

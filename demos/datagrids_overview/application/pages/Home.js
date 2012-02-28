@@ -6,6 +6,7 @@ goog.require("Application.Controls.HomeTileItemRender");
 
 goog.require('Application.Controls.Datagrids.TablegridSimple');
 goog.require('Application.Controls.Datagrids.TablegridFilterable');
+goog.require('Application.Controls.Datagrids.TablegridCustomItemRender');
 
 namespace('Application.Pages').Home = Banana.Page.extend( {
 
@@ -32,6 +33,7 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 		var datasource = [
 			                 {'title':'Basic Table datagrid',
 			                  'control':"Application.Controls.Datagrids.TablegridSimple",
+			                  'open':true,
 			                  'contents': "Table datagrid shows a vertical list of items devided in rows and columns."
 			                 },
 			                 
@@ -41,6 +43,7 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 				             },
 				             
 			                 {'title':'Custom item render',
+				              'control':"Application.Controls.Datagrids.TablegridCustomItemRender",
 					          'link':"ewrwe",
 					          'contents': "To extend the interactivity you can define your own item render. "
 					         },
@@ -70,6 +73,9 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 		})
 		
 		listRender.setPlaceHolderWidth((100/3)+"%;");
+		listRender.bind('onGrow',this.getProxy(function(e,f){
+			console.log('on grown',e,f)
+		}))
 		
 		grid.setListRender(listRender);
 				
