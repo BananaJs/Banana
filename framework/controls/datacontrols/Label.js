@@ -85,7 +85,7 @@ Banana.Controls.Label.prototype.setDomData = function(data)
 	{
 		if (data == undefined)
 		{
-			data = ' - ';
+			data = '';
 		}
 		
 		Banana.Util.DomHelper.setTextData(data,this)
