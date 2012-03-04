@@ -53,15 +53,13 @@ namespace('Banana.Controls').DataGridSearchFilter = Banana.Controls.TextBox.exte
 
 		this.timer = setTimeout(this.getProxy(function(){
 			
-			if (!this.preventEvent && !this.untouched)
+			if (!this.untouched)
 			{
 				this.previousSearch = this.getData();
 				this.triggerEvent('filterDataChanged');
 
 				clearTimeout(this.timer);
-			}
-
-			this.preventEvent = false;
+			}				
 
 		}),400);
 	},
@@ -86,7 +84,7 @@ Banana.Controls.DataGridSearchFilter.prototype.getAllKey = function()
 Banana.Controls.DataGridSearchFilter.prototype.createComponents = function()
 {
 	//we bind a click event. when the control is untouched we remove the contents of the control
-	this.bind('click',this.getProxy(this.searchClicked));
+	this.bind('mousedown',this.getProxy(this.searchClicked));
 
 	if (this.getData())
 	{
@@ -102,15 +100,13 @@ Banana.Controls.DataGridSearchFilter.prototype.createComponents = function()
 	{
 		this.setData(this.promptText);
 	}
-
 };
 
 Banana.Controls.DataGridSearchFilter.prototype.searchClicked = function()
 {
 	if (this.untouched)
 	{
-		this.preventEvent = true;
-		this.setData('');
+		this.setData('',true);
 	}
 
 	this.untouched = false;
