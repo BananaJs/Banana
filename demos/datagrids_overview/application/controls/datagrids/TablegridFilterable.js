@@ -2,8 +2,21 @@ goog.provide('Application.Controls.Datagrids.TablegridFilterable');
 
 namespace('Application.Controls.Datagrids').TablegridFilterable = Banana.Controls.Panel.extend	({
 
+	/**
+	 * @constructor
+	 */
+	init : function()
+	{
+		this._super();
+		
+		this.pageSize = 10;
+	},
+	
+	/**
+	 * Called by the framework. here we define our grid
+	 */
 	createComponents : function()
-	{	
+	{
 		this.createFilterManager();
 		
 		var datagrid = new Banana.Controls.DataGrid();
@@ -11,15 +24,6 @@ namespace('Application.Controls.Datagrids').TablegridFilterable = Banana.Control
 		datagrid.setControlPanel(controlPanel);
 
 		controlPanel.setFilters(this.filterManager.getFilters());	
-
-		controlPanel.setButtons([
-		                         new Banana.Controls.Button().setText('foo')
-		                         .bind('click',function(){
-		                        	 console.log('click');
-		                         })
-		                         ,
-		                         new Banana.Controls.Button().setText('bar')
-		                         ]);
 
 		var listRender = datagrid.getListRender();
 		listRender.setColumns(this.getColumns());
@@ -41,7 +45,17 @@ namespace('Application.Controls.Datagrids').TablegridFilterable = Banana.Control
 	
 	populateGrid : function()
 	{
-		this.datagrid.setDataSource(this.getDataSource());	
+		//load the filtered datasource
+		var source = this.getFilteredDataSource();
+		
+		//set the amount of pages on the pager filter based on the total ammount of filtered items
+		this.pagerFilter.setDataSource(Math.ceil(source.length/this.pageSize))
+	
+		//new apply paging filter
+		var newSource = this.filterPageDataSource(source,this.filterManager.getFilterData());	
+		
+		//and populate the datagrid
+		this.datagrid.setDataSource(newSource);	
 	},
 	
 	getColumns : function()
@@ -96,52 +110,61 @@ namespace('Application.Controls.Datagrids').TablegridFilterable = Banana.Control
 								.setDataSource([{key:1,value:'Red'},{key:2,value:'Yellow'}]),														
 									 				 
 								 new Banana.Controls.DataGridSearchFilter()
-								 .setFilterField('search'),
+								 .setFilterField('search')
+								 
+								 //when we are searching we reset the paginator to 0.
+								 .bind('filterDataChanged',this.getProxy(function(){
+									 
+									 this.pagerFilter.setData(0);
+								 })),
 								  
 								this.pagerFilter = new Banana.Controls.DataGridPagerFilter()
-								.setDataSource(10)
-								.setData(2)
-								.dataSetBind('data','pageIndex') 
-								.dataSetSourceBind('data','pageCount')
-								.bind('dataChanged',this.getProxy(function(){
-									
-									//if user changed page index we clear the itemrender index mapping
-									if (this.restoringFinished)
-									{
-										this.grid.listRender.indexItemRenderFactory =[]; 
-									}
-								}))
 								.setFilterField('pageIndex')
 								]);
 	},
-	
+
+	/**
+	 * returns plain array of datasource
+	 */
 	getDataSource : function()
 	{
-		var orgsource = [
+		return [
 		 {id:1,'name':'Orange','description':'Mare neque','country':'Peru','color':1},
          {id:2,'name':'Apple','description':'Diam a nulla placerat ru','country':'Spain','color':1},
          {id:3,'name':'Banana','description':'Llis eros eget mauri','country':'Spain','color':1},
          {id:4,'name':'Orange','description':'Morbi sollicitudin','country':'Peru','color':2},
          {id:5,'name':'Bolwara','description':'Er in adipiscing turpis.','country':'Peru','color':1},
          {id:6,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
-         {id:7,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
-         {id:8,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
-         {id:9,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
-         {id:10,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
-         {id:11,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
-         {id:12,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
-         {id:13,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
-         {id:14,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
-         {id:15,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
-         {id:16,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1},
-         {id:17,'name':'Guava','description':'Odio auctor enim','country':'Peru','color':1}
-        ]
-		
+         {id:7,'name':'Ilium','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:8,'name':'Bongo','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:9,'name':'Herma','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:10,'name':'Frukta','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:11,'name':'Herama','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:12,'name':'Chi es','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:13,'name':'Londop','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:14,'name':'Ermito','description':'Odio auctor enim','country':'Peru','color':2},
+         {id:15,'name':'Hasumilo','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:16,'name':'Fermi','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:17,'name':'Bon emin','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:18,'name':'Lekker','description':'Odio auctor enim','country':'Peru','color':2},
+         {id:19,'name':'Fuit','description':'Odio auctor enim','country':'Peru','color':1},
+         {id:20,'name':'Derie','description':'Odio auctor enim','country':'Peru','color':2},
+         {id:21,'name':'Humop','description':'Odio auctor enim','country':'Peru','color':2}
+        ];
+	},
+	
+	/**
+	 * returns the datasource filtered with the 2 dropdowns and search input
+	 */
+	getFilteredDataSource : function()
+	{
 		var filterData = this.filterManager.getFilterData();
 		
+		var orgsource = this.getDataSource();
+
 		var newSource = this.filterDataSource("country",filterData,orgsource);
 		newSource = this.filterDataSource("color",filterData,newSource);
-		newSource = this.searchDataSource(newSource,filterData.search);
+		newSource = this.searchDataSource(newSource);
 		
 		return newSource;
 	},
@@ -152,8 +175,7 @@ namespace('Application.Controls.Datagrids').TablegridFilterable = Banana.Control
 	filterDataSource : function(field,filterData,source)
 	{
 		var newSource = [];
-		
-		//filter countries
+	
 		if (filterData[field].data != '%')
 		{
 			for (var i = 0; i < source.length; i++)
@@ -178,6 +200,8 @@ namespace('Application.Controls.Datagrids').TablegridFilterable = Banana.Control
 	 */
 	searchDataSource : function(source,search)
 	{
+		var search = this.filterManager.getFilterData().search;
+		
 		var i,len;
 		
 		var newSource = [];
@@ -204,6 +228,37 @@ namespace('Application.Controls.Datagrids').TablegridFilterable = Banana.Control
 		}
 		
 		return newSource;
-	}
+	},
 	
+	/**
+	 * Filter datasource for paging
+	 */
+	filterPageDataSource : function(source,filterData)
+	{
+		var newSource = [];
+		
+		if (!filterData.pageIndex || filterData.pageIndex.data == 0)
+		{
+			var startOffset = 0
+			var endOffset = this.pageSize
+		}
+		else
+		{
+			startOffset = filterData.pageIndex.data * this.pageSize;
+			endOffset = startOffset+this.pageSize;			
+		}
+
+		var sourceLength = source.length;
+
+		var i,len;
+		for (i=startOffset;i < endOffset; i++)
+		{
+			if (i >= sourceLength)
+			{
+				break;
+			}
+			newSource.push(source[i]);
+		}		
+		return newSource;
+	}
 });

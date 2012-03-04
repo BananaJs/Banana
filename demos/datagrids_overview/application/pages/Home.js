@@ -74,7 +74,7 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 		
 		listRender.setPlaceHolderWidth((100/3)+"%;");
 		listRender.bind('onGrow',this.getProxy(function(e,f){
-			console.log('on grown',e,f)
+			
 		}))
 		
 		grid.setListRender(listRender);

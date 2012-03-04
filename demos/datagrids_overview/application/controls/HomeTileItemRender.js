@@ -86,6 +86,8 @@ namespace('Application.Controls').HomeTileBig = Banana.Controls.DataControl.exte
 		inst.setVisible(false);
 		this.inst = inst;
 		
+		inst.setCss({'height':this.contents.getDimensions().height+'px','overflow':'auto'});
+		
 		this.contents.addControl(inst,true);
 		
 		inst.setVisible(true,300,"fadeIn");
