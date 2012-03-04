@@ -52,6 +52,11 @@ namespace('Banana.Controls').DataGridPagerFilter = Banana.Controls.ListControl.e
 
 		this.bind('dataSourceChanged',this.getProxy(function(){
 	
+			if (this.data ==null)
+			{
+				this.data = 0;
+			}
+			
 			if (this.data !=null)
 			{
 				this.createPageLinks();
