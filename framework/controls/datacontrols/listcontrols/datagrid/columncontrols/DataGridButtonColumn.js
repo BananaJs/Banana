@@ -20,6 +20,16 @@ namespace('Banana.Controls').DataGridButtonColumn = Banana.Controls.DataGridColu
 	init : function()
 	{
 		this._super();
+		this.buttonText = "";
+	},
+	
+	/**
+	 * @param {String} text
+	 */
+	setButtonText : function(text)
+	{
+		this.buttonText = text;
+		return this;
 	}
 });
 
@@ -31,8 +41,7 @@ namespace('Banana.Controls').DataGridButtonColumn = Banana.Controls.DataGridColu
 Banana.Controls.DataGridButtonColumn.prototype.getControl = function()
 {
 	var b = new Banana.Controls.Button();
-	b.setStyle('border: 1px solid #888888;color:white; width:50px;');
-	b.setText('edit');
+	b.setText(this.buttonText);
 	b.bind('click',this.getProxy(function(e)
 	{
 		function getItemRender(c)
