@@ -112,6 +112,14 @@ html { height: 101%; }
 }
 
 
+.DemoTableDataGrids th{
+	font-size:15px;
+}
+
+.DemoTableDataGrids tr{
+	font-size:15px;
+}
+
 .DemoTableDataGrids a{
 	background-color:orange;
 }
@@ -125,4 +133,13 @@ html { height: 101%; }
 
 .BTabSliderLink{
 	font-size:15px!important;
+}
+
+.youtubetile{
+	border:1px solid #555555;
+	margin:1px;
+}
+
+.player{
+	background-color:#222222
 }

@@ -5,68 +5,16 @@ namespace('Application.Controls.Datagrids').TablegridCustomItemRender = Banana.C
 	
 	createComponents : function()
 	{	
-		var datagrid = new Banana.Controls.DataGrid();
-		var controlPanel = new Banana.Controls.DataGridControlPanel();
-		datagrid.setControlPanel(controlPanel);
+		this.datagrid = new Banana.Controls.DataGrid();
 
-		controlPanel.setButtons([
-		                         new Banana.Controls.Button().setText('Edit details')
-		                         .bind('click',this.getProxy(function(){
-		                        	 var selectedIndices = listRender.getSelectedIndices(true);
-		                        	 
-		                        	 ir = function(){
-		                        		 return new Application.Controls.Datagrids.CustomItemRender2();
-		                        	 }
-		                        	 
-		                        	 listRender.setItemRenderByIndices(listRender.getSelectedIndices(true),ir);
-		                         })),
-		                         new Banana.Controls.Button().setText('Show details')
-		                         .bind('click',this.getProxy(function(){
-		                        	
-		                        	 ir = function(){
-		                        		 return new Application.Controls.Datagrids.CustomItemRender1();
-		                        	 }
-		                        	 
-		                        	 listRender.setItemRenderByIndex(2,ir);
-		                         }))
-		                         ]);
-
-		var listRender = datagrid.getListRender();
+		var listRender = this.datagrid.getListRender();
+		
+		listRender.setItemRender(Application.Controls.Datagrids.CustomItemRender); 
+		
 		listRender.setColumns(this.getColumns());
-		
-		listRender.bind('resetItemRender',this.getProxy(function(e,params){
-			 ir = listRender.defaultContentItemRender;
-        	 listRender.setItemRenderByIndex(params.index,ir);		
-		}));
-		
-		listRender.bind('onCommand',this.getProxy(function(e,params){
 			
-			var index = params.index;
-			var commandName = params.commandName;
+		this.addControl(this.datagrid);
 			
-			//check if at index is already custom item render.
-			if (listRender.hasItemRenderAt(index,Application.Controls.Datagrids.CustomItemRender1))
-			{		
-				var irClosed = function() 
-				{	
-					return new listRender.defaultContentItemRender();
-				};
-			}
-			else
-			{		
-				var irOpened = function()
-				{
-					return new Application.Controls.Datagrids.CustomItemRender2();
-				};
-			}
-		
-			listRender.setItemRenderByIndex(index,irOpened);
-			
-		}))
-			
-		this.addControl(datagrid);
-		
-		this.datagrid = datagrid;
 		this.populateGrid();
 	},
 
@@ -78,11 +26,11 @@ namespace('Application.Controls.Datagrids').TablegridCustomItemRender = Banana.C
 	getColumns : function()
 	{
 		return [
-		        	   new Banana.Controls.DataGridImageButtonColumn().setCommandName('expand').setImageUrl(Banana.Application.settings.imagedir+'/arrowopen.png').setStyle('cursor:pointer;width:20px;'),
-		               new Banana.Controls.DataGridColumn().setHeaderText('Id').setDataField('id').setSortField("id"),
-		               new Banana.Controls.DataGridColumn().setHeaderText('Name').setDataField('name').setSortField("name"),
-		               new Banana.Controls.DataGridColumn().setHeaderText('Description').setDataField('description').setSortField("description"),
-		               new Banana.Controls.DataGridColumn().setHeaderText('Color').setDataField('color').setSortField("color")
+		        	   new Banana.Controls.DataGridButtonColumn().setButtonText("Edit").setHeaderText('Id').setStyle("width:50px;"),
+		               new Banana.Controls.DataGridColumn().setHeaderText('Id').setDataField('id'),
+		               new Banana.Controls.DataGridColumn().setHeaderText('Name').setDataField('name'),
+		               new Banana.Controls.DataGridColumn().setHeaderText('Description').setDataField('description'),
+		               new Banana.Controls.DataGridColumn().setHeaderText('Color').setDataField('color')
 		               .bind('onItemCreated',this.getProxy(function(e,param){
 		            	  
 		            	   if (param.data.color == 1)
@@ -115,30 +63,7 @@ namespace('Application.Controls.Datagrids').TablegridCustomItemRender = Banana.C
 });
 
 
-namespace('Application.Controls.Datagrids').CustomItemRender1 = Banana.Controls.DataGridTableContentItemRender.extend({
-	
-	createComponents : function()
-	{
-		this.mainColumn = new Banana.Controls.TableCol();
-		this.mainColumn.setAttribute('colSpan',this.listRender.columns.length);
-		this.mainColumn.addCssClass('examplesCustomItemRender');
-		this.addControl(this.mainColumn);
-		
-		this.table = new Banana.Controls.Table();
-		this.mainColumn.addControl(this.table);
-		
-		var topRow = new Banana.Controls.TableRow();
-		topRow.setStyle('padding:0;margin:0;');
-		this.table.addControl(topRow);
-
-		var bottomRow = new Banana.Controls.TableRow();
-		bottomRow.setStyle('padding:0;margin:0;');
-		this.table.addControl(bottomRow);
-			
-		this.createColumns(topRow);
-		
-		this.createExtraControls(bottomRow);
-	},
+namespace('Application.Controls.Datagrids').CustomItemRender = Banana.Controls.DataGridTableContentItemRender.extend({
 	
 	createColumns : function(target)
 	{
