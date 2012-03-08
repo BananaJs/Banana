@@ -17,6 +17,7 @@ goog.require('Banana.Controls.DataControls.ListControls.DataGrid.ColumnControls.
 goog.require('Banana.Controls.DataControls.ListControls.DataGrid.ColumnControls.DataGridImageColumn');
 goog.require('Banana.Controls.DataControls.ListControls.DataGrid.ColumnControls.DataGridStatusColumn');
 goog.require('Banana.Controls.DataControls.ListControls.DataGrid.ColumnControls.DataGridHeaderColumn');
+goog.require('Banana.Controls.DataControls.ListControls.DataGrid.ColumnControls.DataGridButtonColumn');
 
 goog.provide('Banana.Controls.DataGridTableListRender');
 
@@ -234,8 +235,13 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 	 */
 	setItemRender : function(render)
 	{
-		//we set in general the item render. so we need to get rid of 
-		//the data item render map.
+		//grid is not yet initialized. set itemrender as default
+		if (!this.isInitialized)
+		{
+			this.defaultContentItemRender = render;
+			return this;
+		}
+		
 		this.dataItemRenderMap.clear(); 
 		
 		for (var j =0, clen = this.indexRenderedItemRenderMap.length; j < clen; j++)
