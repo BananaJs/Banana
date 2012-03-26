@@ -150,7 +150,8 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
 					   // videoId: data.data,
 					    events: {
 					      'onReady': this.getProxy(function(e){ this.playerIsReady(e);}),
-					      'onStateChange': this.getProxy(function(e){ this.playerStateChanged(e);})
+					      'onStateChange': this.getProxy(function(e){ this.playerStateChanged(e);}),
+					      'onError': this.getProxy(function(e){ this.playerIsErrored(e);})
 					    }
 					  });
 			})	
@@ -169,7 +170,7 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
 	 * 
 	 * @param {int} id
 	 */
-	loadVideoById : function(id)
+	loadVideoById : function(id,startSeconds)
 	{
 		if (!this.getPlayer())
 		{
@@ -180,7 +181,7 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
 		//reset duration
 		this.duration = null;
 		
-		this.getPlayer().loadVideoById(id);	
+		this.getPlayer().loadVideoById(id,startSeconds);	
 	},
 	
 	/**
@@ -189,7 +190,7 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
 	 * 
 	 * @param {int} id
 	 */
-	cueVideoById : function(id)
+	cueVideoById : function(id, startSeconds)
 	{
 		if (!this.getPlayer())
 		{
@@ -200,7 +201,7 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
 		//reset duration
 		this.duration = null;
 		
-		this.getPlayer().cueVideoById(id);	
+		this.getPlayer().cueVideoById(id,startSeconds);	
 	},
 	
 	/**
@@ -313,7 +314,7 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
 		return this.getPlayer().seekTo(seekTo,allowSeekAhead);		
 	},
 	
-	pauseVideo : function()
+	playVideo : function()
 	{
 		if (!this.getPlayer())
 		{
@@ -321,6 +322,17 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
 			return;
 		}
 		
+		return this.getPlayer().playVideo();		
+	},
+	
+	pauseVideo : function()
+	{
+		if (!this.getPlayer())
+		{
+			log.error("no player");
+			return;
+		}
+
 		return this.getPlayer().pauseVideo();		
 	},
 	
@@ -366,17 +378,25 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
 	/**
 	 * Fired when player is ready
 	 */
-	playerIsReady : function()
+	playerIsReady : function(e)
 	{
 		this.playerReady = true;
-		
+
 		try
 		{
-			this.triggerEvent('onPlayerReady');
+			this.triggerEvent('onPlayerReady',e);
 		}
 		catch(e)
 		{
 			console.log(e)
 		}
+	},
+	
+	/**
+	 * Fired when player is errored
+	 */
+	playerIsErrored : function(e)
+	{
+		this.triggerEvent('onPlayerError',e);
 	}
 });
