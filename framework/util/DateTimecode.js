@@ -96,6 +96,7 @@ Banana.Util.DateTimecode = function(data,local)
 			'w' : time.getWeek()
 		};
 
+		var item;
 		for (item in items) {
 			format = format.replace( '%'+item, items[item] );
 		}
@@ -148,6 +149,7 @@ Banana.Util.DateTimecode = function(data,local)
 			'Y' : time.getUTCFullYear()
 		};
 
+		var item;
 		for (item in items) {
 			format = format.replace( '%'+item, items[item] );
 		}
