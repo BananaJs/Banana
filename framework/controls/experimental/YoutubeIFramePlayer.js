@@ -225,6 +225,7 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
 			return;
 		}
 		
+		this.isMutedPasv = true;
 		this.getPlayer().mute();
 	},
 	
@@ -235,8 +236,24 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
 			log.error("no player");
 			return;
 		}
-		
+		this.isMutedPasv = false;
 		this.getPlayer().unMute();
+	},
+	
+	isMuted : function(passive)
+	{
+		if (passive)
+		{
+			return this.isMutedPasv;
+		}
+		
+		if (!this.getPlayer())
+		{
+			log.error("no player");
+			return null;
+		}
+		
+		return this.getPlayer().isMuted();		
 	},
 	
 	/**
