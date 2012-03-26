@@ -159,7 +159,6 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
         //create directly when api is ready
         if (this.isApiReady())
         {
-        	console.log(this.id,'directly create')
         	window.queuedBananaYouTubePlayers[window.queuedBananaYouTubePlayers.length-1]();
         }
 	},
@@ -227,6 +226,17 @@ namespace('Banana.Controls').YoutubeIFramePlayer = Banana.Controls.Panel.extend(
 		}
 		
 		this.getPlayer().mute();
+	},
+	
+	unMute : function()
+	{
+		if (!this.getPlayer())
+		{
+			log.error("no player");
+			return;
+		}
+		
+		this.getPlayer().unMute();
 	},
 	
 	/**
