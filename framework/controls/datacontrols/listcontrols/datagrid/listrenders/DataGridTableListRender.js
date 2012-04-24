@@ -508,7 +508,7 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 		
 		this.indexRowMap[index] = row;
 
-		this.triggerEvent('onRowCreated', {'row': row, 'data': this.datasource[index]});
+		this.triggerEvent('onRowCreated', {'index':index,'row': row, 'data': this.datasource[index]});
 	},
 	
 	/**
