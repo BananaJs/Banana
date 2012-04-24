@@ -44,6 +44,14 @@ namespace('Banana.Controls').DataGridBaseListRender = Banana.Controls.CustomList
 	{
 		return this.indexRenderedItemRenderMap[index];
 	},
+
+	/**
+	* @return {Array} 
+	*/
+	getRenderedItemRenders : function()
+	{
+		return this.indexRenderedItemRenderMap;
+	},
 	
 	/**
 	 * @ignore
