@@ -135,6 +135,10 @@ namespace('Banana.Controls').Button = Banana.Controls.Panel.extend(
 	setText : function(text)
 	{
 		this.text = text;
+		if (this.isRendered && this.label)
+		{
+			this.label.setData(this.text);
+		}
 		return this;
 	},
 	
