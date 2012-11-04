@@ -577,7 +577,7 @@ Banana.Control.prototype.unregisterEvents = function()
  */
 Banana.Control.prototype.getHtml = function(markAsRendered)
 {
-	var html = [];
+	var html = "";
 
 	var childs = this.getControls();
 
@@ -586,16 +586,16 @@ Banana.Control.prototype.getHtml = function(markAsRendered)
 	{
 		if (childs[i] instanceof Banana.Control)
 		{
-			html.push(childs[i].getHtml(markAsRendered));
+			html += childs[i].getHtml(markAsRendered);
 		}
 
 		else if (typeof(childs[i]) === 'string')
 		{
-			html.push(childs[i]);
+			html += childs[i];
 		}
 	}
 
-	return html.join('');
+	return html;
 };
 
 Banana.Control.prototype.debugEvent = function(type,eventname,message)

@@ -495,7 +495,7 @@ Banana.UiControl.prototype.hasCssClass = function(search)
 Banana.UiControl.prototype.getHtmlAttributes = function()
 {
 		var attributes =this.getAttributes();
-		var data = [];
+		var data = "";
 		var attr;
 		for (attr in attributes)
 		{
@@ -503,11 +503,10 @@ Banana.UiControl.prototype.getHtmlAttributes = function()
 			{
 				if (attributes[attr] != 'undefined')
 				{
-					data.push(attr+'="'+attributes[attr]+'" ');
+					data += attr+'="'+attributes[attr]+'" ';
 				}
 			}
 		}
-		data = data.join('');
 
 		return data;
 };
@@ -754,11 +753,11 @@ Banana.UiControl.prototype.getEnabled = function()
  */
 Banana.UiControl.prototype.getHtml = function(markAsRendered)
 {
-	var html = [];
+	var html = "";
 
-	html.push('<'+this.getTagName()+' ');
-	html.push(this.getHtmlAttributes());
-	html.push('>');
+	html += '<'+this.getTagName()+' ';
+	html += this.getHtmlAttributes();
+	html += '>';
 	
 	var childs = this.getControls();
 	var i, len;
@@ -766,18 +765,18 @@ Banana.UiControl.prototype.getHtml = function(markAsRendered)
 	{
 		if (childs[i] instanceof Banana.Control)
 		{
-			html.push(childs[i].getHtml(markAsRendered));
+			html += childs[i].getHtml(markAsRendered);
 		}
 
 		else if (typeof(childs[i]) === 'string')
 		{
-			html.push(childs[i]);
+			html +=childs[i];
 		}
 	}
 
 	if (this instanceof Banana.UiControl)
 	{
-		html.push('</'+this.getTagName()+'>');
+		html += '</'+this.getTagName()+'>';
 	}
 	
 	//In the update display all the controls + their children should be marked as rendered
@@ -788,5 +787,5 @@ Banana.UiControl.prototype.getHtml = function(markAsRendered)
 		this.isRendered = true;
 	}
 
-	return html.join('');
+	return html;
 };
