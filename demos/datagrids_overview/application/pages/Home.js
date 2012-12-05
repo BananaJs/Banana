@@ -10,6 +10,8 @@ goog.require('Application.Controls.Datagrids.TablegridCustomItemRender');
 
 goog.require('Application.Controls.Datagrids.TilegridCustomItemRender');
 
+goog.require('Application.Controls.Datagrids.TreegridSimple');
+
 namespace('Application.Pages').Home = Banana.Page.extend( {
 
 
@@ -143,9 +145,10 @@ namespace('Application.Pages').Home = Banana.Page.extend( {
 	getTreeGridOverview : function()
 	{
 		var datasource = [
-			                 {'title':'Basic Table datagrid',
-			                  'link':"ewrwe",
-			                  'contents': "Table datagrid shows a vertical list of items devided in rows and columns."
+			                 {'title':'Basic Tree datagrid',
+			                  'link':"Application.Controls.Datagrids.TreegridSimple",
+			                  'control':"Application.Controls.Datagrids.TreegridSimple",
+			                  'contents': "Tree datagrid. Shows basic tree grid with expand functionality."
 			                 },
 			                 
 			                 {'title':'Filterable',
