@@ -1,0 +1,330 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @author Gillis Haasnoot &lt;gillis.haasnoot@gmail.com>
+<span class='line'>  3</span>  * @package Banana.Controls
+<span class='line'>  4</span>  * @summary Dropdown control  
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.ListControls.DropDown'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.ListControls.ListControl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="COMM">/**
+<span class='line'> 11</span>  * @author Gillis Haasnoot &lt;gillis.haasnoot@gmail.com>
+<span class='line'> 12</span>  * @link www.vivesta.com
+<span class='line'> 13</span>  * @copyright Copyright &copy; 2010
+<span class='line'> 14</span>  * @license  xxx
+<span class='line'> 15</span>  * @version 0.0.1
+<span class='line'> 16</span>  * @package Banana.Controls
+<span class='line'> 17</span>  *
+<span class='line'> 18</span>  * Dropdown component
+<span class='line'> 19</span>  *
+<span class='line'> 20</span>  * use setDataSource() to create a a list
+<span class='line'> 21</span>  * use setData() to select indices
+<span class='line'> 22</span>  *
+<span class='line'> 23</span>  */</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> </span><span class="COMM">/** @namespace Banana.Controls.DropDown */</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">DropDown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.ListControl.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="COMM">/** @lends Banana.Controls.DropDown.prototype */</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="PUNC">{</span><span class="WHIT">	
+<span class='line'> 29</span> 	</span><span class="COMM">/**
+<span class='line'> 30</span> 	 * Creates a Dropdown
+<span class='line'> 31</span> 	 * 
+<span class='line'> 32</span> 	 * Example:
+<span class='line'> 33</span> 	 
+<span class='line'> 34</span> 	 var dropdown = new Banana.Controls.DropDown();
+<span class='line'> 35</span> 	 
+<span class='line'> 36</span> 	 this.addControl(dropdown);
+<span class='line'> 37</span> 	 
+<span class='line'> 38</span> 	 dropdown.setDataSource([1,2,3,4,5,6,7,8,9]);
+<span class='line'> 39</span> 	 dropdown.setData(4);
+<span class='line'> 40</span> 	 
+<span class='line'> 41</span> 	 ///another way top populate datasource is with complex objects.
+<span class='line'> 42</span> 	 //by default complex objects should have a dataKeyField and dataValueField.
+<span class='line'> 43</span> 	 //where dataKeyField = key and dataValueField = value;
+<span class='line'> 44</span> 	 //To change this use setDataKeyField and setDataValueField.
+<span class='line'> 45</span> 	 
+<span class='line'> 46</span> 	 dropdown.setDataSource([{key:1,value:'one'},{key:2,value:'two'}]);
+<span class='line'> 47</span> 	 dropdown.setData(2);
+<span class='line'> 48</span> 	 
+<span class='line'> 49</span> 	 * @constructs
+<span class='line'> 50</span> 	 * @extends Banana.Controls.ListControl
+<span class='line'> 51</span> 	 */</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">	</span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">		</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="WHIT">		</span><span class="NAME">this.addCssClass</span><span class="PUNC">(</span><span class="STRN">'BDropDown'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">		
+<span class='line'> 58</span> 		</span><span class="NAME">this.optGroupField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"group"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> 
+<span class='line'> 60</span> </span><span class="WHIT">		</span><span class="NAME">this.bind</span><span class="PUNC">(</span><span class="STRN">'change'</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">			</span><span class="NAME">this.setData</span><span class="PUNC">(</span><span class="NAME">Banana.Util.DomHelper.getData</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">			</span><span class="NAME">this.isChanged</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">			</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">'selectionChanged'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">		
+<span class='line'> 67</span> 		</span><span class="COMM">// Prevent propagation of event, because parent controls, e.g.</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">		</span><span class="COMM">// a datagrid row, can capture this event in Chrome and prevent</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">		</span><span class="COMM">// it from functioning.</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">		</span><span class="NAME">this.bind</span><span class="PUNC">(</span><span class="STRN">'mousedown'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">			</span><span class="NAME">e.stopPropagation</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">	
+<span class='line'> 75</span> 	</span><span class="COMM">/**
+<span class='line'> 76</span> 	 * @override
+<span class='line'> 77</span> 	 * @ignore
+<span class='line'> 78</span> 	 */</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">	</span><span class="NAME">updateDisplay</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">		</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">		
+<span class='line'> 83</span> 		</span><span class="COMM">// This is a Chrome Fix</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">		</span><span class="COMM">// Chrome can set the DropDown selected index to -1 showing an empty</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">		</span><span class="COMM">// option in the browser. When found reset the index to 0. only when prompt text is set</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.getPromptText</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">		
+<span class='line'> 88</span> 		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isRendered</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.getClientId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">obj</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">obj.selectedIndex</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">				</span><span class="NAME">obj.selectedIndex</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 94</span> 
+<span class='line'> 95</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 96</span> 	 * @return {mixed}
+<span class='line'> 97</span> 	 */</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">	</span><span class="NAME">getData</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'__prompt__'</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">	
+<span class='line'>103</span> 	</span><span class="COMM">/**
+<span class='line'>104</span> 	 * Set the data of the Control
+<span class='line'>105</span> 	 * 
+<span class='line'>106</span> 	 * @param {mixed} data Data to set
+<span class='line'>107</span> 	 * @return {this}
+<span class='line'>108</span> 	 */</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">	</span><span class="NAME">setData</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">		</span><span class="COMM">// When data is not available and prompttext is set select</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">		</span><span class="COMM">// the prompttext in the dropdown</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.getPromptText</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">			</span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'__prompt__'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">	
+<span class='line'>119</span> 	</span><span class="COMM">/**
+<span class='line'>120</span> 	 * Sets the data by index.
+<span class='line'>121</span> 	 * If your datasource is ["foo","apple","me"] you can use setDataByIndex(1) to
+<span class='line'>122</span> 	 * set apple as the data.
+<span class='line'>123</span> 	 * 
+<span class='line'>124</span> 	 * @param {int} index
+<span class='line'>125</span> 	 * @return {this}
+<span class='line'>126</span> 	 */</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">	</span><span class="NAME">setDataByIndex</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">prop</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.datasource</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">this.datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">continue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">			
+<span class='line'>134</span> 			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">==</span><span class="NAME">index</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">this.dataKeyField</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">					</span><span class="NAME">this.setData</span><span class="PUNC">(</span><span class="NAME">this.datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">this.dataKeyField</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">				</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">					</span><span class="NAME">this.setData</span><span class="PUNC">(</span><span class="NAME">prop</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">			</span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">		
+<span class='line'>149</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> 
+<span class='line'>153</span> </span><span class="COMM">/**
+<span class='line'>154</span>  * @return {String}
+<span class='line'>155</span>  */</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="NAME">Banana.Controls.DropDown.prototype.getTagName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'select'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span> 
+<span class='line'>161</span> </span><span class="COMM">/**
+<span class='line'>162</span>  * we override the get html function to manualy render the &lt;option> tags
+<span class='line'>163</span>  * instead of this method we can create an &lt;option> class, but it will  cause some
+<span class='line'>164</span>  * overhead in very large lists. So for optimal result we handle this way
+<span class='line'>165</span>  * 
+<span class='line'>166</span>  * @ignore
+<span class='line'>167</span>  */</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="NAME">Banana.Controls.DropDown.prototype.getHtml</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">html</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> 
+<span class='line'>172</span> </span><span class="WHIT">	</span><span class="NAME">html.push</span><span class="PUNC">(</span><span class="STRN">'&lt;'</span><span class="PUNC">+</span><span class="NAME">this.getTagName</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">' '</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">	</span><span class="NAME">html.push</span><span class="PUNC">(</span><span class="NAME">this.getHtmlAttributes</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">	</span><span class="NAME">html.push</span><span class="PUNC">(</span><span class="STRN">'>'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>175</span> 
+<span class='line'>176</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">datasource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.datasource</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>177</span> 
+<span class='line'>178</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getPromptText</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">		</span><span class="NAME">html.push</span><span class="PUNC">(</span><span class="NAME">this.getOption</span><span class="PUNC">(</span><span class="STRN">'__prompt__'</span><span class="PUNC">,</span><span class="NAME">this.getPromptText</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>182</span> 
+<span class='line'>183</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">prevOptGroup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">add</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> 
+<span class='line'>186</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">prop</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">datasource</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">		</span><span class="COMM">//stupid prototype adds functions to array prototype</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">continue</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">		
+<span class='line'>191</span> 		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="KEYW">continue</span><span class="PUNC">;</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>194</span> 
+<span class='line'>195</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">optGroup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="STRN">'group'</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">this.dataKeyField</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">this.dataValueField</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">			
+<span class='line'>199</span> 			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">this.dataDepthField</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">				</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&nbsp;&nbsp;&nbsp;&nbsp;"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">			
+<span class='line'>203</span> 			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">optGroup</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">prevOptGroup</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">				</span><span class="NAME">html.push</span><span class="PUNC">(</span><span class="STRN">'&lt;optgroup label="'</span><span class="PUNC">+</span><span class="NAME">optGroup</span><span class="PUNC">+</span><span class="STRN">'">'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">				</span><span class="NAME">add</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>208</span> 
+<span class='line'>209</span> </span><span class="WHIT">			</span><span class="NAME">html.push</span><span class="PUNC">(</span><span class="NAME">this.getOption</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>210</span> 
+<span class='line'>211</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">add</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">optGroup</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">prevOptGroup</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">				</span><span class="NAME">html.push</span><span class="PUNC">(</span><span class="STRN">'&lt;/optgroup>'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">				</span><span class="NAME">add</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>216</span> 
+<span class='line'>217</span> </span><span class="WHIT">			</span><span class="NAME">prevOptGroup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">optGroup</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">				
+<span class='line'>221</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">prop</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> 
+<span class='line'>223</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">datasource</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Array</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">				</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>227</span> 
+<span class='line'>228</span> </span><span class="WHIT">			</span><span class="NAME">html.push</span><span class="PUNC">(</span><span class="NAME">this.getOption</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">,</span><span class="NAME">datasource</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">		
+<span class='line'>231</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>232</span> 
+<span class='line'>233</span> </span><span class="WHIT">	</span><span class="NAME">html.push</span><span class="PUNC">(</span><span class="STRN">'&lt;/'</span><span class="PUNC">+</span><span class="NAME">this.getTagName</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">'>'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">html.join</span><span class="PUNC">(</span><span class="STRN">''</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span> 
+<span class='line'>237</span> </span><span class="COMM">/**
+<span class='line'>238</span>  * Sets the prompt text. This text is visible as first option in the dropdown.
+<span class='line'>239</span>  * Note that a prompt text doesnt have a value. calling getData() while prompttext is selected
+<span class='line'>240</span>  * results in undefined
+<span class='line'>241</span>  * 
+<span class='line'>242</span>  * @param {String} text 
+<span class='line'>243</span>  * @return {this}
+<span class='line'>244</span>  */</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="NAME">Banana.Controls.DropDown.prototype.setPromptText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">	</span><span class="NAME">this.promptText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">text</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> 
+<span class='line'>251</span> </span><span class="COMM">/**
+<span class='line'>252</span>  * @return {String}
+<span class='line'>253</span>  */</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="NAME">Banana.Controls.DropDown.prototype.getPromptText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.promptText</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span> 
+<span class='line'>259</span> </span><span class="COMM">/**
+<span class='line'>260</span>  * Sets the optgroup
+<span class='line'>261</span>  * @param {String} value
+<span class='line'>262</span>  * @return {this}
+<span class='line'>263</span>  */</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="NAME">Banana.Controls.DropDown.prototype.setOptGroupField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">	</span><span class="NAME">this.optGroupField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>269</span> 
+<span class='line'>270</span> </span><span class="COMM">/**
+<span class='line'>271</span>  * @return {String}
+<span class='line'>272</span>  */</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="NAME">Banana.Controls.DropDown.prototype.getOptGroupField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.optGroupField</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> 
+<span class='line'>278</span> </span><span class="COMM">/**
+<span class='line'>279</span>  * When called we use opt grouping. By default the optgroup field is "group"
+<span class='line'>280</span>  * @return {this}
+<span class='line'>281</span>  */</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="NAME">Banana.Controls.DropDown.useOptGrouping</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">	</span><span class="NAME">this.optGrouping</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>287</span> 
+<span class='line'>288</span> </span><span class="COMM">/**
+<span class='line'>289</span>  * used to render a option line
+<span class='line'>290</span>  * 
+<span class='line'>291</span>  * @param {String} value
+<span class='line'>292</span>  * @param {String} key
+<span class='line'>293</span>  * @ignore
+<span class='line'>294</span>  * @return {String}
+<span class='line'>295</span>  */</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="NAME">Banana.Controls.DropDown.prototype.getOption</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">,</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>299</span> 
+<span class='line'>300</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.data</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'__prompt__'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.data</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">		</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'selected=selected'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'&lt;option '</span><span class="PUNC">+</span><span class="NAME">selected</span><span class="PUNC">+</span><span class="STRN">' class="BDropDownOption" value="'</span><span class="PUNC">+</span><span class="NAME">value</span><span class="PUNC">+</span><span class="STRN">'">'</span><span class="PUNC">+</span><span class="NAME">key</span><span class="PUNC">+</span><span class="STRN">'&lt;/option>'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>306</span> 
+<span class='line'>307</span> </span><span class="COMM">/**
+<span class='line'>308</span>  * used to render a option line with optgrouping enabled
+<span class='line'>309</span>  * @param {String} value
+<span class='line'>310</span>  * @param {String} key
+<span class='line'>311</span>  * @ignore
+<span class='line'>312</span>  * @return {this}
+<span class='line'>313</span>  */</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="NAME">Banana.Controls.DropDown.prototype.getOptGroup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">,</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>317</span> 
+<span class='line'>318</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">		</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'selected=selected'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">'&lt;option '</span><span class="PUNC">+</span><span class="NAME">selected</span><span class="PUNC">+</span><span class="STRN">' class="BDropDownOption" value="'</span><span class="PUNC">+</span><span class="NAME">value</span><span class="PUNC">+</span><span class="STRN">'">'</span><span class="PUNC">+</span><span class="NAME">key</span><span class="PUNC">+</span><span class="STRN">'&lt;/option>'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

@@ -1,0 +1,159 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @author Gillis Haasnoot &lt;gillis.haasnoot@gmail.com>
+<span class='line'>  3</span>  * @package Banana.Controls
+<span class='line'>  4</span>  * @summary Base data control. Provides functionality to act as a data control 
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.DataControl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Panel'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> 
+<span class='line'> 11</span> </span><span class="COMM">/** @namespace Banana.Controls.DataControl */</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">DataControl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="COMM">/** @lends Banana.Controls.DataControl.prototype */</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 16</span> 	 * Creates a base data control. Most Data controls in Banana are derived from this base data control.
+<span class='line'> 17</span> 	 * It adds set/get data support. And as well support to bind to datasets. @see Banana.Data.DataSet
+<span class='line'> 18</span> 	 * Changes made in controls are automatically redirected to the data property to ensure always up to date data.
+<span class='line'> 19</span> 	 * Still you can as a user bind on the 'dataChanged' event to listen to data changes.
+<span class='line'> 20</span> 	 * Depending on the type of the control you can also use dom events to detect changes.  
+<span class='line'> 21</span> 	 * 
+<span class='line'> 22</span> 	 * @constructs
+<span class='line'> 23</span> 	 * @extends Banana.Controls.Panel
+<span class='line'> 24</span> 	 */</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">		</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">		</span><span class="NAME">this.addCssClass</span><span class="PUNC">(</span><span class="STRN">'BDataControl'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">		</span><span class="NAME">this.isChanged</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span> 
+<span class='line'> 32</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 33</span> 	 * @override
+<span class='line'> 34</span> 	 */</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">	</span><span class="NAME">updateDisplay</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">		</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">		</span><span class="NAME">this.setDomData</span><span class="PUNC">(</span><span class="NAME">this.data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span> </span><span class="COMM">/**
+<span class='line'> 43</span>  *	Sets data on control.
+<span class='line'> 44</span>  *	when this function is called we also trigger a datachanged event and update the dom.
+<span class='line'> 45</span>  *
+<span class='line'> 46</span>  *	@param {mixed} data for control
+<span class='line'> 47</span>  *	@param {boolean} ignoreEvent when true no datachanged is triggered. This is useful when you are running in a circle or performance issues.
+<span class='line'> 48</span>  *	@param {boolean} ignoreDom when true setDomData function is not called. Useful in cases of optimizing performance.
+<span class='line'> 49</span>  *  @return {this}
+<span class='line'> 50</span>  *
+<span class='line'> 51</span>  */</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="NAME">Banana.Controls.DataControl.prototype.setData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">,</span><span class="NAME">ignoreEvent</span><span class="PUNC">,</span><span class="NAME">ignoreDom</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="NAME">this.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ignoreEvent</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">		</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">'dataChanged'</span><span class="PUNC">,</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 60</span> 
+<span class='line'> 61</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ignoreDom</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">		</span><span class="NAME">this.setDomData</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 65</span> 
+<span class='line'> 66</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="COMM">/**
+<span class='line'> 70</span>  * returns the most up to date data from the control
+<span class='line'> 71</span>  *
+<span class='line'> 72</span>  * @return {mixed} data
+<span class='line'> 73</span>  */</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="NAME">Banana.Controls.DataControl.prototype.getData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> 
+<span class='line'> 79</span> </span><span class="COMM">/**
+<span class='line'> 80</span>  * binds data to the Dom element
+<span class='line'> 81</span>  * 
+<span class='line'> 82</span>  * @ignore
+<span class='line'> 83</span>  * @param {mixed} data
+<span class='line'> 84</span>  *
+<span class='line'> 85</span>  */</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="NAME">Banana.Controls.DataControl.prototype.setDomData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isRendered</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.data</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">		</span><span class="NAME">Banana.Util.DomHelper.setData</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> 
+<span class='line'> 94</span> </span><span class="COMM">/**
+<span class='line'> 95</span>  * @ignore
+<span class='line'> 96</span>  * @return data from dom element
+<span class='line'> 97</span>  */</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="NAME">Banana.Controls.DataControl.prototype.getDomData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isRendered</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Banana.Util.DomHelper.getData</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="COMM">/**
+<span class='line'>107</span>  * binds a value from data from dataset to data in this control
+<span class='line'>108</span>  *
+<span class='line'>109</span>  * @param {mixed} Banana.Data.DataSet || name of the dataset
+<span class='line'>110</span>  * @param {string} bind property of the data. can be like value.subvalue.subsubvalue
+<span class='line'>111</span>  * @return {this}
+<span class='line'>112</span>  */</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="NAME">Banana.Controls.DataControl.prototype.dataSetBind</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">set</span><span class="PUNC">,</span><span class="NAME">bind</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="PUNC">{</span><span class="WHIT">	
+<span class='line'>115</span> 	</span><span class="NAME">this.bindedData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">set</span><span class="PUNC">,</span><span class="NAME">bind</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">	
+<span class='line'>117</span> 	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">set</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Banana.Data.DataSet</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">		</span><span class="NAME">set.bindControlToData</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isRendered</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">	
+<span class='line'>123</span> 		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getPage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getDataSet</span><span class="PUNC">(</span><span class="NAME">bd</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">				</span><span class="NAME">this.getPage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getDataSet</span><span class="PUNC">(</span><span class="NAME">bd</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">bindControlToData</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> 
+<span class='line'>131</span> </span><span class="COMM">/**
+<span class='line'>132</span>  * Unbinds this control from dataset
+<span class='line'>133</span>  * @param {mixed} Banana.Data.DataSet || name of the dataset
+<span class='line'>134</span>  *
+<span class='line'>135</span>  */</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="NAME">Banana.Controls.DataControl.prototype.unDataSetBind</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">set</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">	</span><span class="NAME">this.bindedData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> 
+<span class='line'>140</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">set</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Banana.Data.DataSet</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">		</span><span class="NAME">set.bindControlToData</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">		</span><span class="NAME">set.unBindControl</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">		</span><span class="NAME">set</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getPage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getDataSet</span><span class="PUNC">(</span><span class="NAME">set</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">		</span><span class="NAME">set.unBindControl</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span></pre></body></html>

@@ -1,0 +1,450 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @author Gillis Haasnoot &lt;gillis.haasnoot@gmail.com>
+<span class='line'>  3</span>  * @package Banana.Controls
+<span class='line'>  4</span>  * @summary ChunkedUpload experimental control.
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.ChunkedUpload'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="COMM">/** @namespace Banana.Controls.ChunkUpload*/</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">ChunkedUpload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel.extend</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="COMM">/** @lends Banana.Controls.ChunkUpload.prototype */</span><span class="WHIT">
+<span class='line'> 12</span> 
+<span class='line'> 13</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 14</span> 	 * creates a chunked upload control
+<span class='line'> 15</span> 	 * currently only supported by limited amount of browsers: chrome and firefox.
+<span class='line'> 16</span> 	 * uploads file is small chunks. the upload control ensures that chunks are send to the
+<span class='line'> 17</span> 	 * server in the correct order. Server is responsible to reconstruct the chunks to one file
+<span class='line'> 18</span> 	 * during file upload the first time a chunk is uploaded we append "firstChunk" to the post params
+<span class='line'> 19</span> 	 * last time a chunk is uploaded we append "lastChunk" to the post params.
+<span class='line'> 20</span> 	 * a "uid" param is appended to identify the file serverside
+<span class='line'> 21</span> 	 * @constructs
+<span class='line'> 22</span> 	 * @extends Banana.Controls.Panel
+<span class='line'> 23</span> 	 */</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">		</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> 
+<span class='line'> 28</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.isSupported</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">			</span><span class="NAME">this.triggerError</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">			</span><span class="NAME">log.error</span><span class="PUNC">(</span><span class="STRN">"chunk upload not supported by the browser"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 34</span> 
+<span class='line'> 35</span> </span><span class="WHIT">		</span><span class="NAME">this.files</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">		</span><span class="NAME">this.chunkSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">2000000</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">		</span><span class="NAME">this.maxSimultaneousUpload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">form</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Form</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">		</span><span class="NAME">form.setAttribute</span><span class="PUNC">(</span><span class="STRN">'enctype'</span><span class="PUNC">,</span><span class="STRN">"multipart/form-data"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">		</span><span class="NAME">form.setAttribute</span><span class="PUNC">(</span><span class="STRN">'method'</span><span class="PUNC">,</span><span class="STRN">"post"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">maxInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.InputControl</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">		</span><span class="NAME">maxInput.setAttribute</span><span class="PUNC">(</span><span class="STRN">'name'</span><span class="PUNC">,</span><span class="STRN">"MAX_FILE_SIZE"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">		</span><span class="NAME">maxInput.setAttribute</span><span class="PUNC">(</span><span class="STRN">'value'</span><span class="PUNC">,</span><span class="STRN">"99999999"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">		</span><span class="NAME">maxInput.setAttribute</span><span class="PUNC">(</span><span class="STRN">'type'</span><span class="PUNC">,</span><span class="STRN">"hidden"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fileInput</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.FileInput</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">		</span><span class="NAME">fileInput.bind</span><span class="PUNC">(</span><span class="STRN">'change'</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">			</span><span class="NAME">this.handleFilesSelected</span><span class="PUNC">(</span><span class="NAME">fileInput.getFiles</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">		</span><span class="NAME">fileInput.setId</span><span class="PUNC">(</span><span class="STRN">'fileInput'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> </span><span class="WHIT">		</span><span class="NAME">form.addControl</span><span class="PUNC">(</span><span class="NAME">maxInput</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">		</span><span class="NAME">form.addControl</span><span class="PUNC">(</span><span class="NAME">fileInput</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> 
+<span class='line'> 57</span> </span><span class="WHIT">		</span><span class="NAME">this.addControl</span><span class="PUNC">(</span><span class="NAME">form</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> 
+<span class='line'> 59</span> </span><span class="WHIT">		</span><span class="NAME">this.registerCustomEvents</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 63</span> 	 * @ignore
+<span class='line'> 64</span> 	 */</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">	</span><span class="NAME">createComponents</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.triggerError</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">			</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">"browserNotSupported"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 72</span> 
+<span class='line'> 73</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 74</span> 	 * set the size of a chunk. the lower you set the chunk, the lower memory usuage will be, but also
+<span class='line'> 75</span> 	 *
+<span class='line'> 76</span> 	 * @param {int} chunkSize
+<span class='line'> 77</span> 	 * @return {this}
+<span class='line'> 78</span> 	 */</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">	</span><span class="NAME">setChunkSize</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">chunkSize</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">		</span><span class="NAME">this.chunkSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">chunkSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 84</span> 
+<span class='line'> 85</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 86</span> 	 * max upload at the same time
+<span class='line'> 87</span> 	 * @param {int} maxSimultaneousUpload
+<span class='line'> 88</span> 	 * @return {this}
+<span class='line'> 89</span> 	 */</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">	</span><span class="NAME">setMaxSimultaneousUpload</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">maxSimultaneousUpload</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">		</span><span class="NAME">this.maxSimultaneousUpload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">maxSimultaneousUpload</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 95</span> 
+<span class='line'> 96</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 97</span> 	 *
+<span class='line'> 98</span> 	 * @param {boolean} bool when true filedialog supports multiple file selection
+<span class='line'> 99</span> 	 * @return {this}
+<span class='line'>100</span> 	 */</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">	</span><span class="NAME">setMultipleFilesUpload</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">bool</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">control</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.findControl</span><span class="PUNC">(</span><span class="STRN">'fileInput'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">control</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">		</span><span class="NAME">control.setMultiple</span><span class="PUNC">(</span><span class="NAME">bool</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> 
+<span class='line'>110</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>112</span> 
+<span class='line'>113</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>114</span> 	 * sets the url to post to
+<span class='line'>115</span> 	 * @param {String} url
+<span class='line'>116</span> 	 * @return {this}
+<span class='line'>117</span> 	 */</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">	</span><span class="NAME">setPostUrl</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">		</span><span class="NAME">this.uploadFile</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>123</span> 
+<span class='line'>124</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>125</span> 	 * Check whether our upload control is supported by the browser
+<span class='line'>126</span> 	 * @return {boolean}
+<span class='line'>127</span> 	 */</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	</span><span class="NAME">isSupported</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">window.File</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>134</span> 
+<span class='line'>135</span> </span><span class="WHIT">		</span><span class="COMM">//check file slice</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">File.prototype.webkitSlice</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">File.prototype.mozSlice</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">File.prototype.slice</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>140</span> 
+<span class='line'>141</span> </span><span class="WHIT">		</span><span class="COMM">//check level 2 xhr</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">	    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">xhr</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">XMLHttpRequest</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">	    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">!</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">xhr</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">'upload'</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">xhr</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">'onprogress'</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">xhr.upload</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>145</span> 
+<span class='line'>146</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>147</span> 	 * Handle file selected
+<span class='line'>148</span> 	 * @param {Array} files
+<span class='line'>149</span> 	 */</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">	</span><span class="NAME">handleFilesSelected</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">files</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">		</span><span class="NAME">this.currentUploading</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">		</span><span class="NAME">this.currentUploaded</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">		</span><span class="NAME">this.currentFileCount</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">files.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">		</span><span class="NAME">this.formFiles</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">files</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">		</span><span class="NAME">this.files</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">		</span><span class="NAME">this.startTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> 
+<span class='line'>159</span> </span><span class="WHIT">		</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">"filesSelected"</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="STRN">"files"</span><span class="PUNC">:</span><span class="NAME">files</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>161</span> 
+<span class='line'>162</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>163</span> 	 * Here we listen to the fileupload event.
+<span class='line'>164</span> 	 * we create a construction here to use maxSimultaneousUpload and
+<span class='line'>165</span> 	 * ensure completion of all files
+<span class='line'>166</span> 	 */</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">	</span><span class="NAME">registerCustomEvents</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">		</span><span class="NAME">this.bind</span><span class="PUNC">(</span><span class="STRN">'fileUploadedInternal'</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">,</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>170</span> 
+<span class='line'>171</span> </span><span class="WHIT">			</span><span class="NAME">this.currentUploaded</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">			</span><span class="NAME">this.currentUploading</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> 
+<span class='line'>174</span> </span><span class="WHIT">			</span><span class="COMM">///console.log('finished file '+data.file.name+' uploaded. currentUploaded',this.currentUploaded, 'currentUploading',this.currentUploading);</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">			</span><span class="COMM">//all files are uploaded</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.currentUploaded</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">this.currentFileCount</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">				</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">'filesUploaded'</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="NAME">files</span><span class="PUNC">:</span><span class="NAME">this.formFiles</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>181</span> 
+<span class='line'>182</span> </span><span class="WHIT">			</span><span class="COMM">//all files are at least busy</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.currentUploading</span><span class="PUNC">+</span><span class="NAME">this.currentUploaded</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">this.currentFileCount</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>187</span> 
+<span class='line'>188</span> </span><span class="WHIT">			</span><span class="COMM">//all files beeing uploaded are uploaded. do we have more files to upload?</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.currentUploading</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">this.maxSimultaneousUpload</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">				</span><span class="NAME">this.uploadFiles</span><span class="PUNC">(</span><span class="NAME">this.formFiles</span><span class="PUNC">,</span><span class="NAME">this.currentUploaded</span><span class="PUNC">+</span><span class="NAME">this.currentUploading</span><span class="PUNC">,</span><span class="NAME">this.currentUploaded</span><span class="PUNC">+</span><span class="NAME">this.currentUploading</span><span class="PUNC">+</span><span class="NAME">this.maxSimultaneousUpload</span><span class="PUNC">-</span><span class="NAME">this.currentUploading</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>195</span> 
+<span class='line'>196</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>197</span> 	 * Executes the upload procedure
+<span class='line'>198</span> 	 * @param {Array} of files
+<span class='line'>199</span> 	 * @param {int} from
+<span class='line'>200</span> 	 * @param {to} to
+<span class='line'>201</span> 	 */</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">	</span><span class="NAME">uploadFiles</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">files</span><span class="PUNC">,</span><span class="NAME">from</span><span class="PUNC">,</span><span class="NAME">to</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">		</span><span class="COMM">//from and to are used to maximize simultaneous uploads</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">from</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">			</span><span class="NAME">from</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">to</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">			</span><span class="NAME">to</span><span class="WHIT">	</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.maxSimultaneousUpload</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">files.length</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">files.length</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.maxSimultaneousUpload</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>213</span> 
+<span class='line'>214</span> </span><span class="WHIT">		</span><span class="NAME">this.currentUploading</span><span class="PUNC">+</span><span class="PUNC">=</span><span class="NAME">to</span><span class="PUNC">-</span><span class="NAME">from</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>215</span> 
+<span class='line'>216</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">=</span><span class="NAME">from</span><span class="PUNC">,</span><span class="NAME">len</span><span class="PUNC">=</span><span class="NAME">to</span><span class="PUNC">;</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">files</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">			</span><span class="NAME">file.loaded</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">			</span><span class="NAME">file.uid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Util.generateUniqueId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">			</span><span class="NAME">file.completion</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span> 
+<span class='line'>224</span> </span><span class="WHIT">			</span><span class="NAME">this.files</span><span class="PUNC">[</span><span class="NAME">file.name</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span> 
+<span class='line'>226</span> </span><span class="WHIT">			</span><span class="NAME">this.processFileChunkFrom</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>229</span> 
+<span class='line'>230</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>231</span> 	 * Processes a chunk from a file
+<span class='line'>232</span> 	 * this method is recalled everytime a chunk is completed.
+<span class='line'>233</span> 	 * it stops when all chunks are completed
+<span class='line'>234</span> 	 * @param {Object} file
+<span class='line'>235</span> 	 * @param {int} index part of the file chunk
+<span class='line'>236</span> 	 * @param {function} cb called after each upload chunk completion
+<span class='line'>237</span> 	 */</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">	</span><span class="NAME">processFileChunkFrom</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="NAME">index</span><span class="PUNC">,</span><span class="NAME">cb</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.loaded</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">end</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.loaded</span><span class="PUNC">+</span><span class="NAME">this.chunkSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> 
+<span class='line'>243</span> </span><span class="WHIT">		</span><span class="COMM">//if we have an error in the file. we trigger event and stop processing</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">file.uploadError</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">			</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">"fileUploadError"</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="STRN">"file"</span><span class="PUNC">:</span><span class="NAME">file</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>249</span> 
+<span class='line'>250</span> </span><span class="WHIT">		</span><span class="COMM">//we always end up here when all chunks are uploaded</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">start</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">file.size</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">			</span><span class="COMM">//trigger this event to make sure we always received a fileUploading event prior to fileUploaded</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">			</span><span class="COMM">//specialy with small files the progress event is sometimes not fired by the browser</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">			</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">"fileUploading"</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="STRN">"file"</span><span class="PUNC">:</span><span class="NAME">file</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> 
+<span class='line'>257</span> </span><span class="WHIT">			</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">"fileUploaded"</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="STRN">"file"</span><span class="PUNC">:</span><span class="NAME">file</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">			</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">"fileUploadedInternal"</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="STRN">"file"</span><span class="PUNC">:</span><span class="NAME">file</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>261</span> 
+<span class='line'>262</span> </span><span class="WHIT">		</span><span class="COMM">//we end up here at the last chunk</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">end</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">file.size</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">			</span><span class="NAME">end</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.size</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>267</span> 
+<span class='line'>268</span> </span><span class="WHIT">		</span><span class="COMM">//slice method depending on the browser</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">slice</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.webkitSlice</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">file.mozSlice</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">file.slice</span><span class="WHIT">
+<span class='line'>270</span> 
+<span class='line'>271</span> </span><span class="WHIT">		</span><span class="COMM">//get a chunk from the file</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">chunk</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">slice.call</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="NAME">start</span><span class="PUNC">,</span><span class="NAME">end</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> 
+<span class='line'>274</span> </span><span class="WHIT">		</span><span class="NAME">chunk.filename</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.name</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">		</span><span class="NAME">chunk.index</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">index</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span> 
+<span class='line'>277</span> </span><span class="WHIT">		</span><span class="COMM">//below we have a callback function encapsulated in a directly executed function</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">		</span><span class="COMM">//we do this to ensure a closure of where the file resists in.</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="WHIT">		</span><span class="COMM">//the situation can occur that we upload 2 different files at the same time. we want the</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">		</span><span class="COMM">//callback function access the right file always. without the closure the callback will always access the</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">		</span><span class="COMM">//last set file, which can be wrong</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$this</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>283</span> 
+<span class='line'>284</span> </span><span class="WHIT">		</span><span class="NAME">this.uploadChunk</span><span class="PUNC">(</span><span class="NAME">chunk</span><span class="PUNC">,</span><span class="NAME">file</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="NAME">file</span><span class="PUNC">,</span><span class="NAME">cb</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">				</span><span class="NAME">file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getFile</span><span class="PUNC">(</span><span class="NAME">file.name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>289</span> 
+<span class='line'>290</span> </span><span class="WHIT">				</span><span class="COMM">//we overwrite the loaded property here, because the ammount of loaded data</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">				</span><span class="COMM">//set in the progress event is chunkdata + header data from the xhr request.</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">				</span><span class="COMM">//the real amount of loaded bytes is index * chunksize</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">				</span><span class="COMM">//file.loaded += (index+2)*this.chunkSize;</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">				</span><span class="NAME">file.loaded</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data.loaded</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>295</span> 
+<span class='line'>296</span> </span><span class="WHIT">				</span><span class="NAME">file.completion</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">file.loaded</span><span class="PUNC">/</span><span class="NAME">file.size</span><span class="PUNC">*</span><span class="NUMB">100</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>297</span> 
+<span class='line'>298</span> </span><span class="WHIT">				</span><span class="NAME">this.processFileChunkFrom</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">,</span><span class="PUNC">++</span><span class="NAME">index</span><span class="PUNC">,</span><span class="NAME">cb</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>300</span> 
+<span class='line'>301</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery.proxy</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">			</span><span class="COMM">//alert("yes")</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="NAME">file</span><span class="PUNC">,</span><span class="NAME">cb</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>305</span> 
+<span class='line'>306</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>307</span> 	 * @param {String} filename
+<span class='line'>308</span> 	 * @return {Object}
+<span class='line'>309</span> 	 */</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">	</span><span class="NAME">getFile</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">filename</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.files</span><span class="PUNC">[</span><span class="NAME">filename</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>314</span> 
+<span class='line'>315</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>316</span> 	 * Uploads a chunk
+<span class='line'>317</span> 	 * if a chunk fails we set uploadError on file object to true
+<span class='line'>318</span> 	 * @param {Object} chunk
+<span class='line'>319</span> 	 * @param {Object} file
+<span class='line'>320</span> 	 * @param cb fired after successfully uploading chunk
+<span class='line'>321</span> 	 */</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">	</span><span class="NAME">uploadChunk</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">chunk</span><span class="PUNC">,</span><span class="NAME">file</span><span class="PUNC">,</span><span class="NAME">cb</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>324</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fd</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">FormData</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>325</span> 
+<span class='line'>326</span> </span><span class="WHIT">		</span><span class="NAME">fd.append</span><span class="PUNC">(</span><span class="STRN">"chunk"</span><span class="PUNC">,</span><span class="NAME">chunk</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">		</span><span class="NAME">fd.append</span><span class="PUNC">(</span><span class="STRN">"filename"</span><span class="PUNC">,</span><span class="NAME">chunk.filename</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">		</span><span class="NAME">fd.append</span><span class="PUNC">(</span><span class="STRN">"uid"</span><span class="PUNC">,</span><span class="NAME">file.uid</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>329</span> 
+<span class='line'>330</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">chunk.index</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">			</span><span class="NAME">fd.append</span><span class="PUNC">(</span><span class="STRN">"firstChunk"</span><span class="PUNC">,</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>334</span> 
+<span class='line'>335</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">file.loaded</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="NAME">this.chunkSize</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">file.size</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>336</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>337</span> </span><span class="WHIT">			</span><span class="NAME">fd.append</span><span class="PUNC">(</span><span class="STRN">"lastChunk"</span><span class="PUNC">,</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>338</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>339</span> 
+<span class='line'>340</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">xhr</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">XMLHttpRequest</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>341</span> 
+<span class='line'>342</span> </span><span class="WHIT">		</span><span class="NAME">xhr.addEventListener</span><span class="PUNC">(</span><span class="STRN">"error"</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>343</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>344</span> </span><span class="WHIT">			</span><span class="NAME">file.uploadError</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>346</span> 
+<span class='line'>347</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$this</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>348</span> 
+<span class='line'>349</span> </span><span class="WHIT">		</span><span class="COMM">//triggered every file state change</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="WHIT">		</span><span class="NAME">xhr.addEventListener</span><span class="PUNC">(</span><span class="STRN">"readystatechange"</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>351</span> 
+<span class='line'>352</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">,</span><span class="NAME">f</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>354</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e.target.readyState</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">4</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>355</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>356</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e.target.status</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">200</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">e.target.status</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>357</span> </span><span class="WHIT">					</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>358</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>359</span> </span><span class="WHIT">					</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>360</span> </span><span class="WHIT">					</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>361</span> </span><span class="WHIT">						</span><span class="NAME">file.uploadError</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>362</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>363</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>364</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>365</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery.proxy</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>366</span> 
+<span class='line'>367</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>368</span> 
+<span class='line'>369</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">startTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.startTime</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>370</span> 
+<span class='line'>371</span> </span><span class="WHIT">		</span><span class="COMM">//triggered every few ms</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="WHIT">		</span><span class="NAME">xhr.upload.addEventListener</span><span class="PUNC">(</span><span class="STRN">"progress"</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>373</span> 
+<span class='line'>374</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">,</span><span class="NAME">f</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>376</span> </span><span class="WHIT">				</span><span class="NAME">file</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getFile</span><span class="PUNC">(</span><span class="NAME">file.name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>377</span> 
+<span class='line'>378</span> </span><span class="WHIT">				</span><span class="COMM">//note that this is an indicative size. loaded bytes is complete xhr request</span><span class="WHIT">
+<span class='line'>379</span> </span><span class="WHIT">				</span><span class="COMM">//the actual chunk size is smaller. Bacause of that we set the actual correct size after each chunk completion</span><span class="WHIT">
+<span class='line'>380</span> </span><span class="WHIT">				</span><span class="COMM">//this happends in the callback in the load event</span><span class="WHIT">
+<span class='line'>381</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">bytesLoaded</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">file.loaded</span><span class="PUNC">+</span><span class="NAME">e.loaded</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>382</span> 
+<span class='line'>383</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newPerc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">bytesLoaded</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">file.size</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">100</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>384</span> </span><span class="WHIT">				</span><span class="NAME">file.completion</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.max</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="NAME">Math.min</span><span class="PUNC">(</span><span class="NAME">newPerc</span><span class="PUNC">,</span><span class="NUMB">100</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>385</span> 
+<span class='line'>386</span> </span><span class="WHIT">				</span><span class="COMM">//calculates bytes/s	//calculate eta</span><span class="WHIT">
+<span class='line'>387</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>388</span> 
+<span class='line'>389</span> </span><span class="WHIT">				</span><span class="NAME">file.Bps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">bytesLoaded</span><span class="PUNC">/</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">now</span><span class="PUNC">-</span><span class="NAME">this.startTime</span><span class="PUNC">)</span><span class="PUNC">/</span><span class="NUMB">1000</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>390</span> 
+<span class='line'>391</span> </span><span class="WHIT">				</span><span class="NAME">file.speed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getReadablizeBytes</span><span class="PUNC">(</span><span class="NAME">file.Bps</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>392</span> 
+<span class='line'>393</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">eta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this.startTime</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>394</span> </span><span class="WHIT">				</span><span class="NAME">eta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">eta</span><span class="PUNC">/</span><span class="NAME">file.completion</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">100</span><span class="PUNC">-</span><span class="NAME">file.completion</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>395</span> 
+<span class='line'>396</span> </span><span class="WHIT">				</span><span class="COMM">//filter</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">file.eta</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">alpha</span><span class="PUNC">=</span><span class="NUMB">0.1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="WHIT">					</span><span class="NAME">eta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">  </span><span class="NAME">eta</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">alpha</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">file.eta</span><span class="PUNC">*</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">-</span><span class="NAME">alpha</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>402</span> 
+<span class='line'>403</span> </span><span class="WHIT">				</span><span class="NAME">file.eta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">eta</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>404</span> 
+<span class='line'>405</span> </span><span class="WHIT">				</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">"fileUploading"</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="STRN">"file"</span><span class="PUNC">:</span><span class="NAME">file</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>406</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>407</span> 
+<span class='line'>408</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery.proxy</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>409</span> 
+<span class='line'>410</span> 
+<span class='line'>411</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>412</span> 
+<span class='line'>413</span> </span><span class="WHIT">		</span><span class="COMM">//triggered when chunk is complete uploading. here we call the complete callback</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">		</span><span class="NAME">xhr.upload.addEventListener</span><span class="PUNC">(</span><span class="STRN">"load"</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">chunk</span><span class="PUNC">,</span><span class="NAME">cb</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>415</span> 
+<span class='line'>416</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>418</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>419</span> </span><span class="WHIT">				</span><span class="NAME">data.loaded</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">chunk.size</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>420</span> 
+<span class='line'>421</span> </span><span class="WHIT">				</span><span class="NAME">cb</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>422</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>423</span> 
+<span class='line'>424</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery.proxy</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>425</span> 
+<span class='line'>426</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="NAME">chunk</span><span class="PUNC">,</span><span class="NAME">cb</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>427</span> 
+<span class='line'>428</span> </span><span class="WHIT">		</span><span class="NAME">xhr.open</span><span class="PUNC">(</span><span class="STRN">"POST"</span><span class="PUNC">,</span><span class="NAME">this.uploadFile</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>429</span> </span><span class="WHIT">		</span><span class="NAME">xhr.send</span><span class="PUNC">(</span><span class="NAME">fd</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>430</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>431</span> 
+<span class='line'>432</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>433</span> 	 * get a more readable string by given string of bytes
+<span class='line'>434</span> 	 * @param {String} bytes
+<span class='line'>435</span> 	 * @return {String}
+<span class='line'>436</span> 	 */</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="WHIT">	</span><span class="NAME">getReadablizeBytes</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">bytes</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>438</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>439</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">s</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'bytes'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'kb'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'Mb'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'Gb'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'Tb'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'Pb'</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>440</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.floor</span><span class="PUNC">(</span><span class="NAME">Math.log</span><span class="PUNC">(</span><span class="NAME">bytes</span><span class="PUNC">)</span><span class="PUNC">/</span><span class="NAME">Math.log</span><span class="PUNC">(</span><span class="NUMB">1024</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>441</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">bytes</span><span class="PUNC">/</span><span class="NAME">Math.pow</span><span class="PUNC">(</span><span class="NUMB">1024</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Math.floor</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">toFixed</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">' '</span><span class="PUNC">+</span><span class="NAME">s</span><span class="PUNC">[</span><span class="NAME">e</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

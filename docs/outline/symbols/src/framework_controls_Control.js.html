@@ -1,0 +1,649 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @author Gillis Haasnoot &lt;gillis.haasnoot@gmail.com>
+<span class='line'>  3</span>  * @package Banana
+<span class='line'>  4</span>  * @summary Base Control component
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="COMM">/** @namespace Banana.Control */</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'Banana.Control'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> 
+<span class='line'> 11</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.Base'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 12</span> 
+<span class='line'> 13</span> 
+<span class='line'> 14</span> </span><span class="COMM">/**
+<span class='line'> 15</span>  * @ignore
+<span class='line'> 16</span> @namespace Banana.Controls
+<span class='line'> 17</span> */</span><span class="WHIT">
+<span class='line'> 18</span> 
+<span class='line'> 19</span> </span><span class="COMM">/**
+<span class='line'> 20</span> @class Class
+<span class='line'> 21</span> @name Class
+<span class='line'> 22</span> */</span><span class="WHIT">
+<span class='line'> 23</span> 
+<span class='line'> 24</span> </span><span class="COMM">/**
+<span class='line'> 25</span> @class Banana
+<span class='line'> 26</span> @name Banana
+<span class='line'> 27</span> */</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="COMM">/**
+<span class='line'> 30</span> @class
+<span class='line'> 31</span> @name Banana.Controls
+<span class='line'> 32</span> */</span><span class="WHIT">
+<span class='line'> 33</span> 
+<span class='line'> 34</span> </span><span class="COMM">/** @namespace Banana.Control */</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">Control</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Class.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="COMM">/** @lends Banana.Control.prototype */</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 39</span> 	 *  Base control class for component controls in Banana. Provides needed methods to function well in the Banana Hierarchy.
+<span class='line'> 40</span> 	 *  This control is suitable to use in your render hierarchy. Note that this control won't be
+<span class='line'> 41</span> 	 *  rendered. Possible child controls can have visually different parent controls 
+<span class='line'> 42</span> 	 *  than the internal control collection would suggest.
+<span class='line'> 43</span> 	 *    
+<span class='line'> 44</span> 	 *  @constructs
+<span class='line'> 45</span> 	 *  @extends Class
+<span class='line'> 46</span> 	 */</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">		</span><span class="COMM">//generate a unique id (note a internal id representation)</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">		</span><span class="NAME">this.generateUniqueId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">		</span><span class="NAME">this.customId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// flag if page sets id</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">		</span><span class="NAME">this.binds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">		</span><span class="NAME">this.controls</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">		</span><span class="NAME">this.debug</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 56</span> 
+<span class='line'> 57</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 58</span> 	 * This method is called by the page during creation of the control.
+<span class='line'> 59</span> 	 * This is the place to define your control hierarchy. 
+<span class='line'> 60</span> 	 * Unlike the constructor (init) you have also access to properties 
+<span class='line'> 61</span> 	 *  
+<span class='line'> 62</span> 	 * 1. this.page - Reference to the page control
+<span class='line'> 63</span> 	 * 2. this.parent - Reference to the parent control
+<span class='line'> 64</span> 	 * 3. this.id - internal id
+<span class='line'> 65</span> 	 * 4. this.clientId - client id of the dom node
+<span class='line'> 66</span> 	 * 
+<span class='line'> 67</span> 	 * Except for these properties there is no difference. It doesn't really matters 
+<span class='line'> 68</span> 	 * if you create child controls in the init or in the createComponents methods.
+<span class='line'> 69</span> 	 * Only if you need access to the parent or page control. 
+<span class='line'> 70</span> 	 * Or when you need to know what the id or client is. 
+<span class='line'> 71</span> 	 * You will find out that in most cases createComponents is the right place to do things.
+<span class='line'> 72</span> 	 * Note: that createComponents is called only once. Rerendering doesn't result into a call
+<span class='line'> 73</span> 	 * to createComponents 
+<span class='line'> 74</span> 	 * Another important note is that both init and createComponents methods are executed before 
+<span class='line'> 75</span> 	 * even one thing is rendered on your screen.The clientId is already known, 
+<span class='line'> 76</span> 	 * but you cannot access the dom node. To get access to the dom you need the updateDisplay() method.
+<span class='line'> 77</span> 	 */</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">	</span><span class="NAME">createComponents</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 81</span> 	 * The method is called by the page after the dom element is rendered.
+<span class='line'> 82</span> 	 * If you want to add controls to the collection don't forget to invalidate by calling
+<span class='line'> 83</span> 	 * invalidateDisplay()
+<span class='line'> 84</span> 	 */</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">	</span><span class="NAME">updateDisplay</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 86</span> 
+<span class='line'> 87</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 88</span> 	 * called after invalidating control with invalidateDisplay method
+<span class='line'> 89</span> 	 */</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">	</span><span class="NAME">onPreInvalidateContents</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 91</span> 
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 93</span> 	 * called just before destroying object
+<span class='line'> 94</span> 	 * Use this method to manualy destroy other objects i.e to prevent memory leaks
+<span class='line'> 95</span> 	 */</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">	</span><span class="NAME">unload</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 97</span> 
+<span class='line'> 98</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 99</span> 	 * called on every display size change
+<span class='line'>100</span> 	 */</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">	</span><span class="NAME">onWindowResize</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>102</span> 
+<span class='line'>103</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> </span><span class="COMM">/**
+<span class='line'>106</span>  * @param {Function} fn function to apply to all children in control collection
+<span class='line'>107</span>  */</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="NAME">Banana.Control.prototype.applyToChildren</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fn</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.applyToChildren.arguments</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	</span><span class="NAME">args.shift</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">len</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.controls.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">		</span><span class="NAME">fn.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="COMM">/**
+<span class='line'>119</span>  * sets internal id
+<span class='line'>120</span>  * @param {String} id of control
+<span class='line'>121</span>  * @return {this}
+<span class='line'>122</span>  */</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="NAME">Banana.Control.prototype.setId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">	</span><span class="NAME">this.id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">	</span><span class="NAME">this.customId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> 
+<span class='line'>130</span> </span><span class="COMM">/**
+<span class='line'>131</span>  * @return {String} id of control
+<span class='line'>132</span>  */</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="NAME">Banana.Control.prototype.getId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>137</span> 
+<span class='line'>138</span> </span><span class="COMM">/**
+<span class='line'>139</span>  * sets client id used for reference to dom node
+<span class='line'>140</span>  * @param string
+<span class='line'>141</span>  */</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="NAME">Banana.Control.prototype.setClientId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">cid</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="NAME">this.clientId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cid</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> 
+<span class='line'>147</span> </span><span class="COMM">/**
+<span class='line'>148</span>  * @return {String}
+<span class='line'>149</span>  */</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="NAME">Banana.Control.prototype.getClientId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.clientId</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> 
+<span class='line'>155</span> </span><span class="COMM">/**
+<span class='line'>156</span>  * generated unique id used for dom elements
+<span class='line'>157</span>  */</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="NAME">Banana.Control.prototype.generateUniqueId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">	</span><span class="NAME">this.id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Util.generateUniqueId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span> 
+<span class='line'>163</span> </span><span class="COMM">/**
+<span class='line'>164</span>  * forces control to be rendered. Only this function to bypass the page logic
+<span class='line'>165</span>  * i.e you want to render a control which is not part of a control hierarchy
+<span class='line'>166</span>  *
+<span class='line'>167</span>  * @param {Banana.Control} control
+<span class='line'>168</span>  */</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="NAME">Banana.Control.prototype.render</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">control</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">	</span><span class="NAME">this.getPage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">initRender</span><span class="PUNC">(</span><span class="NAME">control</span><span class="PUNC">,</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> 
+<span class='line'>174</span> </span><span class="COMM">/**
+<span class='line'>175</span>  * sets reference to the page control
+<span class='line'>176</span>  * @param {Banana.Page} page
+<span class='line'>177</span>  */</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="NAME">Banana.Control.prototype.setPage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">	</span><span class="NAME">this.page</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">page</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span> 
+<span class='line'>183</span> </span><span class="COMM">/**
+<span class='line'>184</span>  * @return {Banana.Page} 
+<span class='line'>185</span>  */</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="NAME">Banana.Control.prototype.getPage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.page</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> 
+<span class='line'>191</span> </span><span class="COMM">/**
+<span class='line'>192</span>  * This method is most useful for attaching event handlers to an element
+<span class='line'>193</span>  * where the context is pointing back to a different object.
+<span class='line'>194</span>  * @return {Function} fn
+<span class='line'>195</span>  */</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="NAME">Banana.Control.prototype.getProxy</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">fn</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">jQuery.proxy</span><span class="PUNC">(</span><span class="NAME">fn</span><span class="PUNC">,</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>200</span> 
+<span class='line'>201</span> </span><span class="COMM">/**
+<span class='line'>202</span>  * Sets reference to parent control. This method is automatically invoked during page construction
+<span class='line'>203</span>  * @param {Banana.Control} parent 
+<span class='line'>204</span>  */</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="NAME">Banana.Control.prototype.setParent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">parent</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">	</span><span class="NAME">this.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parent</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> 
+<span class='line'>210</span> </span><span class="COMM">/**
+<span class='line'>211</span>  * @return {Banana.Control} parent control
+<span class='line'>212</span>  */</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="NAME">Banana.Control.prototype.getParent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.parent</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> 
+<span class='line'>218</span> </span><span class="NAME">Banana.Control.prototype.getEnabled</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> 
+<span class='line'>220</span> </span><span class="COMM">/**
+<span class='line'>221</span>  * Adds a plaintext or a control to the control hierargy.
+<span class='line'>222</span>  * Adding control after render requires call to invalidateDisplay in order to get
+<span class='line'>223</span>  * the new control rendered visible
+<span class='line'>224</span>  * @param {mixed} String or Banana.Control
+<span class='line'>225</span>  */</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="NAME">Banana.Control.prototype.addControl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">c</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT">	</span><span class="NAME">this.controls.push</span><span class="PUNC">(</span><span class="NAME">c</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>231</span> 
+<span class='line'>232</span> </span><span class="COMM">/**
+<span class='line'>233</span>  * @return {Array} of collection of mixed types
+<span class='line'>234</span>  */</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="NAME">Banana.Control.prototype.getControls</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.controls</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> 
+<span class='line'>240</span> </span><span class="COMM">/**
+<span class='line'>241</span>  * Recursively finds control 
+<span class='line'>242</span>  *
+<span class='line'>243</span>  * @param {String} id of the control
+<span class='line'>244</span>  * @return Banana.Control
+<span class='line'>245</span>  */</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="NAME">Banana.Control.prototype.findControl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">this.getId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">childs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getControls</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>255</span> 
+<span class='line'>256</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">childs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">len</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">childs.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">childs</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Banana.Control</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">foundcontrol</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">childs</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">findControl</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> 
+<span class='line'>265</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">foundcontrol</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">foundcontrol</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span> 
+<span class='line'>275</span> </span><span class="COMM">/**
+<span class='line'>276</span>  * If control is part of a collection belonging to a page it has a page defined.
+<span class='line'>277</span>  * we let the page handle the removement of the control.
+<span class='line'>278</span>  * If it is a standalone control, we just unregister the events
+<span class='line'>279</span>  * TODO: should maybe also remove dom in the situation where control is not part of a collection
+<span class='line'>280</span>  */</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="NAME">Banana.Control.prototype.remove</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getPage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Banana.UiControl</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">		</span><span class="NAME">this.getPage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeControl</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">		</span><span class="NAME">this.unregisterEvents</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>292</span> 
+<span class='line'>293</span> </span><span class="COMM">/**
+<span class='line'>294</span>  * removes all child controls in this control
+<span class='line'>295</span>  */</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="NAME">Banana.Control.prototype.clear</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getPage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Banana.UiControl</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">		</span><span class="NAME">this.getPage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">clearControl</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">	</span><span class="NAME">this.controls</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>304</span> 
+<span class='line'>305</span> </span><span class="COMM">/**
+<span class='line'>306</span>  * invalidates display. triggers the page to re-render node tree beginning from this control.
+<span class='line'>307</span>  */</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="NAME">Banana.Control.prototype.invalidateDisplay</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getPage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">page.isRendered</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">		</span><span class="NAME">page.rerender</span><span class="PUNC">(</span><span class="NAME">this.getFirstUiControl</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>316</span> 
+<span class='line'>317</span> </span><span class="COMM">/**
+<span class='line'>318</span>  * Triggers an event so all listeners are getting notified.
+<span class='line'>319</span>  *
+<span class='line'>320</span>  * To start listening use the bind method. example:
+<span class='line'>321</span>  * 
+<span class='line'>322</span>  * someControl.bind('test',function(){});
+<span class='line'>323</span>  *  
+<span class='line'>324</span>  * To Trigger an event. example
+<span class='line'>325</span>  *  
+<span class='line'>326</span>  * someControl.triggerEvent('test',{data:'foo'});
+<span class='line'>327</span>  *
+<span class='line'>328</span>  * @param {String} name of the event
+<span class='line'>329</span>  * @mixed {mixed} params of any type
+<span class='line'>330</span>  */</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="NAME">Banana.Control.prototype.triggerEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="NAME">params</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">	</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">trigger</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="NAME">params</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>335</span> 
+<span class='line'>336</span> </span><span class="COMM">/**
+<span class='line'>337</span>  * @return {Array} of dom event types compatible with jquery
+<span class='line'>338</span>  */</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="NAME">Banana.Control.prototype.getDomEventTypes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'mousedown'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">	        </span><span class="STRN">'mousemove'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>343</span> </span><span class="WHIT">	        </span><span class="STRN">'resize'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>344</span> </span><span class="WHIT">			</span><span class="STRN">'mouseup'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">			</span><span class="STRN">'ready'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>346</span> </span><span class="WHIT">			</span><span class="STRN">'click'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>347</span> </span><span class="WHIT">			</span><span class="STRN">'dblclick'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">			</span><span class="STRN">'error'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">			</span><span class="STRN">'ready'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="WHIT">			</span><span class="STRN">'select'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>351</span> </span><span class="WHIT">			</span><span class="STRN">'submit'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>352</span> </span><span class="WHIT">			</span><span class="STRN">'focusin'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="WHIT">			</span><span class="STRN">'focusout'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>354</span> </span><span class="WHIT">			</span><span class="STRN">'focus'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>355</span> </span><span class="WHIT">			</span><span class="STRN">'change'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>356</span> </span><span class="WHIT">			</span><span class="STRN">'mouseover'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>357</span> </span><span class="WHIT">			</span><span class="STRN">'mouseleave'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>358</span> </span><span class="WHIT">			</span><span class="STRN">'mouseenter'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>359</span> </span><span class="WHIT">			</span><span class="STRN">'mouseout'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>360</span> </span><span class="WHIT">			</span><span class="STRN">'keypress'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>361</span> </span><span class="WHIT">			</span><span class="STRN">'keyup'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>362</span> </span><span class="WHIT">			</span><span class="STRN">'keydown'</span><span class="WHIT">
+<span class='line'>363</span> </span><span class="WHIT">	        </span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>364</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>365</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>366</span> 
+<span class='line'>367</span> </span><span class="COMM">/**
+<span class='line'>368</span>  * Binds an eventname to a method
+<span class='line'>369</span>  * There are 2 types of events:
+<span class='line'>370</span>  * Dom events: Events mostly fired from user actions like mouse click, keyup etc.
+<span class='line'>371</span>  * Custom events: These events are manually triggered by Banana components. 
+<span class='line'>372</span>  * 
+<span class='line'>373</span>  * Important is that dom events are available after the control is rendered. 
+<span class='line'>374</span>  * Custom events are registered instantly and available at all time.
+<span class='line'>375</span>  * 
+<span class='line'>376</span>  * @param {String} name of the event
+<span class='line'>377</span>  * @param {Function} func callback function
+<span class='line'>378</span>  * @param {mixed} data userdata
+<span class='line'>379</span>  * 
+<span class='line'>380</span>  * @return {this};
+<span class='line'>381</span>  */</span><span class="WHIT">
+<span class='line'>382</span> </span><span class="NAME">Banana.Control.prototype.bind</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>383</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>384</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.binds</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>386</span> </span><span class="WHIT">		</span><span class="NAME">this.binds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>387</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>388</span> 
+<span class='line'>389</span> </span><span class="WHIT">	</span><span class="COMM">//dont bind duplicate name and functions</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.hasBind</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>391</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>392</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>394</span> 
+<span class='line'>395</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getDomEventTypes</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">indexOf</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>396</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">		</span><span class="COMM">//collect the dom events. which can only be registered after rendering</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">		</span><span class="NAME">this.binds.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">'name'</span><span class="PUNC">:</span><span class="NAME">name</span><span class="PUNC">,</span><span class="STRN">'func'</span><span class="PUNC">:</span><span class="NAME">func</span><span class="PUNC">,</span><span class="STRN">'data'</span><span class="PUNC">:</span><span class="NAME">data</span><span class="PUNC">,</span><span class="STRN">'type'</span><span class="PUNC">:</span><span class="NAME">Banana.Controls.EventTypes.DOM_EVENT</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>399</span> 
+<span class='line'>400</span> </span><span class="WHIT">		</span><span class="NAME">this.debugEvent</span><span class="PUNC">(</span><span class="NAME">Banana.Controls.EventTypes.DOM_EVENT</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Bind normal"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isRendered</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">			</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="PUNC">+</span><span class="NAME">this.getClientId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="NAME">data</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>406</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>407</span> </span><span class="WHIT">	</span><span class="COMM">//custom events can be binded directly. no need to put these in an array for later bind</span><span class="WHIT">
+<span class='line'>408</span> </span><span class="WHIT">	</span><span class="COMM">//since we also call unbind on all objects, </span><span class="WHIT">
+<span class='line'>409</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>410</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>411</span> </span><span class="WHIT">		</span><span class="NAME">this.debugEvent</span><span class="PUNC">(</span><span class="NAME">Banana.Controls.EventTypes.CUSTOM_EVENT</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Bind directly"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>412</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">		</span><span class="NAME">this.binds.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">'name'</span><span class="PUNC">:</span><span class="NAME">name</span><span class="PUNC">,</span><span class="STRN">'func'</span><span class="PUNC">:</span><span class="NAME">func</span><span class="PUNC">,</span><span class="STRN">'data'</span><span class="PUNC">:</span><span class="NAME">data</span><span class="PUNC">,</span><span class="STRN">'type'</span><span class="PUNC">:</span><span class="NAME">Banana.Controls.EventTypes.CUSTOM_EVENT</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">		</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>416</span> 
+<span class='line'>417</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>418</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>419</span> 
+<span class='line'>420</span> </span><span class="COMM">/**
+<span class='line'>421</span>  * Check wether a bind to a specific function in a control exists
+<span class='line'>422</span>  *
+<span class='line'>423</span>  * @param {String} name of event
+<span class='line'>424</span>  * @param {Function} func
+<span class='line'>425</span>  * @return {boolean} 
+<span class='line'>426</span>  */</span><span class="WHIT">
+<span class='line'>427</span> </span><span class="NAME">Banana.Control.prototype.hasBind</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>429</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.binds</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>430</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>431</span> </span><span class="WHIT">		</span><span class="NAME">this.binds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>432</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>433</span> 
+<span class='line'>434</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>435</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">len</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.binds.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">b</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.binds</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>438</span> 
+<span class='line'>439</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>440</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>441</span> </span><span class="WHIT">			</span><span class="COMM">//dont bind duplicate name and functions</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">b.name</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func.guid</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">b.func.guid</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">b.func</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>444</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>445</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>446</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>447</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>449</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">b.name</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>450</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>452</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>453</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>455</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>456</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>457</span> 
+<span class='line'>458</span> </span><span class="COMM">/**
+<span class='line'>459</span>  * Unbinds an eventname
+<span class='line'>460</span>  * If funcion is given we unbind only when the bind matches the given function.
+<span class='line'>461</span>  * Otherwise we unbind all binds with the specified name regardless how many.
+<span class='line'>462</span>  * 
+<span class='line'>463</span>  * @param {String} name of event
+<span class='line'>464</span>  * @param {Function} func optionaly 
+<span class='line'>465</span>  */</span><span class="WHIT">
+<span class='line'>466</span> </span><span class="NAME">Banana.Control.prototype.unbind</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>467</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>469</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">len</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.binds.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>470</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">b</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.binds</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="WHIT">		</span><span class="NAME">this.debugEvent</span><span class="PUNC">(</span><span class="NUMB">3</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Unbind"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>475</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>476</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>477</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getDomEventTypes</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">indexOf</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>478</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>479</span> </span><span class="WHIT">				</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="PUNC">+</span><span class="NAME">this.getClientId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">unbind</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>480</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>481</span> </span><span class="WHIT">			</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>482</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="WHIT">				</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">unbind</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>485</span> 
+<span class='line'>486</span> </span><span class="WHIT">			</span><span class="NAME">this.binds.splice</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>487</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>488</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">b.name</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func.guid</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">b.func.guid</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">b.func</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>489</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>490</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.getDomEventTypes</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">indexOf</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>491</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>492</span> </span><span class="WHIT">				</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="PUNC">+</span><span class="NAME">this.getClientId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">unbind</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>493</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>494</span> </span><span class="WHIT">			</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>496</span> </span><span class="WHIT">				</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">unbind</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>497</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>498</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>499</span> </span><span class="WHIT">			</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">unbind</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>500</span> </span><span class="WHIT">			</span><span class="NAME">this.binds.splice</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>501</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>502</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>503</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>504</span> 
+<span class='line'>505</span> </span><span class="COMM">/**
+<span class='line'>506</span>  * register all binded events
+<span class='line'>507</span>  * used by framework.
+<span class='line'>508</span>  * @ignore
+<span class='line'>509</span>  */</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="NAME">Banana.Control.prototype.registerEvents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>512</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.binds</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>513</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>514</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>515</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>516</span> 
+<span class='line'>517</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>518</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">len</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.binds.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>519</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>520</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.binds</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">name</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>521</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.binds</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">func</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>522</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.binds</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>523</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.binds</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">type</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>524</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>525</span> </span><span class="WHIT">		</span><span class="COMM">//there is a difference between dom and data events. dom events can be registered only</span><span class="WHIT">
+<span class='line'>526</span> </span><span class="WHIT">		</span><span class="COMM">//when the dom elements are rendered. data events can be registered right when object are instantiated</span><span class="WHIT">
+<span class='line'>527</span> </span><span class="WHIT">		</span><span class="COMM">//if we bind an custom event during construction (before dom render, no rerender has occured) we want it instant to be registered</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">		</span><span class="COMM">//because this function is called after rendering and rerendering we only need to bind the custom events</span><span class="WHIT">
+<span class='line'>529</span> </span><span class="WHIT">		</span><span class="COMM">//after a RE-rerender, cause rerendering always starts with unbinding ALL events.</span><span class="WHIT">
+<span class='line'>530</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.EventTypes.CUSTOM_EVENT</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.getPage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">isRerendering</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>532</span> </span><span class="WHIT">			</span><span class="NAME">this.debugEvent</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Register event"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>533</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>534</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>535</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>536</span> </span><span class="WHIT">				</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="NAME">data</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>537</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>538</span> </span><span class="WHIT">			</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>539</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>540</span> </span><span class="WHIT">				</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>541</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>542</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>543</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>544</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>545</span> </span><span class="WHIT">			</span><span class="NAME">this.debugEvent</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Ignore register event"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>546</span> </span><span class="WHIT">			</span><span class="COMM">//no need to bind this event,</span><span class="WHIT">
+<span class='line'>547</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>548</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>549</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>550</span> 
+<span class='line'>551</span> </span><span class="COMM">/**
+<span class='line'>552</span>  * Unregisters all binded events.
+<span class='line'>553</span>  * note we dont touch the bind array, cause we might rebind it at a later moment. 
+<span class='line'>554</span>  * @ignore
+<span class='line'>555</span>  */</span><span class="WHIT">
+<span class='line'>556</span> </span><span class="NAME">Banana.Control.prototype.unregisterEvents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>557</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>558</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.binds</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>559</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>560</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>561</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>562</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>563</span> </span><span class="WHIT">	</span><span class="NAME">this.debugEvent</span><span class="PUNC">(</span><span class="NUMB">3</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Unregister all events CONTROL"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>564</span> 
+<span class='line'>565</span> </span><span class="WHIT">	</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">unbind</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//and all custom events</span><span class="WHIT">
+<span class='line'>566</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>567</span> 
+<span class='line'>568</span> </span><span class="COMM">/**
+<span class='line'>569</span>  * returns html string of all child controls
+<span class='line'>570</span>  * Note that Banana.Control type classes on it self won't get rendered.
+<span class='line'>571</span>  * 
+<span class='line'>572</span>  * note Banana.control itself wont be rendered, but it chould contain child controls
+<span class='line'>573</span>  * which are from Banana.UiControl type
+<span class='line'>574</span>  *
+<span class='line'>575</span>  * @param {boolean} markAsRendered 
+<span class='line'>576</span>  * @return {String}
+<span class='line'>577</span>  */</span><span class="WHIT">
+<span class='line'>578</span> </span><span class="NAME">Banana.Control.prototype.getHtml</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">markAsRendered</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>579</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>580</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">html</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>581</span> 
+<span class='line'>582</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">childs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getControls</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>583</span> 
+<span class='line'>584</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>585</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">len</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">childs.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>586</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>587</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">childs</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Banana.Control</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>588</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>589</span> </span><span class="WHIT">			</span><span class="NAME">html</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">childs</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getHtml</span><span class="PUNC">(</span><span class="NAME">markAsRendered</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>590</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>591</span> 
+<span class='line'>592</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">childs</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'string'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>593</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>594</span> </span><span class="WHIT">			</span><span class="NAME">html</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">childs</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>595</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>596</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>597</span> 
+<span class='line'>598</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">html</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>599</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>600</span> 
+<span class='line'>601</span> </span><span class="NAME">Banana.Control.prototype.debugEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="NAME">eventname</span><span class="PUNC">,</span><span class="NAME">message</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>602</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>603</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.debug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>604</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>605</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.id</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">'debugme'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>606</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>607</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>608</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>609</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.EventTypes.DOM_EVENT</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>610</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>611</span> </span><span class="WHIT">		</span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">,</span><span class="STRN">'dom'</span><span class="PUNC">,</span><span class="NAME">eventname</span><span class="PUNC">,</span><span class="NAME">this.id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>612</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>613</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.EventTypes.CUSTOM_EVENT</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>614</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>615</span> </span><span class="WHIT">		</span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">,</span><span class="STRN">'customevent'</span><span class="PUNC">,</span><span class="NAME">eventname</span><span class="PUNC">,</span><span class="NAME">this.id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>616</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>617</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>618</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>619</span> </span><span class="WHIT">		</span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">,</span><span class="STRN">'all events'</span><span class="PUNC">,</span><span class="NAME">eventname</span><span class="PUNC">,</span><span class="NAME">this.id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>620</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>621</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>622</span> 
+<span class='line'>623</span> </span><span class="COMM">/**
+<span class='line'>624</span>  * fetches the first parent control which is an instance of Banana.UiControl
+<span class='line'>625</span>  * @return {Banana.Control}
+<span class='line'>626</span>  */</span><span class="WHIT">
+<span class='line'>627</span> </span><span class="NAME">Banana.Control.prototype.getFirstUiControl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>628</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>629</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="PUNC">(</span><span class="NAME">Banana.UiControl</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this.markAsNonRender</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>630</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>631</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>632</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>633</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>634</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>635</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.parent</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>636</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>637</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.parent.getFirstUiControl</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>638</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>639</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>640</span> 
+<span class='line'>641</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>642</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

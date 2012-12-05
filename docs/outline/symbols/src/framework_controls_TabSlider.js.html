@@ -1,0 +1,340 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @author Gillis Haasnoot &lt;gillis.haasnoot@gmail.com>
+<span class='line'>  3</span>  * @package Banana.Controls
+<span class='line'>  4</span>  * @summary TabSlider   
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.TabSlider'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="COMM">/** @namespace Banana.Controls.TabSlider */</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">TabSlider</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel.extend</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="COMM">/** @lends Banana.Controls.TabSlider.prototype */</span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 14</span> 	 * Creates a Tab Slider. A Tabslider is a horizontaly sliding component. 
+<span class='line'> 15</span> 	 * Content can be added by using the addContent(content,tabname) method. 
+<span class='line'> 16</span> 	 * Optionally setUseUrlHistory can be used to have tabslides available in browser history
+<span class='line'> 17</span> 	 *  
+<span class='line'> 18</span> 	 * Example:
+<span class='line'> 19</span> 	 
+<span class='line'> 20</span> 	var slider = new Banana.Controls.TabSlider();
+<span class='line'> 21</span> 	slider.setStyle("height:300px; width:800px; border:1px solid black;border:1px solid #666666;");
+<span class='line'> 22</span> 	slider.setUseUrlHistory(true);
+<span class='line'> 23</span> 	slider.setSlideSpeed(1000);
+<span class='line'> 24</span> 	slider.addContent(new Banana.Controls.DropDown(),"dropdown");
+<span class='line'> 25</span> 	slider.addContent(new Banana.Controls.CheckBox(),"checkbox");
+<span class='line'> 26</span> 
+<span class='line'> 27</span> 	 * 
+<span class='line'> 28</span> 	 * @constructs
+<span class='line'> 29</span> 	 * @extends Banana.Controls.Panel
+<span class='line'> 30</span> 	 */</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">		</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">		</span><span class="NAME">this.addCssClass</span><span class="PUNC">(</span><span class="STRN">"BTabSlider"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">		</span><span class="NAME">this.content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">		</span><span class="NAME">this.activatedTab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">		</span><span class="NAME">this.slideSpeed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">400</span><span class="PUNC">;</span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">		</span><span class="NAME">this.easing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'swing'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">		</span><span class="NAME">this.useAutoHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">		</span><span class="NAME">this.useUrlHistory</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">		</span><span class="NAME">this.linkNextText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&nbsp;"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">		</span><span class="NAME">this.linkPreviousText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&nbsp;"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="NAME">onWindowResize</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">		</span><span class="NAME">this.repositionPanels</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 55</span> 	 * Adds content which is accessible through a tab link
+<span class='line'> 56</span> 	 * Content can be a control or just plain text. A tabname is required and will appear as a link on top of the control
+<span class='line'> 57</span> 	 * @param {mixed} content can be a control or plain text
+<span class='line'> 58</span> 	 * @param {String} tabname
+<span class='line'> 59</span> 	 * @return {this}
+<span class='line'> 60</span> 	 */</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">	</span><span class="NAME">addContent</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">content</span><span class="PUNC">,</span><span class="NAME">tabname</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">tabname</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">tabname</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">log.error</span><span class="PUNC">(</span><span class="STRN">"cannot add content without tabname"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">		</span><span class="NAME">this.content.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">content</span><span class="PUNC">:</span><span class="NAME">content</span><span class="PUNC">,</span><span class="NAME">tabname</span><span class="PUNC">:</span><span class="NAME">tabname</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 73</span> 	 * Set transition speed during slide
+<span class='line'> 74</span> 	 * @param {int} speed in ms
+<span class='line'> 75</span> 	 * @return {this}
+<span class='line'> 76</span> 	 */</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">	</span><span class="NAME">setSlideSpeed</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">speed</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">		</span><span class="NAME">this.slideSpeed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">speed</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 84</span> 	 * When true we set the height of the tabslider based on the current active tab.
+<span class='line'> 85</span> 	 * Note that css properties margin and padding are ignored. This is due the fact that the tabslider uses absolute
+<span class='line'> 86</span> 	 * positioned divs. height should be set manually or calculated with javascript.
+<span class='line'> 87</span> 	 * 
+<span class='line'> 88</span> 	 * @param {boolean}
+<span class='line'> 89</span> 	 * @return {this}
+<span class='line'> 90</span> 	 */</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="NAME">setUseAutoHeight</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">bool</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">		</span><span class="NAME">this.useAutoHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">bool</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 98</span> 	 * Set easing type "swing" || "linear"
+<span class='line'> 99</span> 	 * See JQuery animate() method for more information
+<span class='line'>100</span> 	 * 
+<span class='line'>101</span> 	 * @param {String} easing
+<span class='line'>102</span> 	 * @return {this}
+<span class='line'>103</span> 	 */</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">	</span><span class="NAME">setEasing</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">easing</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">		</span><span class="NAME">this.easing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">easing</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>112</span> 	 * if true we save the active tab in the url. Using browser history will affect current active tab 
+<span class='line'>113</span> 	 * @param {boolean}
+<span class='line'>114</span> 	 * @return {this} 
+<span class='line'>115</span> 	 */</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">	</span><span class="NAME">setUseUrlHistory</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">use</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">		</span><span class="NAME">this.useUrlHistory</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">use</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>123</span> 	 * sets the text of the next link. clicking on it will advance to the next link
+<span class='line'>124</span> 	 * @param {String} text
+<span class='line'>125</span> 	 * @return {this}
+<span class='line'>126</span> 	 */</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">	</span><span class="NAME">setLinkNextText</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">		</span><span class="NAME">this.linkNextText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">text</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>134</span> 	 * sets the text of the previous link. clicking on it will advance to the previous link
+<span class='line'>135</span> 	 * @param {String} text
+<span class='line'>136</span> 	 * @return {this}
+<span class='line'>137</span> 	 */</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">	</span><span class="NAME">setLinkPreviousText</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">		</span><span class="NAME">this.linkPreviousText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">text</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>145</span> 	 * @ignore
+<span class='line'>146</span> 	 */</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">	</span><span class="NAME">createComponents</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">		</span><span class="NAME">this.buttonContainer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderButtonContainer"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> 
+<span class='line'>151</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">contentWrapper</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderContentWrapper"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">		</span><span class="NAME">this.contentContainer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderContentContainer"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">		</span><span class="NAME">contentWrapper.addControl</span><span class="PUNC">(</span><span class="NAME">this.contentContainer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> 
+<span class='line'>156</span> </span><span class="WHIT">		</span><span class="NAME">this.addControl</span><span class="PUNC">(</span><span class="NAME">this.buttonContainer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">		</span><span class="NAME">this.addControl</span><span class="PUNC">(</span><span class="NAME">contentWrapper</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.useUrlHistory</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">			</span><span class="NAME">this.urlKey</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"tabSlidePos"</span><span class="PUNC">+</span><span class="NAME">this.getClientId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span> 
+<span class='line'>163</span> </span><span class="WHIT">			</span><span class="NAME">this.registerUrlHistory</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Util.UrlManager.getModule</span><span class="PUNC">(</span><span class="NAME">this.urlKey</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">				</span><span class="NAME">this.activatedTab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>174</span> 	 * @ignore
+<span class='line'>175</span> 	 */</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">	</span><span class="NAME">updateDisplay</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">		</span><span class="COMM">//clear first. ie after refresh</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">		</span><span class="NAME">this.buttonContainer.clear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">		</span><span class="NAME">this.contentContainer.clear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dim</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getDimensions</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">		</span><span class="COMM">//make sure the content container got the width of all contents together</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">containerWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dim.width</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">this.content.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">		</span><span class="NAME">this.contentContainer.setCss</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"width"</span><span class="PUNC">:</span><span class="NAME">containerWidth</span><span class="PUNC">+</span><span class="STRN">"px"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">		</span><span class="COMM">//sizes for link place holders. we want them to equally spread out </span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">edgeContainerSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">40</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">centerContainersSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dim.width</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">edgeContainerSize</span><span class="PUNC">*</span><span class="NUMB">2</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">this.content.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">widthToPerc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">w</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">w</span><span class="PUNC">/</span><span class="NAME">dim.width</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">100</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">firstLinkWrapper</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">setCss</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">'width'</span><span class="PUNC">:</span><span class="NAME">widthToPerc</span><span class="PUNC">(</span><span class="NAME">edgeContainerSize</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">'%'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderlinkWrapper"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">		</span><span class="NAME">this.buttonContainer.addControl</span><span class="PUNC">(</span><span class="NAME">firstLinkWrapper</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">buttonPrev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Link</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderLink BTabSliderLinkPrevious"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">		</span><span class="NAME">buttonPrev.addControl</span><span class="PUNC">(</span><span class="NAME">this.linkPreviousText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">		</span><span class="NAME">buttonPrev.setHref</span><span class="PUNC">(</span><span class="STRN">"#previous tab"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">		</span><span class="NAME">firstLinkWrapper.addControl</span><span class="PUNC">(</span><span class="NAME">buttonPrev</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">		</span><span class="NAME">buttonPrev.bind</span><span class="PUNC">(</span><span class="STRN">'click'</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">			</span><span class="NAME">this.activatedTab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.ensureValidTab</span><span class="PUNC">(</span><span class="PUNC">--</span><span class="NAME">this.activatedTab</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">			</span><span class="NAME">this.repositionPanels</span><span class="PUNC">(</span><span class="NAME">this.slideSpeed</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">len</span><span class="PUNC">=</span><span class="NAME">this.content.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">len</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">linkWrapper</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">setCss</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">'width'</span><span class="PUNC">:</span><span class="NAME">widthToPerc</span><span class="PUNC">(</span><span class="NAME">centerContainersSize</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">'%'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderlinkWrapper"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">			</span><span class="NAME">this.buttonContainer.addControl</span><span class="PUNC">(</span><span class="NAME">linkWrapper</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">button</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Link</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderLink"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">			</span><span class="NAME">button.addControl</span><span class="PUNC">(</span><span class="NAME">this.content</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">tabname</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">			</span><span class="NAME">button.setHref</span><span class="PUNC">(</span><span class="STRN">"#"</span><span class="PUNC">+</span><span class="NAME">this.content</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">tabname</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">			</span><span class="NAME">linkWrapper.addControl</span><span class="PUNC">(</span><span class="NAME">button</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span> 
+<span class='line'>224</span> </span><span class="WHIT">			</span><span class="NAME">button.bind</span><span class="PUNC">(</span><span class="STRN">'click'</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">				</span><span class="NAME">this.activatedTab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">e.data</span><span class="PUNC">,</span><span class="NUMB">10</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">				</span><span class="NAME">this.repositionPanels</span><span class="PUNC">(</span><span class="NAME">this.slideSpeed</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">i.toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">			</span><span class="COMM">//create a placeHolder where inside the content will be placed</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">panelHolder</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderContentItemContainer"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">			</span><span class="NAME">panelHolder.setCss</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">'width'</span><span class="PUNC">:</span><span class="NAME">dim.width</span><span class="PUNC">+</span><span class="STRN">'px'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">			</span><span class="NAME">panelHolder.addControl</span><span class="PUNC">(</span><span class="NAME">this.content</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">content</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">			</span><span class="NAME">this.contentContainer.addControl</span><span class="PUNC">(</span><span class="NAME">panelHolder</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">lastLinkWrapper</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">setCss</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">'width'</span><span class="PUNC">:</span><span class="NAME">widthToPerc</span><span class="PUNC">(</span><span class="NAME">edgeContainerSize</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">'%'</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderlinkWrapper"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">		</span><span class="NAME">this.buttonContainer.addControl</span><span class="PUNC">(</span><span class="NAME">lastLinkWrapper</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">buttonNext</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Link</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderLink BTabSliderLinkNext"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">		</span><span class="NAME">buttonNext.addControl</span><span class="PUNC">(</span><span class="NAME">this.linkNextText</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">		</span><span class="NAME">buttonNext.setHref</span><span class="PUNC">(</span><span class="STRN">"#previous tab"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">		</span><span class="NAME">lastLinkWrapper.addControl</span><span class="PUNC">(</span><span class="NAME">buttonNext</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">		</span><span class="NAME">buttonNext.bind</span><span class="PUNC">(</span><span class="STRN">'click'</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">			</span><span class="NAME">this.activatedTab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.ensureValidTab</span><span class="PUNC">(</span><span class="PUNC">++</span><span class="NAME">this.activatedTab</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">			</span><span class="NAME">this.repositionPanels</span><span class="PUNC">(</span><span class="NAME">this.slideSpeed</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">		</span><span class="NAME">this.buttonContainer.invalidateDisplay</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">		</span><span class="NAME">this.contentContainer.invalidateDisplay</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">		</span><span class="NAME">this.repositionPanels</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>259</span> 	 * @ignore
+<span class='line'>260</span> 	 * Ensures valid tab range
+<span class='line'>261</span> 	 */</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">	</span><span class="NAME">ensureValidTab</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">n</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">n</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">			</span><span class="NAME">n</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content.length</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">n</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">this.content.length</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">			</span><span class="NAME">n</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">n</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>277</span> 	 * Auto sets height. Because the tabslider uses absolute positioned divs, we have to set the height
+<span class='line'>278</span> 	 * manually. this function calculates and sets the height based on the current active tab
+<span class='line'>279</span> 	 */</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">	</span><span class="NAME">applyAutoHeight</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.content</span><span class="PUNC">[</span><span class="NAME">this.activatedTab</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">content.getDimensions</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">height</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">		</span><span class="NAME">this.setCss</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">'height'</span><span class="PUNC">:</span><span class="NAME">height</span><span class="PUNC">+</span><span class="NAME">this.buttonContainer.getDimensions</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">height</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>288</span> 	 * @ignore
+<span class='line'>289</span> 	 * Registers url change listener to make sure that when the user changes the url we reposition the panels
+<span class='line'>290</span> 	 */</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">	</span><span class="NAME">registerUrlHistory</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">		</span><span class="NAME">Banana.Util.UrlManager.registerModule</span><span class="PUNC">(</span><span class="NAME">this.urlKey</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">		</span><span class="NAME">Banana.Util.UrlManager.listenModule</span><span class="PUNC">(</span><span class="NAME">this.urlKey</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">,</span><span class="NAME">param</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>295</span> 
+<span class='line'>296</span> </span><span class="WHIT">			</span><span class="NAME">this.activatedTab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">param</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">			</span><span class="NAME">this.repositionPanels</span><span class="PUNC">(</span><span class="NAME">this.slideSpeed</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>303</span> 	 * ensures the correct position of the current active tab
+<span class='line'>304</span> 	 */</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="WHIT">	</span><span class="NAME">repositionPanels</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">speed</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">		</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">'onSlide'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.useAutoHeight</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">			</span><span class="NAME">this.applyAutoHeight</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">contentWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getDimensions</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">left</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.activatedTab</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">contentWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">		</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="PUNC">+</span><span class="NAME">this.buttonContainer.getClientId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">' .BTabSliderLink'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderLinkActive"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="WHIT">		</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="PUNC">+</span><span class="NAME">this.buttonContainer.getClientId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">' .BTabSliderLink:eq('</span><span class="PUNC">+</span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">this.activatedTab</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="STRN">')'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"BTabSliderLinkActive"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">		</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="STRN">"#"</span><span class="PUNC">+</span><span class="NAME">this.contentContainer.getClientId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">animate</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">'left'</span><span class="PUNC">:</span><span class="NAME">left</span><span class="PUNC">+</span><span class="STRN">"px"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">duration</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">speed</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">easing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.easing</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">complete</span><span class="PUNC">:</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.useUrlHistory</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>324</span> </span><span class="WHIT">				</span><span class="COMM">//unregister module to prevent endless event loop</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">				</span><span class="NAME">Banana.Util.UrlManager.unlistenModule</span><span class="PUNC">(</span><span class="NAME">this.urlKey</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">				</span><span class="NAME">Banana.Util.UrlManager.setModule</span><span class="PUNC">(</span><span class="NAME">this.urlKey</span><span class="PUNC">,</span><span class="NAME">this.activatedTab.toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">				</span><span class="NAME">this.registerUrlHistory</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>329</span> 
+<span class='line'>330</span> </span><span class="WHIT">			</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">'onSlideFinished'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

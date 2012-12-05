@@ -1,0 +1,121 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @author Gillis Haasnoot &lt;gillis.haasnoot@gmail.com>
+<span class='line'>  3</span>  * @package Banana.Controls
+<span class='line'>  4</span>  * @summary list control  
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.ListControls.ListControl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.DataControl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> 
+<span class='line'> 11</span> </span><span class="COMM">/** @namespace Banana.Controls.ListControl */</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">ListControl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.DataControl.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="COMM">/** @lends Banana.Controls.ListControl.prototype */</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">	
+<span class='line'> 16</span> 	</span><span class="COMM">/**
+<span class='line'> 17</span> 	 * Create a base list control.
+<span class='line'> 18</span> 	 * Providing functionality to bind the datasource of this control to datasets.
+<span class='line'> 19</span> 	 * This control should only used as an extension class for more specific controls.
+<span class='line'> 20</span> 	 * 
+<span class='line'> 21</span> 	 * @constructs
+<span class='line'> 22</span> 	 * @extends Banana.Controls.DataControl
+<span class='line'> 23</span> 	 */</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="NAME">init</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">		</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">		
+<span class='line'> 28</span> 		</span><span class="NAME">this.dataKeyField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'key'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">		</span><span class="NAME">this.dataValueField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'value'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">		</span><span class="NAME">this.dataDepthField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'depth'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> 
+<span class='line'> 35</span> </span><span class="COMM">/**
+<span class='line'> 36</span>  *	sets datasource on control.
+<span class='line'> 37</span>  *	when this method is called we invalidate the control to let the page
+<span class='line'> 38</span>  *  rerender the control. We also trigger a dataSourceChanged event
+<span class='line'> 39</span>  *	
+<span class='line'> 40</span>  *	@param {mixed} data for control
+<span class='line'> 41</span>  *	@param {boolean} when true no dataSourCechanged event is triggered
+<span class='line'> 42</span>  *	@return {this}
+<span class='line'> 43</span>  */</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="NAME">Banana.Controls.ListControl.prototype.setDataSource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">datasource</span><span class="PUNC">,</span><span class="NAME">ignoreEvent</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">	</span><span class="NAME">this.datasource</span><span class="WHIT">  </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">datasource</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="NAME">this.invalidateDisplay</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ignoreEvent</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">		</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">'dataSourceChanged'</span><span class="PUNC">,</span><span class="NAME">datasource</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 56</span> 
+<span class='line'> 57</span> </span><span class="COMM">/**
+<span class='line'> 58</span>  * @return {mixed}
+<span class='line'> 59</span>  */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="NAME">Banana.Controls.ListControl.prototype.getDataSource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.datasource</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> 
+<span class='line'> 65</span> </span><span class="COMM">/**
+<span class='line'> 66</span>  * binds a value from datasource from dataset to datasource in this control
+<span class='line'> 67</span>  *
+<span class='line'> 68</span>  * @param {mixed} Banana.Data.DataSet || name of the dataset
+<span class='line'> 69</span>  * @param {string} bind property of the data. can be like value.subvalue.subsubvalue
+<span class='line'> 70</span>  * @return {this}
+<span class='line'> 71</span>  */</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="NAME">Banana.Controls.ListControl.prototype.dataSetSourceBind</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">set</span><span class="PUNC">,</span><span class="NAME">bind</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">	</span><span class="NAME">this.bindedDataSource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">set</span><span class="PUNC">,</span><span class="NAME">bind</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">	
+<span class='line'> 76</span> 	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">set</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Banana.Data.DataSet</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">		</span><span class="NAME">set.bindControlToDataSource</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">	
+<span class='line'> 81</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> 
+<span class='line'> 84</span> </span><span class="COMM">/**
+<span class='line'> 85</span>  * @param {String} key of the field where the key resists in.
+<span class='line'> 86</span>  * Only use this when your datasource contains complex objects
+<span class='line'> 87</span>  * @return this;
+<span class='line'> 88</span>  */</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="NAME">Banana.Controls.ListControl.prototype.setDataKeyField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="NAME">this.dataKeyField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> 
+<span class='line'> 95</span> </span><span class="COMM">/**
+<span class='line'> 96</span>  * @param {String} key of the field where the value resists in.
+<span class='line'> 97</span>  * Only use this when your datasource contains complex objects
+<span class='line'> 98</span>  * @return this;
+<span class='line'> 99</span>  */</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="NAME">Banana.Controls.ListControl.prototype.setDataValueField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">	</span><span class="NAME">this.dataValueField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="COMM">/**
+<span class='line'>107</span>  * @ignore
+<span class='line'>108</span>  * TODO: I think it should be moved to the Banana.Controls.DropDown class
+<span class='line'>109</span>  */</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="NAME">Banana.Controls.ListControl.prototype.setDataDepthField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">	</span><span class="NAME">this.dataDepthField</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

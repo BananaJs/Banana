@@ -1,0 +1,625 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/*
+<span class='line'>  2</span> Copyright (c) &lt;2011>, &lt;Gillis Haasnoot, Maarten van Schaik>
+<span class='line'>  3</span> All rights reserved.
+<span class='line'>  4</span> 
+<span class='line'>  5</span> Redistribution and use in source and binary forms, with or without
+<span class='line'>  6</span> modification, are permitted provided that the following conditions are met:
+<span class='line'>  7</span>     * Redistributions of source code must retain the above copyright
+<span class='line'>  8</span>       notice, this list of conditions and the following disclaimer.
+<span class='line'>  9</span>     * Redistributions in binary form must reproduce the above copyright
+<span class='line'> 10</span>       notice, this list of conditions and the following disclaimer in the
+<span class='line'> 11</span>       documentation and/or other materials provided with the distribution.
+<span class='line'> 12</span>     * Neither the name of the &lt;organization> nor the
+<span class='line'> 13</span>       names of its contributors may be used to endorse or promote products
+<span class='line'> 14</span>       derived from this software without specific prior written permission.
+<span class='line'> 15</span> 
+<span class='line'> 16</span> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+<span class='line'> 17</span> ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+<span class='line'> 18</span> WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+<span class='line'> 19</span> DISCLAIMED. IN NO EVENT SHALL &lt;COPYRIGHT HOLDER> BE LIABLE FOR ANY
+<span class='line'> 20</span> DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+<span class='line'> 21</span> (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+<span class='line'> 22</span> LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+<span class='line'> 23</span> ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+<span class='line'> 24</span> (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+<span class='line'> 25</span> SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+<span class='line'> 26</span> */</span><span class="WHIT">
+<span class='line'> 27</span> 
+<span class='line'> 28</span> </span><span class="COMM">/**
+<span class='line'> 29</span>  * @author Gillis Haasnoot &lt;gillis.haasnoot@gmail.com>
+<span class='line'> 30</span>  * @package Banana
+<span class='line'> 31</span>  * @summary Main Application object
+<span class='line'> 32</span>  */</span><span class="WHIT">
+<span class='line'> 33</span> 
+<span class='line'> 34</span> </span><span class="COMM">/**
+<span class='line'> 35</span>  *  this is needed for internet explorer which doesnt have a native indexOf method
+<span class='line'> 36</span>  */</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">Array.prototype.indexOf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 40</span> 	 * @ignore
+<span class='line'> 41</span> 	 */</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">	</span><span class="NAME">Array.prototype.indexOf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">start</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="NAME">j</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">	     </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">start</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">j</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">	         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">	     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'Banana'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> 
+<span class='line'> 55</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.NameSpace'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.Base'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Control'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> 
+<span class='line'> 59</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.ArrayBiCollection'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.Utils'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.ValidationManager'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.UrlManager'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.StateManager'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.DomHelper'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.DateTimecode'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.Color'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Util.LogManager'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> 
+<span class='line'> 70</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Data.DataSet'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> 
+<span class='line'> 72</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Page'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.PageTemplate'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> 
+<span class='line'> 75</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.StatusBar'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.TextBox'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.Password'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.TextArea'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.CheckBox'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.Table'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.Label'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.LimitCharLabel'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.DatePicker'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.DateTimePicker'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.DateSpan'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.Image'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.MaskedTextBox'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.RadioButton'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.ProgressBar'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.Timecode'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.ListControls.RadioButtonList'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.ListControls.CheckBoxList'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.ListControls.DropDown'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.ListControls.MultiSelect'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.Slider'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.UnorderedList'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> 
+<span class='line'> 98</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGrid'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Window'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Button'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Link'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.LinkButton'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Canvas'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Modal'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.ConfirmModal'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Fieldset'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Legend'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Title'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Loader'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Form'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.FileInput'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.TabSlider'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> 
+<span class='line'>115</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Decorators.Decorator'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Decorators.TimecodeFieldValidator'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Decorators.RequiredFieldValidator'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Decorators.RegExValidator'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Decorators.CharLimitFieldValidator'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Decorators.LabelDecorator'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Decorators.LabelDecoratorRight'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Decorators.InfoDecorator'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.Decorators.EqualValidator'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span> 
+<span class='line'>125</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.HBox'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.VBox'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span> 
+<span class='line'>128</span> 
+<span class='line'>129</span> </span><span class="COMM">/**
+<span class='line'>130</span>  * Eventtypes used in Banana
+<span class='line'>131</span>  */</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">EventTypes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">	</span><span class="STRN">'DOM_EVENT'</span><span class="PUNC">:</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">	</span><span class="STRN">'CUSTOM_EVENT'</span><span class="PUNC">:</span><span class="NUMB">2</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>136</span> 
+<span class='line'>137</span> 
+<span class='line'>138</span> </span><span class="COMM">/**
+<span class='line'>139</span> @namespace Banana
+<span class='line'>140</span> */</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">Application</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Control.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="COMM">/** @lends Banana.Application.prototype */</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>145</span> 	 * Main Banana Application components.
+<span class='line'>146</span> 	 * This object is responsible for loading and running pages.
+<span class='line'>147</span> 	 * By default the application is accessible through Banana.Application.
+<span class='line'>148</span> 	 * if you need multiple instances, an application name is required.
+<span class='line'>149</span> 	 *
+<span class='line'>150</span> 	 * typicaly an instance of banana is started with
+<span class='line'>151</span> 		
+<span class='line'>152</span> 		&lt;div id="target">&lt;/div>
+<span class='line'>153</span> 		
+<span class='line'>154</span> 		&lt;script>
+<span class='line'>155</span> 		
+<span class='line'>156</span> 			var applicationParameters = {};
+<span class='line'>157</span> 			applicationParameters.renderTarget = 'target'; 
+<span class='line'>158</span> 			applicationParameters.imagedir ='images';
+<span class='line'>159</span> 			applicationParameters.defaultSection="Home";
+<span class='line'>160</span> 			applicationParameters.pageTemplate="PageTemplate";
+<span class='line'>161</span> 			applicationParameters.paths = {}
+<span class='line'>162</span> 			applicationParameters.applicationName = "foo" //needed if you want to run multiple instances of banana
+<span class='line'>163</span> 			applicationParameters.paths.pages = "Application.Pages";
+<span class='line'>164</span> 			applicationParameters.paths.pageTemplates = "Application.Pages.PageTemplates";
+<span class='line'>165</span> 			var app = new Banana.Application(applicationParameters);
+<span class='line'>166</span> 			app.run();
+<span class='line'>167</span> 		
+<span class='line'>168</span> 		&lt;/script>
+<span class='line'>169</span> 	
+<span class='line'>170</span> 	 *
+<span class='line'>171</span> 	 * It is also possible to launch multiple instances of banana. 
+<span class='line'>172</span> 	 * Make sure the applicationName is unique
+<span class='line'>173</span> 	 * 
+<span class='line'>174</span>             var applicationParameters = {};
+<span class='line'>175</span>             applicationParameters.renderTarget = 'target'; //id of the target div
+<span class='line'>176</span>             applicationParameters.imagedir ='images';
+<span class='line'>177</span>             applicationParameters.paths = {};
+<span class='line'>178</span>             applicationParameters.applicationName = "myUniqueApp";
+<span class='line'>179</span>             applicationParameters.paths.pages = "Application.Pages";
+<span class='line'>180</span>             applicationParameters.paths.pageTemplates = "Application.Pages.PageTemplates";
+<span class='line'>181</span> 
+<span class='line'>182</span> 
+<span class='line'>183</span>             var pageClass = Banana.Page.extend({
+<span class='line'>184</span> 
+<span class='line'>185</span>           		createComponents : function()
+<span class='line'>186</span>           		{
+<span class='line'>187</span>           			//do something here
+<span class='line'>188</span>           		}
+<span class='line'>189</span>             });
+<span class='line'>190</span> 
+<span class='line'>191</span>             var page = new pageClass();
+<span class='line'>192</span> 
+<span class='line'>193</span>             var app = new Banana.Application(applicationParameters);
+<span class='line'>194</span>             app.run(page);
+<span class='line'>195</span>        
+<span class='line'>196</span> 	 * 
+<span class='line'>197</span> 	 * 
+<span class='line'>198</span> 	 * Following parameters are available for creating a new application
+<span class='line'>199</span> 	 * 
+<span class='line'>200</span> 	 * - renderTarget 			Id of the dom element where the application is rendered in.
+<span class='line'>201</span> 	 * - imagedir				relative path of various images Banana uses
+<span class='line'>202</span> 	 * - paths.pages      		namespace of Banana Pages (by default "Application.Pages") 
+<span class='line'>203</span> 	 * - paths.pageTemplates	namespace of Banana Template Pages (by default "Application.Pages.PageTemplates") 		   
+<span class='line'>204</span> 	 * 
+<span class='line'>205</span> 	 * A new page can be loaded by calling loadPage(String page). The current page will be removed
+<span class='line'>206</span> 	 * and replaced by the new page. Url history params are restored in case an already visited page is loaded.
+<span class='line'>207</span> 	 * 
+<span class='line'>208</span> 	 * 
+<span class='line'>209</span> 	 * @constructs
+<span class='line'>210</span> 	 * @param {Object} settings
+<span class='line'>211</span> 	 */</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">	</span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">settings</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">		</span><span class="COMM">// Add the logger</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">		</span><span class="NAME">log</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Util.LogManager</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">		</span><span class="NAME">log.addLogger</span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Util.Logger.Console</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">		</span><span class="NAME">log.setLevel</span><span class="PUNC">(</span><span class="STRN">"error"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">		</span><span class="NAME">log.setLevel</span><span class="PUNC">(</span><span class="STRN">"warning"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">		</span><span class="KEYW">try</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">			</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">		</span><span class="KEYW">catch</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">			</span><span class="NAME">log.error</span><span class="PUNC">(</span><span class="STRN">"JQuery is not found. JQuery required."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>228</span> 
+<span class='line'>229</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">settings</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">			</span><span class="NAME">settings</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">		</span><span class="NAME">this.settings</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">settings</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">		</span><span class="COMM">//to remember the vertical scroll position of a page</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">		</span><span class="NAME">this.sectionVerticalScrollPosition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">		</span><span class="NAME">this.id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// Will increment on each page load</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">settings.applicationName</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">			</span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana'</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NAME">settings.applicationName</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">			</span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">Application</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">settings.pageTemplate</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">			</span><span class="NAME">settings.pageTemplate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"PageTemplate"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">settings.paths</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">			</span><span class="NAME">settings.paths</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">settings.paths.pages</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">			</span><span class="NAME">settings.paths.pages</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"Application.Pages"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">		</span><span class="NAME">this.prepareUnload</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>268</span> 	 * When a user closes/refresh the browser tab/window, 
+<span class='line'>269</span> 	 * the current page will be removed + all registered event
+<span class='line'>270</span> 	 * @ignore
+<span class='line'>271</span> 	 */</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">	</span><span class="NAME">prepareUnload</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">		</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">unload</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">			</span><span class="NAME">jQuery</span><span class="PUNC">(</span><span class="STRN">'*'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">unbind</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.activePage</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="WHIT">				</span><span class="NAME">this.activePage.remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.pageTemplate</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">				</span><span class="NAME">this.pageTemplate.remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">			</span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">Banana</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>290</span> 	 * Automatically called by Banana
+<span class='line'>291</span> 	 * The page template is specified in application settings with the "pageTemplate" property. 
+<span class='line'>292</span> 	 * If no Page template is given, we use default Banana.PageTemplate
+<span class='line'>293</span> 	 * @ignore
+<span class='line'>294</span> 	 */</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="WHIT">	</span><span class="NAME">loadPageTemplate</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.settings.paths.pageTemplates</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">			</span><span class="NAME">pageTemplateClass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.PageTemplate</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">path</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.settings.paths.pageTemplates</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>304</span> 
+<span class='line'>305</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">objectname</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">path</span><span class="PUNC">+</span><span class="STRN">'.'</span><span class="PUNC">+</span><span class="NAME">this.settings.pageTemplate</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pageTemplateClass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Util.NamespaceToFunction</span><span class="PUNC">(</span><span class="NAME">objectname</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>309</span> 
+<span class='line'>310</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">pageTemplateClass</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">			</span><span class="NAME">log.error</span><span class="PUNC">(</span><span class="STRN">"Error: could not find Template: "</span><span class="PUNC">+</span><span class="NAME">objectname</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>313</span> 
+<span class='line'>314</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>316</span> 
+<span class='line'>317</span> </span><span class="WHIT">		</span><span class="KEYW">try</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">			</span><span class="NAME">this.pageTemplate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">pageTemplateClass</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">		</span><span class="KEYW">catch</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="WHIT">			</span><span class="NAME">log.error</span><span class="PUNC">(</span><span class="STRN">"Error: could not instantiate template: "</span><span class="PUNC">+</span><span class="NAME">objectname</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>324</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>325</span> 
+<span class='line'>326</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>327</span> 
+<span class='line'>328</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>329</span> 	 * @returns {Array} of settings
+<span class='line'>330</span> 	 */</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">	</span><span class="NAME">getSettings</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.settings</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>335</span> 
+<span class='line'>336</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>337</span> 	 * @param {String} section
+<span class='line'>338</span> 	 */</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">	</span><span class="NAME">setSectionVerticalScrollPosition</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">section</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">		</span><span class="NAME">this.sectionVerticalScrollPosition</span><span class="PUNC">[</span><span class="NAME">section</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.scrollY</span><span class="PUNC">;</span><span class="WHIT">  </span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>343</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>344</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>345</span> 	 * 
+<span class='line'>346</span> 	 * @param {String} section
+<span class='line'>347</span> 	 * @returns {String}
+<span class='line'>348</span> 	 */</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">	</span><span class="NAME">getSectionVerticalScrollPosition</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">section</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>351</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.sectionVerticalScrollPosition</span><span class="PUNC">[</span><span class="NAME">section</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>352</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>354</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>355</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>356</span> 	 * Loads a page.
+<span class='line'>357</span> 	 *
+<span class='line'>358</span> 	 * Loads a page by specifying the full namespace name of the page. 
+<span class='line'>359</span> 	 * Additional parameters can be send along. Parameters should be in key => value format
+<span class='line'>360</span> 	 * stored in an Object. All parameters will be written in the hash section of the url.
+<span class='line'>361</span> 	 * Loading a page also results in saving the url parameters of the current page. This means
+<span class='line'>362</span> 	 * that we when we have a url like http://mysite?page=foo#section=Home&id=12
+<span class='line'>363</span> 	 * we save the id parameter only. Unless specified we restore the original parameters when the
+<span class='line'>364</span> 	 * page is reloaded.
+<span class='line'>365</span> 	 *
+<span class='line'>366</span> 	 * @param {string} page to be loaded. This is the full namespace name
+<span class='line'>367</span> 	 * @param {object} key value format 
+<span class='line'>368</span> 	 * @param {bool} ignoreHistoryParams if true we ignore previous url params. 
+<span class='line'>369</span> 	 */</span><span class="WHIT">
+<span class='line'>370</span> </span><span class="WHIT">	</span><span class="NAME">loadPage</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">,</span><span class="NAME">urlParams</span><span class="PUNC">,</span><span class="NAME">ignoreHistoryParams</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>371</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="WHIT">		</span><span class="COMM">//we save the current url params to use them later on when we return to this page</span><span class="WHIT">
+<span class='line'>373</span> </span><span class="WHIT">		</span><span class="NAME">Banana.Util.UrlManager.saveModuleHistory</span><span class="PUNC">(</span><span class="STRN">'section'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>374</span> 
+<span class='line'>375</span> </span><span class="WHIT">		</span><span class="COMM">//we also save the current vertical scroll position. so when we return we also return to scroll position</span><span class="WHIT">
+<span class='line'>376</span> </span><span class="WHIT">		</span><span class="NAME">this.setSectionVerticalScrollPosition</span><span class="PUNC">(</span><span class="NAME">this.section</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>378</span> </span><span class="WHIT">		</span><span class="COMM">//clean the url</span><span class="WHIT">
+<span class='line'>379</span> </span><span class="WHIT">		</span><span class="NAME">Banana.Util.UrlManager.clearUrl</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>380</span> 
+<span class='line'>381</span> </span><span class="WHIT">		</span><span class="COMM">//Here we assign the history property to a global class property. </span><span class="WHIT">
+<span class='line'>382</span> </span><span class="WHIT">		</span><span class="COMM">//We need to do this because below code which is registering url parameters in the urlmanager one by one.</span><span class="WHIT">
+<span class='line'>383</span> </span><span class="WHIT">	    </span><span class="COMM">//If every Url Manager action results into a url change, we would get loads of history points</span><span class="WHIT">
+<span class='line'>384</span> </span><span class="WHIT">		</span><span class="COMM">//in our browser. This is something we don't want. To prevent this situation we register them</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">		</span><span class="COMM">//but without modifing the url. Later in the Run() method we modify the url at once.</span><span class="WHIT">
+<span class='line'>386</span> </span><span class="WHIT">		</span><span class="NAME">this.loadingWithHistory</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">ignoreHistoryParams</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>387</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>388</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.loadingWithHistory</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>389</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">history</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Util.UrlManager.getModuleHistory</span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>391</span> 
+<span class='line'>392</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">his</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">his</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">history</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>394</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>395</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">history.hasOwnProperty</span><span class="PUNC">(</span><span class="NAME">his</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>396</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">					</span><span class="NAME">Banana.Util.UrlManager.registerModule</span><span class="PUNC">(</span><span class="NAME">his</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">					</span><span class="NAME">Banana.Util.UrlManager.setModule</span><span class="PUNC">(</span><span class="NAME">his</span><span class="PUNC">,</span><span class="NAME">history</span><span class="PUNC">[</span><span class="NAME">his</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>402</span> 
+<span class='line'>403</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">urlParams</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">prop</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>406</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>407</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">prop</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">urlParams</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>408</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>409</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">urlParams.hasOwnProperty</span><span class="PUNC">(</span><span class="NAME">prop</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>410</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>411</span> </span><span class="WHIT">					</span><span class="NAME">Banana.Util.UrlManager.registerModule</span><span class="PUNC">(</span><span class="NAME">prop</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>412</span> </span><span class="WHIT">					</span><span class="NAME">Banana.Util.UrlManager.setModule</span><span class="PUNC">(</span><span class="NAME">prop</span><span class="PUNC">,</span><span class="NAME">urlParams</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>416</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">		</span><span class="NAME">this.run</span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>418</span> 
+<span class='line'>419</span> 
+<span class='line'>420</span> </span><span class="WHIT">        </span><span class="WHIT">
+<span class='line'>421</span> </span><span class="WHIT">        </span><span class="COMM">//restore vertical scroll position</span><span class="WHIT">
+<span class='line'>422</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ignoreHistoryParams</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>423</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>424</span> </span><span class="WHIT">        	</span><span class="NAME">window.scrollTo</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="NAME">this.getSectionVerticalScrollPosition</span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>425</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">        </span><span class="WHIT">
+<span class='line'>426</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>427</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>429</span> 	 * This method is used when only one single page instance is attached to the application.
+<span class='line'>430</span> 	 * 
+<span class='line'>431</span> 	 * @ignore
+<span class='line'>432</span> 	 */</span><span class="WHIT">
+<span class='line'>433</span> </span><span class="WHIT">	</span><span class="NAME">instantiateSinglePage</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>434</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>435</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.pageTemplate</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="WHIT">			</span><span class="NAME">this.loadPageTemplate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>438</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>439</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>440</span> </span><span class="WHIT">		</span><span class="NAME">this.page.bind</span><span class="PUNC">(</span><span class="STRN">'renderComplete'</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>441</span> 
+<span class='line'>442</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.activePage</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>444</span> </span><span class="WHIT">				</span><span class="NAME">this.activePage.removeDom</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>445</span> </span><span class="WHIT">				</span><span class="NAME">this.activePage.clearProps</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>446</span> </span><span class="WHIT">				</span><span class="NAME">this.activePage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>447</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">  </span><span class="WHIT">
+<span class='line'>449</span> </span><span class="WHIT">			</span><span class="NAME">this.activePage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.page</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>450</span> </span><span class="WHIT">			</span><span class="NAME">this.activePage.setVisible</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>452</span> 
+<span class='line'>453</span> </span><span class="WHIT">		</span><span class="COMM">//our new page will be not visible</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="WHIT">		</span><span class="NAME">this.page.setVisible</span><span class="PUNC">(</span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>455</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>456</span> </span><span class="WHIT">		</span><span class="COMM">//now we add it to the pagetemplate</span><span class="WHIT">
+<span class='line'>457</span> </span><span class="WHIT">		</span><span class="NAME">this.pageTemplate.addPageControl</span><span class="PUNC">(</span><span class="NAME">this.page</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>459</span> </span><span class="WHIT">		</span><span class="NAME">this.pageTemplate.setApplication</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>460</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>461</span> </span><span class="WHIT">		</span><span class="COMM">//load the whole page</span><span class="WHIT">
+<span class='line'>462</span> </span><span class="WHIT">		</span><span class="NAME">this.pageTemplate.run</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>463</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>464</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>465</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>466</span> 	 * Run a page
+<span class='line'>467</span> 	 *
+<span class='line'>468</span> 	 * This function should only be initially called to bootstrap the
+<span class='line'>469</span> 	 * framework. Consecutive pages should be loaded by using {@link #loadPage}.
+<span class='line'>470</span> 	 *
+<span class='line'>471</span> 	 * @param {string} page
+<span class='line'>472</span> 	 */</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="WHIT">	</span><span class="NAME">run</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>475</span> </span><span class="WHIT">		</span><span class="COMM">// Save the parameter</span><span class="WHIT">
+<span class='line'>476</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>477</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>478</span> </span><span class="WHIT">			</span><span class="NAME">this.page</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">page</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>479</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>480</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>481</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">page</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Banana.Page</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>482</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.instantiateSinglePage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>485</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>486</span> </span><span class="WHIT">		</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">'onPreLoadPage'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>487</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>488</span> </span><span class="WHIT">		</span><span class="COMM">// If this is the first page we run, we register all the url parameters</span><span class="WHIT">
+<span class='line'>489</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.activePage</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>490</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>491</span> </span><span class="WHIT">			</span><span class="NAME">Banana.Util.UrlManager.autoRegisterModules</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>492</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>493</span> 
+<span class='line'>494</span> </span><span class="WHIT">		</span><span class="COMM">//if we have no pagetemplate loaded, usually the first time, we load it</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.pageTemplate</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>496</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>497</span> </span><span class="WHIT">			</span><span class="NAME">this.loadPageTemplate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>498</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>499</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>500</span> </span><span class="WHIT">		</span><span class="COMM">// Determine page (section) to load</span><span class="WHIT">
+<span class='line'>501</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">section</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.page</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">Banana.Util.UrlManager.getModule</span><span class="PUNC">(</span><span class="STRN">'section'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">this.settings.defaultSection</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>502</span> </span><span class="WHIT">		</span><span class="NAME">this.section</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">section</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>503</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">		</span><span class="COMM">// Unset saved parameter for next calls</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">		</span><span class="NAME">this.page</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>506</span> 
+<span class='line'>507</span> </span><span class="WHIT">		</span><span class="COMM">//the register url section registers the section without modifing the url.</span><span class="WHIT">
+<span class='line'>508</span> </span><span class="WHIT">		</span><span class="COMM">//we receive a change event </span><span class="WHIT">
+<span class='line'>509</span> </span><span class="WHIT">		</span><span class="NAME">this.registerUrlSection</span><span class="PUNC">(</span><span class="NAME">section</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="WHIT">		</span><span class="COMM">//apply url change in the Url Manager</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.loadingWithHistory</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>512</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>513</span> </span><span class="WHIT">			</span><span class="NAME">Banana.Util.UrlManager.updateUrl</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>514</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>515</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>516</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">load</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>517</span> 
+<span class='line'>518</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">objectname</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.settings.paths.pages</span><span class="PUNC">+</span><span class="STRN">'.'</span><span class="PUNC">+</span><span class="NAME">section</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>519</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pageClass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Util.NamespaceToFunction</span><span class="PUNC">(</span><span class="NAME">objectname</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>520</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>521</span> </span><span class="WHIT">			</span><span class="COMM">//if the pageclass cannot be find use the default one</span><span class="WHIT">
+<span class='line'>522</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">pageClass</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>523</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>524</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.settings.defaultSection</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">section</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>525</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>526</span> </span><span class="WHIT">					</span><span class="NAME">log.error</span><span class="PUNC">(</span><span class="STRN">"Error default page "</span><span class="PUNC">+</span><span class="NAME">this.settings.defaultSection</span><span class="PUNC">+</span><span class="STRN">" cannot be loaded"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>527</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>529</span> </span><span class="WHIT">				</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>530</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="WHIT">					</span><span class="NAME">log.error</span><span class="PUNC">(</span><span class="STRN">"Page "</span><span class="PUNC">+</span><span class="NAME">section</span><span class="PUNC">+</span><span class="STRN">" not found. Load default page "</span><span class="PUNC">+</span><span class="NAME">this.settings.defaultSection</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>532</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>533</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.loadPage</span><span class="PUNC">(</span><span class="NAME">this.settings.defaultSection</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>534</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>535</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>536</span> </span><span class="WHIT">			</span><span class="COMM">//id of the application which thus increments every page load</span><span class="WHIT">
+<span class='line'>537</span> </span><span class="WHIT">			</span><span class="NAME">this.id</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>538</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>539</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newPage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">pageClass</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>540</span> 
+<span class='line'>541</span> </span><span class="WHIT">			</span><span class="COMM">//when a page is rendered we remove the old page.</span><span class="WHIT">
+<span class='line'>542</span> </span><span class="WHIT">			</span><span class="COMM">//We already removed its events and timers. now its time for the visible items as well</span><span class="WHIT">
+<span class='line'>543</span> </span><span class="WHIT">			</span><span class="COMM">//We also remove its properties. This is too prevent memory leaks</span><span class="WHIT">
+<span class='line'>544</span> </span><span class="WHIT">			</span><span class="NAME">newPage.bind</span><span class="PUNC">(</span><span class="STRN">'renderComplete'</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>545</span> 
+<span class='line'>546</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.activePage</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>547</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>548</span> </span><span class="WHIT">					</span><span class="NAME">this.activePage.removeDom</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>549</span> </span><span class="WHIT">					</span><span class="NAME">this.activePage.clearProps</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>550</span> </span><span class="WHIT">					</span><span class="NAME">this.activePage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>551</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>552</span> </span><span class="WHIT">	  </span><span class="WHIT">
+<span class='line'>553</span> </span><span class="WHIT">				</span><span class="NAME">this.activePage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newPage</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>554</span> </span><span class="WHIT">				</span><span class="NAME">this.activePage.setVisible</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>555</span> 
+<span class='line'>556</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>557</span> 
+<span class='line'>558</span> </span><span class="WHIT">			</span><span class="COMM">//our new page will be not visible yet</span><span class="WHIT">
+<span class='line'>559</span> </span><span class="WHIT">			</span><span class="NAME">newPage.setVisible</span><span class="PUNC">(</span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>560</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>561</span> </span><span class="WHIT">			</span><span class="COMM">//now we add it to the pagetemplate</span><span class="WHIT">
+<span class='line'>562</span> </span><span class="WHIT">			</span><span class="NAME">this.pageTemplate.addPageControl</span><span class="PUNC">(</span><span class="NAME">newPage</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>563</span> 
+<span class='line'>564</span> </span><span class="WHIT">			</span><span class="NAME">this.pageTemplate.setApplication</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>565</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>566</span> </span><span class="WHIT">			</span><span class="COMM">//run the page. if everything is ok we will receive a renderComplete event</span><span class="WHIT">
+<span class='line'>567</span> </span><span class="WHIT">			</span><span class="NAME">this.pageTemplate.run</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>568</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>569</span> </span><span class="WHIT">			</span><span class="COMM">//update the url to its final state</span><span class="WHIT">
+<span class='line'>570</span> </span><span class="WHIT">			</span><span class="NAME">Banana.Util.UrlManager.updateUrl</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>571</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>572</span> </span><span class="WHIT">						</span><span class="WHIT">
+<span class='line'>573</span> </span><span class="WHIT">		</span><span class="COMM">//if we have an active page we want it to be removed</span><span class="WHIT">
+<span class='line'>574</span> </span><span class="WHIT">		</span><span class="COMM">//but only its internal data. like (events, timers and more)</span><span class="WHIT">
+<span class='line'>575</span> </span><span class="WHIT">		</span><span class="COMM">//the dom needs to stay to prevent an ugly flickering between page transitions</span><span class="WHIT">
+<span class='line'>576</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.activePage</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>577</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>578</span> </span><span class="WHIT">			</span><span class="COMM">//this is extremely important. Our remove function below is asynchronous</span><span class="WHIT">
+<span class='line'>579</span> </span><span class="WHIT">			</span><span class="COMM">// it might happen that the section change which is also asnchronous (statement above) results into </span><span class="WHIT">
+<span class='line'>580</span> </span><span class="WHIT">			</span><span class="COMM">//a url change during removing of the controls. I have to admit that</span><span class="WHIT">
+<span class='line'>581</span> </span><span class="WHIT">			</span><span class="COMM">//Oh yeah is a hacky solution. and very difficult to debug or to even understand.</span><span class="WHIT">
+<span class='line'>582</span> </span><span class="WHIT">			</span><span class="NAME">Banana.Util.UrlManager.stopChecking</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>583</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>584</span> </span><span class="WHIT">			</span><span class="NAME">this.activePage.remove</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>585</span> </span><span class="WHIT">				</span><span class="NAME">Banana.Util.UrlManager.startChecking</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>586</span> </span><span class="WHIT">				</span><span class="NAME">load</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>587</span> </span><span class="WHIT">				</span><span class="NAME">Banana.Util.UrlManager.listenModule</span><span class="PUNC">(</span><span class="STRN">'section'</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>588</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>589</span> </span><span class="WHIT">					</span><span class="NAME">this.loadPage</span><span class="PUNC">(</span><span class="NAME">Banana.Util.UrlManager.getModule</span><span class="PUNC">(</span><span class="STRN">'section'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>590</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>591</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>592</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>593</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>594</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>595</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>596</span> </span><span class="WHIT">			</span><span class="NAME">load</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>597</span> </span><span class="WHIT">			</span><span class="NAME">Banana.Util.UrlManager.listenModule</span><span class="PUNC">(</span><span class="STRN">'section'</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>598</span> </span><span class="WHIT">			</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>599</span> </span><span class="WHIT">				</span><span class="NAME">this.loadPage</span><span class="PUNC">(</span><span class="NAME">Banana.Util.UrlManager.getModule</span><span class="PUNC">(</span><span class="STRN">'section'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>600</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>601</span> </span><span class="WHIT">			</span><span class="WHIT">
+<span class='line'>602</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>603</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>604</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>605</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>606</span> 	 * Registers section url and binds a change event to it 
+<span class='line'>607</span> 	 * which determines which page should be loaded
+<span class='line'>608</span> 	 * @param {String} section
+<span class='line'>609</span> 	 * @ignore
+<span class='line'>610</span> 	 */</span><span class="WHIT">
+<span class='line'>611</span> </span><span class="WHIT">	</span><span class="NAME">registerUrlSection</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">section</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>612</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>613</span> </span><span class="WHIT">		</span><span class="NAME">Banana.Util.UrlManager.registerModule</span><span class="PUNC">(</span><span class="STRN">'section'</span><span class="PUNC">,</span><span class="NAME">section</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>614</span> 
+<span class='line'>615</span> </span><span class="WHIT">		</span><span class="NAME">Banana.Util.UrlManager.setModule</span><span class="PUNC">(</span><span class="STRN">'section'</span><span class="PUNC">,</span><span class="NAME">section</span><span class="PUNC">,</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>616</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>617</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>618</span> </span></pre></body></html>

@@ -1,0 +1,142 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @author Gillis Haasnoot &lt;gillis.haasnoot@gmail.com>
+<span class='line'>  3</span>  * @package Banana.Controls
+<span class='line'>  4</span>  * @summary Custom list control  
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.ListControls.CustomListControl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.ListControls.ListControl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> 
+<span class='line'> 11</span> </span><span class="COMM">/** @namespace Banana.Controls.CustomListControl */</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">CustomListControl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.ListControl.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="COMM">/** @lends Banana.Controls.CustomListControl.prototype */</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="PUNC">{</span><span class="WHIT">		
+<span class='line'> 15</span> 		</span><span class="COMM">/**
+<span class='line'> 16</span> 		 * Creates a base custom list control. Use this class as a wrapper arround your custom
+<span class='line'> 17</span> 		 * list controls which are using datasource and or data.
+<span class='line'> 18</span> 		 * if setDatasource of setData is called we call createControls method in which
+<span class='line'> 19</span> 		 * the creation of controls should be defined
+<span class='line'> 20</span> 		 *
+<span class='line'> 21</span> 		 * basicly this control rerenders the whole control + child collection when calling either data or datasource
+<span class='line'> 22</span> 		 * It handles all the clearing and re-rendering. 
+<span class='line'> 23</span> 		 * 
+<span class='line'> 24</span> 		 *  Example:
+<span class='line'> 25</span> 		 *  
+<span class='line'> 26</span> 		 
+<span class='line'> 27</span> 		 	//define the class
+<span class='line'> 28</span> 		 	var myList = Banana.Controls.CustomListControl.extend({
+<span class='line'> 29</span> 		 	
+<span class='line'> 30</span> 	 		createControls : function()
+<span class='line'> 31</span> 	 		{
+<span class='line'> 32</span> 	 			var i,len;
+<span class='line'> 33</span> 	 			for (var i=0,len=this.datasource.length;i&lt;len;i++)
+<span class='line'> 34</span> 	 			{
+<span class='line'> 35</span> 	 				var label = new Banana.Controls.Label();
+<span class='line'> 36</span> 	 				label.setData(this.datasource[i]);
+<span class='line'> 37</span> 	 				this.addControl(label);
+<span class='line'> 38</span> 	 				
+<span class='line'> 39</span> 	 				//if this datasource item is in our data make background red
+<span class='line'> 40</span> 	 				if (this.data.indexOf(this.datasource[i] != -1))
+<span class='line'> 41</span> 	 				{
+<span class='line'> 42</span> 	 					label.setStyle("background-color:red");
+<span class='line'> 43</span> 	 				}
+<span class='line'> 44</span> 	 			}
+<span class='line'> 45</span> 	 		}
+<span class='line'> 46</span> 		 	
+<span class='line'> 47</span> 		 	});
+<span class='line'> 48</span> 		 	
+<span class='line'> 49</span> 		 	//populate the list with datasource
+<span class='line'> 50</span> 		 	myList.setDataSource(['first','second','third');
+<span class='line'> 51</span> 		 	myList.setData(["third"]);
+<span class='line'> 52</span> 		 * 
+<span class='line'> 53</span> 		 * @constructs
+<span class='line'> 54</span> 		 * @extends Banana.Controls.ListControl
+<span class='line'> 55</span> 		 */</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">		</span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">			</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> 
+<span class='line'> 63</span> </span><span class="COMM">/**
+<span class='line'> 64</span>  * @override to make sure this function is doing nothing, since we do it in our custom way (createControls)
+<span class='line'> 65</span>  *
+<span class='line'> 66</span>  */</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="NAME">Banana.Controls.CustomListControl.prototype.setDomData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="COMM">/**
+<span class='line'> 70</span>  *  
+<span class='line'> 71</span>  * this function is called when set data or set datasource is called
+<span class='line'> 72</span>  * overwrite this function to create your own logic
+<span class='line'> 73</span>  * 
+<span class='line'> 74</span>  * @abstract
+<span class='line'> 75</span>  */</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="NAME">Banana.Controls.CustomListControl.prototype.createControls</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> 
+<span class='line'> 78</span> </span><span class="COMM">/**
+<span class='line'> 79</span>  *	sets data on control.
+<span class='line'> 80</span>  *	when this function is called we also clear the control and invalidate
+<span class='line'> 81</span>  *	the display to rerender the control
+<span class='line'> 82</span>  *
+<span class='line'> 83</span>  *	@param {mixed} data for control
+<span class='line'> 84</span>  *	@param {bool} ignoreEvent when true we dont trigger
+<span class='line'> 85</span>  *	@param {bool} ignoreDom when true we dont update dom
+<span class='line'> 86</span>  *	@return {this}
+<span class='line'> 87</span>  */</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="NAME">Banana.Controls.CustomListControl.prototype.setData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ignoreEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ignoreDom</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'string'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">			</span><span class="COMM">//banana.util.clone doesnt work well with cloning arrays. remove index from cloned array doesnt work. index is still there. weird bug!</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">			</span><span class="COMM">//we break the reference</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">			</span><span class="NAME">this.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">JSON.parse</span><span class="PUNC">(</span><span class="NAME">JSON._stringify</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">			</span><span class="NAME">this.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">	</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">		</span><span class="NAME">this.data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>107</span> 
+<span class='line'>108</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ignoreDom</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">		
+<span class='line'>110</span> 		</span><span class="NAME">this.clear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">		</span><span class="NAME">this.createControls</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">		</span><span class="NAME">this.invalidateDisplay</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">		
+<span class='line'>113</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>114</span> 
+<span class='line'>115</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> 
+<span class='line'>118</span> </span><span class="COMM">/**
+<span class='line'>119</span>  *	Sets datasource on control.
+<span class='line'>120</span>  *	when this function is called we also clear the control and invalidate
+<span class='line'>121</span>  *	the display to rerender the control
+<span class='line'>122</span>  *
+<span class='line'>123</span>  *	@param {mixed} ds datasource for the control
+<span class='line'>124</span>  *	@return {this}
+<span class='line'>125</span>  */</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="NAME">Banana.Controls.CustomListControl.prototype.setDataSource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">ds</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	</span><span class="NAME">this.datasource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//we dont need to clone this, cause do we change and save the datasource?</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">	</span><span class="NAME">this.clear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">	</span><span class="NAME">this.createControls</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">	</span><span class="NAME">this.invalidateDisplay</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">	</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">'onSetDataSource'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> </span></pre></body></html>

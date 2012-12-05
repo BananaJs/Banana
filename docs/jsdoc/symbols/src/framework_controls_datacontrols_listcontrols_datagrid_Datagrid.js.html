@@ -1,0 +1,367 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @author Gillis Haasnoot &lt;gillis.haasnoot@gmail.com>
+<span class='line'>  3</span>  * @package Banana.Controls
+<span class='line'>  4</span>  * @summary Datagrid  
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGrid'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGridTableListRender'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGridTileListRender'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGridTreeListRender'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGridDataTreeListRender'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGridControlPanel'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 14</span> 
+<span class='line'> 15</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGridCheckboxFilter'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGridDropDownFilter'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGridSearchFilter'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGridPagerFilter'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGridDateFilter'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 20</span> 
+<span class='line'> 21</span> </span><span class="COMM">/** @namespace Banana.Controls.DataGrid */</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">DataGrid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.ListControl.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="COMM">/** @lends Banana.Controls.DataGrid.prototype */</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 26</span> 	 * Creates a datagrid 
+<span class='line'> 27</span> 	 * A datagrid is a more advanced list control with functionality to have its own listrender. 
+<span class='line'> 28</span> 	 * A listrender is responsible for rendering the list and is completely independent from the datagrid itself.
+<span class='line'> 29</span> 	 * By default a datagrid is having a table list render .
+<span class='line'> 30</span> 	 * A different listrender can replace the current listrender if desired at anytime.
+<span class='line'> 31</span> 	 * Empty template can be assigned to a datagrid which is shown when there is no data inside the
+<span class='line'> 32</span> 	 * datagrid.
+<span class='line'> 33</span> 	 *  
+<span class='line'> 34</span> 	 Example:
+<span class='line'> 35</span> 	 
+<span class='line'> 36</span> 	var datagrid = new Banana.Controls.DataGrid();
+<span class='line'> 37</span> 
+<span class='line'> 38</span> 	var columns = [
+<span class='line'> 39</span> 		          	new Banana.Controls.DataGridColumn().setHeaderText('name').setDataField('name'),
+<span class='line'> 40</span> 		          	new Banana.Controls.DataGridColumn().setHeaderText('description').setDataField('description')
+<span class='line'> 41</span> 		          ];
+<span class='line'> 42</span> 		          
+<span class='line'> 43</span> 	datagrid.getListRender().setColumns(colums);
+<span class='line'> 44</span> 	
+<span class='line'> 45</span> 	var datasource = [
+<span class='line'> 46</span> 	                 	{'name':'a name1','description':'a description1'},
+<span class='line'> 47</span> 	                 	{'name':'a name2','description':'a description2'},
+<span class='line'> 48</span> 	                 	{'name':'a name3','description':'a description3'}
+<span class='line'> 49</span> 	                 ];
+<span class='line'> 50</span> 	                 
+<span class='line'> 51</span> 	datagrid.setDataSource(datasource);   
+<span class='line'> 52</span> 	
+<span class='line'> 53</span> 	this.addControl(datagrid);
+<span class='line'> 54</span> 	 
+<span class='line'> 55</span> 	 * 
+<span class='line'> 56</span> 	 * @constructs
+<span class='line'> 57</span> 	 * @extends Banana.Controls.ListControl
+<span class='line'> 58</span> 	 */</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">	</span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">		</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">		</span><span class="NAME">this.addCssClass</span><span class="PUNC">(</span><span class="STRN">'BDataGrid'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">		</span><span class="NAME">this.datasource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">		</span><span class="NAME">this.listRender</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">		</span><span class="NAME">this.listRenderCreated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">		</span><span class="NAME">this.createBasicControls</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 74</span> 	 * Internaly used
+<span class='line'> 75</span> 	 * @ignore
+<span class='line'> 76</span> 	 */</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">	</span><span class="NAME">createComponents</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">		</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">'datagridReady'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 83</span> 	 * @ignore
+<span class='line'> 84</span> 	 */</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">	</span><span class="NAME">updateDisplay</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.listRenderCreated</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">			</span><span class="NAME">this.createEmptyTemplate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 94</span> 	 * @param {mixed} datasource to fill the datagrid with
+<span class='line'> 95</span> 	 * @return {this}
+<span class='line'> 96</span> 	 */</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">	</span><span class="NAME">setDataSource</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">datasource</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">		</span><span class="NAME">this.datasource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">datasource</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> 
+<span class='line'>101</span> </span><span class="WHIT">		</span><span class="NAME">this.triggerEvent</span><span class="PUNC">(</span><span class="STRN">'onSetDataSource'</span><span class="PUNC">,</span><span class="NAME">datasource</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>106</span> 	 * setData method is equal to the setDataSource method. This method is used
+<span class='line'>107</span> 	 * when datagrid is binded to data in a dataset.
+<span class='line'>108</span> 	 * @param {mixed} data
+<span class='line'>109</span> 	 * @return {this}
+<span class='line'>110</span> 	 */</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	</span><span class="NAME">setData</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">		</span><span class="NAME">this.setDataSource</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>118</span> 	 * equal to getDataSource
+<span class='line'>119</span> 	 * @return {mixed}
+<span class='line'>120</span> 	 */</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">	</span><span class="NAME">getData</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.datasource</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>127</span> 	 * add a control panal above the datagrid.
+<span class='line'>128</span> 	 * A control panel is used as a container for filters and other controls interacting
+<span class='line'>129</span> 	 * with the datagrid.
+<span class='line'>130</span> 	 * 
+<span class='line'>131</span> 	 * @param {Banana.Controls.DataGridControlPanel} c 
+<span class='line'>132</span> 	 * @return {this}
+<span class='line'>133</span> 	 */</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">	</span><span class="NAME">setControlPanel</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">c</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">c</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="PUNC">(</span><span class="NAME">Banana.Controls.DataGridControlPanel</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">		</span><span class="NAME">this.controlPanelHolder.addControl</span><span class="PUNC">(</span><span class="NAME">c</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>146</span> 	 * @return {Banana.Controls.DataGridControlPanel}
+<span class='line'>147</span> 	 */</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">	</span><span class="NAME">getControlPanel</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.controlPanelHolder.controls</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>154</span> 	 * An empty template is shown when no datasource or empty datasource is inside the datagrid.
+<span class='line'>155</span> 	 * @param {Banana.Controls.UiControl} c
+<span class='line'>156</span> 	 * @return {this} 
+<span class='line'>157</span> 	 */</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">	</span><span class="NAME">setEmptyTemplate</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">c</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">		</span><span class="NAME">this.emptyTemplate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">c</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">		</span><span class="NAME">this.clearEmptyTemplate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">		</span><span class="NAME">this.createEmptyTemplate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>169</span> 	 * Create building blocks which are needed to visualize our datagrid.
+<span class='line'>170</span> 	 * From top to bottom we create a control panel holder, the list holder, info holder for the empty template
+<span class='line'>171</span> 	 * and loader holder to show a loader.
+<span class='line'>172</span> 	 * 
+<span class='line'>173</span> 	 * @ignore
+<span class='line'>174</span> 	 */</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">	</span><span class="NAME">createBasicControls</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">		</span><span class="NAME">this.controlPanelHolder</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Control</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">		</span><span class="NAME">this.listHolder</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">		</span><span class="NAME">this.infoHolder</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">'BDataGridInfoHolder'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">		</span><span class="NAME">this.loaderHolder</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">		</span><span class="NAME">this.addControl</span><span class="PUNC">(</span><span class="NAME">this.loaderHolder</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">		</span><span class="NAME">this.addControl</span><span class="PUNC">(</span><span class="NAME">this.controlPanelHolder</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">		</span><span class="NAME">this.addControl</span><span class="PUNC">(</span><span class="NAME">this.listHolder</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">		</span><span class="NAME">this.addControl</span><span class="PUNC">(</span><span class="NAME">this.infoHolder</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>189</span> 	 * Sets the list render responsible for rendering content.
+<span class='line'>190</span> 	 * If changed during runtime we rerender the complete datagrid.
+<span class='line'>191</span> 	 * 
+<span class='line'>192</span> 	 * @param {Banana.Controls.Banana.Controls.DataGridBaseListRender} lr
+<span class='line'>193</span> 	 * @return {this}
+<span class='line'>194</span> 	 */</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">	</span><span class="NAME">setListRender</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">lr</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">		</span><span class="NAME">this.clearListRender</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">		</span><span class="NAME">this.listRender</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">lr</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">		</span><span class="NAME">this.listRender.datagrid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">		</span><span class="COMM">//force rerender if datasource is available</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.datasource</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.datasource.length</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">			</span><span class="NAME">this.setDataSource</span><span class="PUNC">(</span><span class="NAME">this.datasource</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>211</span> 	 * returns current active list render. If none is active we return a default table list render
+<span class='line'>212</span> 	 * @return {Banana.Controls.DataGridBaseListRender} listRender
+<span class='line'>213</span> 	 */</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">	</span><span class="NAME">getListRender</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.listRender</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">			</span><span class="NAME">this.listRender</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.DataGridTableListRender</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.listRender</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>225</span> 	 * Clears the list render.
+<span class='line'>226</span> 	 * @return {this} 
+<span class='line'>227</span> 	 */</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT">	</span><span class="NAME">clearListRender</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>229</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">		</span><span class="NAME">this.listHolder.clear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>235</span> 	 * Create the listRender
+<span class='line'>236</span> 	 * @ignore
+<span class='line'>237</span> 	 */</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">	</span><span class="NAME">createListRender</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.listRender</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this.listRender.id</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">			</span><span class="NAME">this.listRender</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getListRender</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">		</span><span class="COMM">//if list holder is not already added to its placeholder </span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.listHolder.controls.indexOf</span><span class="PUNC">(</span><span class="NAME">this.listRender</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">			</span><span class="NAME">this.listHolder.addControl</span><span class="PUNC">(</span><span class="NAME">this.listRender</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">			</span><span class="NAME">this.listRender.datagrid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">			</span><span class="NAME">this.listRenderCreated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">					</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">			</span><span class="COMM">//bind event. if source is 0 we create empty template, otherwise remove it</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">			</span><span class="NAME">this.listRender.bind</span><span class="PUNC">(</span><span class="STRN">'dataSourceChanged'</span><span class="PUNC">,</span><span class="NAME">this.getProxy</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">,</span><span class="NAME">f</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>254</span> 
+<span class='line'>255</span> </span><span class="WHIT">				</span><span class="NAME">this.datasource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.listRender.datasource</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//synchronize datasources</span><span class="WHIT">
+<span class='line'>256</span> 
+<span class='line'>257</span> </span><span class="WHIT">				</span><span class="COMM">///if already cleared and datasource is bigger than zero</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.emptyTemplateCleared</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.datasource.length</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">				</span><span class="NAME">this.emptyTemplateCleared</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">				</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.datasource.length</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">					</span><span class="NAME">this.clearEmptyTemplate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">					</span><span class="NAME">this.emptyTemplateCleared</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">				</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">				</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">					</span><span class="NAME">this.createEmptyTemplate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>279</span> 	 * Invoked when datasource is set
+<span class='line'>280</span> 	 * we start the creation of controls here
+<span class='line'>281</span> 	 * @ignore
+<span class='line'>282</span> 	 */</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">	</span><span class="NAME">onSetDataSource</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.datasource</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">			</span><span class="NAME">this.datasource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">		</span><span class="COMM">//datasource needs to be a indexed array</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.datasource.length</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">			</span><span class="NAME">this.createEmptyTemplate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="WHIT">			</span><span class="NAME">this.infoHolder.setVisible</span><span class="PUNC">(</span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>298</span> 
+<span class='line'>299</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.listRender</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">			</span><span class="NAME">this.listRender.clear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>303</span> 
+<span class='line'>304</span> </span><span class="WHIT">		</span><span class="NAME">this.createListRender</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">		</span><span class="NAME">this.listRender.setDataSource</span><span class="PUNC">(</span><span class="NAME">this.datasource</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isRendered</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">			</span><span class="NAME">this.listHolder.invalidateDisplay</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>313</span> 
+<span class='line'>314</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>315</span> 	 * @abstract
+<span class='line'>316</span> 	 * @ignore
+<span class='line'>317</span> 	 */</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="WHIT">	</span><span class="NAME">showInitLoader</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>321</span> 	 * @abstract
+<span class='line'>322</span> 	 * @ignore
+<span class='line'>323</span> 	 */</span><span class="WHIT">
+<span class='line'>324</span> </span><span class="WHIT">	</span><span class="NAME">renderList</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>327</span> 	 * @abstract
+<span class='line'>328</span> 	 * @ignore
+<span class='line'>329</span> 	 */</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">	</span><span class="NAME">showLoader</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>333</span> 	 * creates an empty template. 
+<span class='line'>334</span> 	 * 
+<span class='line'>335</span> 	 * @ignore
+<span class='line'>336</span> 	 */</span><span class="WHIT">
+<span class='line'>337</span> </span><span class="WHIT">	</span><span class="NAME">createEmptyTemplate</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>338</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">		</span><span class="NAME">this.infoHolder.clear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.emptyTemplate</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>343</span> </span><span class="WHIT">			</span><span class="NAME">this.infoHolder.addControl</span><span class="PUNC">(</span><span class="NAME">this.emptyTemplate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">setVisible</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>344</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">		</span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>346</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>347</span> </span><span class="WHIT">			</span><span class="NAME">this.infoHolder.addControl</span><span class="PUNC">(</span><span class="STRN">'No data found'</span><span class="PUNC">,</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">setVisible</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'>351</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>352</span> 	 * clears the empty template.
+<span class='line'>353</span> 	 * @return {this}
+<span class='line'>354</span> 	 */</span><span class="WHIT">
+<span class='line'>355</span> </span><span class="WHIT">	</span><span class="NAME">clearEmptyTemplate</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>356</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>357</span> </span><span class="WHIT">		</span><span class="NAME">this.infoHolder.clear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>358</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>359</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>360</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

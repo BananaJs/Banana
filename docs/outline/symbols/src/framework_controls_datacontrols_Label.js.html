@@ -1,0 +1,100 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * @author Gillis Haasnoot &lt;gillis.haasnoot@gmail.com>
+<span class='line'>  3</span>  * @package Banana.Controls
+<span class='line'>  4</span>  * @summary Label control
+<span class='line'>  5</span>  */</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.Label'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataControls.DataControl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> 
+<span class='line'> 11</span> </span><span class="COMM">/** @namespace Banana.Controls.Label */</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">Label</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.DataControl.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="COMM">/** @lends Banana.Controls.Label.prototype */</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 16</span> 	 * Creates a label. Useful to display text only
+<span class='line'> 17</span> 	 * @constructs
+<span class='line'> 18</span> 	 * @extends Banana.Controls.DataControl
+<span class='line'> 19</span> 	 */</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">	</span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">		</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">		</span><span class="NAME">this.addCssClass</span><span class="PUNC">(</span><span class="STRN">'BLabel'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">		</span><span class="NAME">this.tagName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'label'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">	
+<span class='line'> 27</span> 	</span><span class="COMM">/**
+<span class='line'> 28</span> 	 * overwrite this function to prevent triggering the change event 
+<span class='line'> 29</span> 	 * We do this to increase performance. we dont need the change event
+<span class='line'> 30</span> 	 * We also add the data as a control. The reason for this is because the label control will be rendered first
+<span class='line'> 31</span> 	 * without any data inside. then in the update display, data will be inserted. With many controls this insertion 
+<span class='line'> 32</span> 	 * will be noticed in the gui rendering. To prevent this we make sure that the control will always render at once with data already inside
+<span class='line'> 33</span> 	 *  
+<span class='line'> 34</span> 	 *	@param {mixed} data for the label
+<span class='line'> 35</span> 	 *	@param {boolean} ignoreEvent when true no datachanged is triggered. This is useful when you are running in a circle or performance issues
+<span class='line'> 36</span> 	 *	@param {boolean} ignoreDom when true setDomData function is not called. Useful in cases of optimizing performance
+<span class='line'> 37</span> 	 *  @return {this}
+<span class='line'> 38</span> 	 */</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="NAME">setData</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">,</span><span class="NAME">ignoreEvent</span><span class="PUNC">,</span><span class="NAME">ignoreDom</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">		</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">,</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="NAME">ignoreDom</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">	
+<span class='line'> 43</span> 		</span><span class="NAME">this.addControl</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">	
+<span class='line'> 47</span> 	</span><span class="COMM">/**
+<span class='line'> 48</span> 	 * Sets tag name of the label. use this if you want to overwrite
+<span class='line'> 49</span> 	 * the default label tag. for example. when you want to render images inside the label
+<span class='line'> 50</span> 	 * @param {String} tag
+<span class='line'> 51</span> 	 * @return {this}
+<span class='line'> 52</span> 	 */</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="NAME">setTagName</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">tag</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">		</span><span class="NAME">this.tagName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tag</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">	
+<span class='line'> 59</span> 	</span><span class="COMM">/**
+<span class='line'> 60</span> 	 * @return {String}
+<span class='line'> 61</span> 	 */</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="NAME">getTagName</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.tagName</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> 
+<span class='line'> 68</span> </span><span class="COMM">/**
+<span class='line'> 69</span>  * Sets the control which belongs to the label. The result is that you can click on the label to focus the control
+<span class='line'> 70</span>  * @param {Banana.Control} control
+<span class='line'> 71</span>  */</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="NAME">Banana.Controls.Label.prototype.setForControl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">control</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">	</span><span class="NAME">this.setAttribute</span><span class="PUNC">(</span><span class="STRN">'for'</span><span class="PUNC">,</span><span class="NAME">control.clientId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 76</span> 
+<span class='line'> 77</span> </span><span class="COMM">/**
+<span class='line'> 78</span>  * writes data to dom
+<span class='line'> 79</span>  * @ignore
+<span class='line'> 80</span>  * @param {String} data
+<span class='line'> 81</span>  */</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="NAME">Banana.Controls.Label.prototype.setDomData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.isRendered</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">			</span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">		
+<span class='line'> 91</span> 		</span><span class="NAME">Banana.Util.DomHelper.setTextData</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">,</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

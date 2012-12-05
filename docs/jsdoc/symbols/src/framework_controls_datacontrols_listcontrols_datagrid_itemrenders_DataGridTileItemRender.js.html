@@ -1,0 +1,102 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="NAME">goog.provide</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.DataGridTileItemRender'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="NAME">goog.require</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls.ItemRender'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  4</span> 
+<span class='line'>  5</span> </span><span class="COMM">/** @namespace Banana.Controls.DataGridTileItemRender */</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="NAME">namespace</span><span class="PUNC">(</span><span class="STRN">'Banana.Controls'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">DataGridTileItemRender</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.DataGridItemRender.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="COMM">/** @lends Banana.Controls.DataGridTileItemRender.prototype */</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 11</span> 	 * Base item render class for datagrid table tile renders.
+<span class='line'> 12</span> 	 * All item renders made for the tile item render should extend from this class
+<span class='line'> 13</span> 	 * 
+<span class='line'> 14</span> 	 * example:
+<span class='line'> 15</span> 	 
+<span class='line'> 16</span> 	  //define our custom datagrid table item render
+<span class='line'> 17</span>         myCustomItemRender = Banana.Controls.DataGridTableContentItemRender.extend({
+<span class='line'> 18</span> 
+<span class='line'> 19</span> 			createComponents : function()
+<span class='line'> 20</span> 			{
+<span class='line'> 21</span> 				var label = new Banana.Controls.Panel();
+<span class='line'> 22</span> 				label.setData(this.getData().id);
+<span class='line'> 23</span> 				this.addControl(new Banana.Controls.Panel());
+<span class='line'> 24</span> 			}
+<span class='line'> 25</span> 		});
+<span class='line'> 26</span> 	 	
+<span class='line'> 27</span> 		grid = new Banana.Controls.DataGrid();
+<span class='line'> 28</span> 		
+<span class='line'> 29</span> 		var listRender = new Banana.Controls.DataGridTileListRender()
+<span class='line'> 30</span> 		
+<span class='line'> 31</span> 		//note that this method required you to pass a function providing the itemrender.
+<span class='line'> 32</span> 		listRender.setItemRender(function(){return new myCustomItemRender()});
+<span class='line'> 33</span> 		
+<span class='line'> 34</span> 		grid.setListRender(listRender);
+<span class='line'> 35</span> 		
+<span class='line'> 36</span> 		var content = [{id:1},{id:2}];	
+<span class='line'> 37</span> 		
+<span class='line'> 38</span> 		grid.setDataSource(content);	
+<span class='line'> 39</span> 
+<span class='line'> 40</span> 		this.addControl(grid);	 
+<span class='line'> 41</span> 		
+<span class='line'> 42</span> 	 * @constructs
+<span class='line'> 43</span> 	 * @extends Banana.Controls.DataGridItemRender
+<span class='line'> 44</span> 	 */</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">	</span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">		</span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 51</span> 	 * Overwrite this method to implement your own item render
+<span class='line'> 52</span> 	 */</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="NAME">createComponents</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">this.data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">		</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">p</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Banana.Controls.Panel</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">			</span><span class="NAME">p.addControl</span><span class="PUNC">(</span><span class="NAME">this.data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">			</span><span class="NAME">this.addControl</span><span class="PUNC">(</span><span class="NAME">p</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 65</span> 	 * Called when item is selected
+<span class='line'> 66</span> 	 */</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">	</span><span class="NAME">select</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">		</span><span class="NAME">this.getListRender</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getItemRenderPlaceHolderByItemRender</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addCssClass</span><span class="PUNC">(</span><span class="STRN">"BDataGridTileTilePlaceHolderSelected"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 73</span> 	 * Called when item is deselected
+<span class='line'> 74</span> 	 */</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">	</span><span class="NAME">deselect</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">		</span><span class="NAME">this.getListRender</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getItemRenderPlaceHolderByItemRender</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeCssClass</span><span class="PUNC">(</span><span class="STRN">"BDataGridTileTilePlaceHolderSelected"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 81</span> 	 * Called when mouse moves over the item render.
+<span class='line'> 82</span> 	 */</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">	</span><span class="NAME">mouseOver</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 89</span> 	 * Called when mouse moves out the item render
+<span class='line'> 90</span> 	 */</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">	</span><span class="NAME">mouseOut</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">		</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
