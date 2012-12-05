@@ -282,7 +282,7 @@ namespace('Banana').Application = Banana.Control.extend(
 			{
 				this.pageTemplate.remove();
 			}
-			Banana = null;
+			delete Banana;
 		}) );		
 	},
 	
