@@ -32,7 +32,7 @@ Banana.Util.UrlManager = (function()
 	 * @ignore
 	 * @return object
 	 */
-	getUrlObject = function()
+	var getUrlObject = function()
 	{
 		var url = getBrowserUrl(); 
 		var urlObject = {};
@@ -55,7 +55,7 @@ Banana.Util.UrlManager = (function()
 	 * sets the browser url. for ie we do this in a iframe
 	 * @ignore
 	 */
-	setBrowserUrl = function(newUrl) 
+	var setBrowserUrl = function(newUrl) 
 	{
 		if (navigator.appName == 'Microsoft Internet Explorer' && document.getElementById("URLFrame")) 
 		{
@@ -69,13 +69,13 @@ Banana.Util.UrlManager = (function()
 			location.hash = newUrl;
 		
 		}
-	},
+	};
 	
 	/**
 	 * @return string url of the browser. for ie we use the iframe
 	 * @ignore
 	 */
-	getBrowserUrl = function()
+	var getBrowserUrl = function()
 	{
 		if (navigator.appName == 'Microsoft Internet Explorer' && document.getElementById("URLFrame")) {
 				
@@ -93,7 +93,7 @@ Banana.Util.UrlManager = (function()
 	 * updates url according to current registered modules
 	 * @ignore
 	 */
-	updateBrowserUrl = function() 
+	var updateBrowserUrl = function() 
 	{
 		var newUrl = "";
 
@@ -120,7 +120,7 @@ Banana.Util.UrlManager = (function()
 	 * Starts checking the url for changes
 	 * @ignore
 	 */
-	startChecking = function()
+	var startChecking = function()
 	{
 		stopHandler = false;
 		
@@ -135,7 +135,7 @@ Banana.Util.UrlManager = (function()
 	 * If a change in the achor part of the url is dedected we trigger a url.{key} event
 	 * @ignore
 	 */
-	startHandler = function()
+	var startHandler = function()
 	{
 		running = true;
 
@@ -172,13 +172,13 @@ Banana.Util.UrlManager = (function()
 		}
 			
 		urlCheckHandler = setTimeout(handler, 20);
-	}, 
+	};
 	
 	/**
 	 * Stops checking
 	 * @ignore
 	 */
-	stopChecking = function() 
+	var stopChecking = function() 
 	{	
 		stopHandler = true;
 		clearTimeout(urlCheckHandler);	
