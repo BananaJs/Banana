@@ -18,7 +18,7 @@ goog.provide('Banana.Util.Utils');
  */
 Banana.Util.serialize = function(data)
 {
-	return JSON._stringify(data);
+	return JSON.stringify(data);
 };
 
 /**
