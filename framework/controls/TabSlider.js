@@ -39,6 +39,7 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		this.slideSpeed = 400;	
 		this.easing = 'swing';
 		this.useAutoHeight = false;
+		this.useLeftRightNav = true;
 		this.useUrlHistory = false;
 		
 		this.linkNextText = "&nbsp;";
@@ -184,7 +185,7 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		//make sure the content container got the width of all contents together
 		var containerWidth = dim.width * this.content.length;
 		this.contentContainer.setCss({"width":containerWidth+"px"});
-		
+	
 		//sizes for link place holders. we want them to equally spread out 
 		var edgeContainerSize = 40;
 		var centerContainersSize = (dim.width - (edgeContainerSize*2)) / this.content.length; 
@@ -195,20 +196,23 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		}
 		
 		
-		var firstLinkWrapper = new Banana.Controls.Panel().setCss({'width':widthToPerc(edgeContainerSize)+'%'}).addCssClass("BTabSliderlinkWrapper");
-		this.buttonContainer.addControl(firstLinkWrapper);
-		
-		var buttonPrev = new Banana.Controls.Link().addCssClass("BTabSliderLink BTabSliderLinkPrevious");
-		buttonPrev.addControl(this.linkPreviousText);
-		buttonPrev.setHref("#previous tab");
-		firstLinkWrapper.addControl(buttonPrev);
-		
-		buttonPrev.bind('click',this.getProxy(function(e){
+		if (this.useLeftRightNav)
+		{
+			var firstLinkWrapper = new Banana.Controls.Panel().setCss({'width':widthToPerc(edgeContainerSize)+'%'}).addCssClass("BTabSliderlinkWrapper");
+			this.buttonContainer.addControl(firstLinkWrapper);
 			
-			this.activatedTab = this.ensureValidTab(--this.activatedTab);
-			this.repositionPanels(this.slideSpeed);
-			return false;
-		}));
+			var buttonPrev = new Banana.Controls.Link().addCssClass("BTabSliderLink BTabSliderLinkPrevious");
+			buttonPrev.addControl(this.linkPreviousText);
+			buttonPrev.setHref("#previous tab");
+			firstLinkWrapper.addControl(buttonPrev);
+			
+			buttonPrev.bind('click',this.getProxy(function(e){
+				
+				this.activatedTab = this.ensureValidTab(--this.activatedTab);
+				this.repositionPanels(this.slideSpeed);
+				return false;
+			}));
+		}
 		
 		var i,len;
 		for (i=0, len=this.content.length; i< len; i++)
@@ -234,20 +238,23 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 			this.contentContainer.addControl(panelHolder);
 		}
 		
-		var lastLinkWrapper = new Banana.Controls.Panel().setCss({'width':widthToPerc(edgeContainerSize)+'%'}).addCssClass("BTabSliderlinkWrapper");
-		this.buttonContainer.addControl(lastLinkWrapper);
-		
-		var buttonNext = new Banana.Controls.Link().addCssClass("BTabSliderLink BTabSliderLinkNext");
-		buttonNext.addControl(this.linkNextText);
-		buttonNext.setHref("#previous tab");
-		lastLinkWrapper.addControl(buttonNext);
-		
-		buttonNext.bind('click',this.getProxy(function(e){
+		if (this.useLeftRightNav)
+		{
+			var lastLinkWrapper = new Banana.Controls.Panel().setCss({'width':widthToPerc(edgeContainerSize)+'%'}).addCssClass("BTabSliderlinkWrapper");
+			this.buttonContainer.addControl(lastLinkWrapper);
 			
-			this.activatedTab = this.ensureValidTab(++this.activatedTab);
-			this.repositionPanels(this.slideSpeed);
-			return false;
-		}));
+			var buttonNext = new Banana.Controls.Link().addCssClass("BTabSliderLink BTabSliderLinkNext");
+			buttonNext.addControl(this.linkNextText);
+			buttonNext.setHref("#previous tab");
+			lastLinkWrapper.addControl(buttonNext);
+			
+			buttonNext.bind('click',this.getProxy(function(e){
+				
+				this.activatedTab = this.ensureValidTab(++this.activatedTab);
+				this.repositionPanels(this.slideSpeed);
+				return false;
+			}));
+		}
 		
 		this.buttonContainer.invalidateDisplay();
 		this.contentContainer.invalidateDisplay();
@@ -305,6 +312,14 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 	repositionPanels : function(speed)
 	{
 		this.triggerEvent('onSlide');
+		var dim = this.getDimensions();
+		for (i=0, len=this.contentContainer.controls.length; i< len; i++)
+		{
+			this.contentContainer.controls[i].setCss({'width':dim.width+'px'});
+		}
+		
+		
+		
 		
 		if (this.useAutoHeight)
 		{
