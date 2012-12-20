@@ -181,7 +181,7 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		this.contentContainer.clear();
 		
 		var dim = this.getDimensions();
-			
+
 		//make sure the content container got the width of all contents together
 		var containerWidth = dim.width * this.content.length;
 		this.contentContainer.setCss({"width":containerWidth+"px"});
@@ -217,7 +217,13 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		var i,len;
 		for (i=0, len=this.content.length; i< len; i++)
 		{
-			var linkWrapper = new Banana.Controls.Panel().setCss({'width':widthToPerc(centerContainersSize)+'%'}).addCssClass("BTabSliderlinkWrapper");
+			var linkWrapper = new Banana.Controls.Panel().addCssClass("BTabSliderlinkWrapper");
+			
+			if (this.useLeftRightNav)
+			{
+				linkWrapper.setCss({'width':widthToPerc(centerContainersSize)+'%'})
+			}
+						
 			this.buttonContainer.addControl(linkWrapper);
 			
 			var button = new Banana.Controls.Link().addCssClass("BTabSliderLink");
@@ -233,7 +239,9 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 				
 			//create a placeHolder where inside the content will be placed
 			var panelHolder = new Banana.Controls.Panel().addCssClass("BTabSliderContentItemContainer");
+
 			panelHolder.setCss({'width':dim.width+'px'});
+			
 			panelHolder.addControl(this.content[i].content);
 			this.contentContainer.addControl(panelHolder);
 		}
@@ -313,14 +321,16 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 	{
 		this.triggerEvent('onSlide');
 		var dim = this.getDimensions();
+		
+		//make sure the content container got the width of all contents together
+		var containerWidth = dim.width * this.content.length;
+		this.contentContainer.setCss({"width":containerWidth+"px"});
+		
 		for (i=0, len=this.contentContainer.controls.length; i< len; i++)
 		{
 			this.contentContainer.controls[i].setCss({'width':dim.width+'px'});
 		}
-		
-		
-		
-		
+	
 		if (this.useAutoHeight)
 		{
 			this.applyAutoHeight();
