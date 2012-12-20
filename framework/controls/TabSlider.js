@@ -159,7 +159,8 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		
 		if (this.useUrlHistory)
 		{
-			this.urlKey = "tabSlidePos"+this.getClientId();
+			this.urlKey = "tabSlidePos"+this.getClientId().replace(/-/g,'');
+			console.log(this.urlKey)
 
 			this.registerUrlHistory();
 			
