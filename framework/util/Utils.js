@@ -191,7 +191,7 @@ Banana.Util.CopyTo = function(newdata,olddata,identifier,refObj)
 			var valueA = newdata[i];
 			if (typeof(valueA) == 'object') //arrays and objects
 			{
-				var objectAIdentifier = valueA[identifier];
+				var objectAIdentifier = valueA || valueA[identifier];
 				
 				//if our object A has an identifier
 				if (objectAIdentifier)
