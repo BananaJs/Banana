@@ -297,9 +297,7 @@ namespace('Banana.Data').DataSet = Banana.Control.extend(
 	 */
 	getChangedDataSet: function()
 	{
-		var d = this.getData();
-		if (!d)
-			d = {};	
+		var d = this.getData() || {};
 
 		for (var id in this.registeredDataControls)
 		{
@@ -309,7 +307,9 @@ namespace('Banana.Data').DataSet = Banana.Control.extend(
 			//if bindedfield is like xxx.yyy.zzz we make sure that the data is in same path
 			var field = c.bindedData[1];
 			var sfield = field.split('.');
-
+			
+			this.ensureObjectFromPath(d,field);
+			
 			this.setDataByPath(c.getData(),field);
 		}
 		
