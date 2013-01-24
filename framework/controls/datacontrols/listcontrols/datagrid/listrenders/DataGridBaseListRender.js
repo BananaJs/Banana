@@ -481,6 +481,23 @@ namespace('Banana.Controls').DataGridBaseListRender = Banana.Controls.CustomList
 	},
 	
 	/**
+	 * @param {Object} data
+	 * @return {boolean} 
+	 */
+	hasItem : function(data)
+	{
+		for (k =0, len = this.datasource.length; k < len; k++)
+		{
+			if(data[this.indexKey] === this.datasource[k][this.indexKey])
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	},
+	
+	/**
 	 * Removes all items from the list and clears selected indices
 	 */
 	removeAllItems : function()
