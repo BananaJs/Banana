@@ -319,6 +319,8 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 	 */
 	repositionPanels : function(speed)
 	{
+		if (!this.contentContainer) return;
+		
 		this.triggerEvent('onSlide');
 		var dim = this.getDimensions();
 		
