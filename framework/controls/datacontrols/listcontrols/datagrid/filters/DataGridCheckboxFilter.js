@@ -26,7 +26,13 @@ namespace('Banana.Controls').DataGridCheckboxFilter = Banana.Controls.BaseDataGr
 		
 		this.addCssClass('BDataGridPagerFilter')
 		
-		this.checkbox.bind('change', this.getProxy(function() { this.triggerEvent('filterDataChanged'); }));
+		this.checkbox.bind('change', this.getProxy(function() { 
+			this.triggerEvent('filterDataChanged'); 
+		}));
+		// Needed for filter interface
+		this.checkbox.bind('dataChanged',this.getProxy(function() {
+			this.triggerEvent('filterDataChanged');
+		}));
 		this.label = new Banana.Controls.Label();
 	},
 	
@@ -37,6 +43,10 @@ namespace('Banana.Controls').DataGridCheckboxFilter = Banana.Controls.BaseDataGr
 	{
 		this.addControl(this.checkbox);
 		this.addControl(this.label);
+	},
+	
+	updateDisplay : function(){
+		this.label.setForControl(this.checkbox);
 	},
 	
 	/**

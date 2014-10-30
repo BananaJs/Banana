@@ -248,6 +248,8 @@ namespace('Banana.Data').DataSet = Banana.Control.extend(
 		{
 			var c = this.registeredDataControls[id];
 			var data = c.getData();
+
+			if (!c.id)
 			if (!(c instanceof Banana.Controls.DataControl)) continue;
 
 			if (flattened)

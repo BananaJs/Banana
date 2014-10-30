@@ -699,15 +699,8 @@ Banana.UiControl.prototype.setEnabled = function(e, recursive)
 
 		if (this.isRendered)
 		{
-			jQuery('#'+this.getClientId()+' div').removeClass('disabledDivs');
-			jQuery('#'+this.getClientId()+' :input').removeClass('disabledInputs');
-			jQuery('#'+this.getClientId()+' :input').removeProp('disabled');
-			jQuery('#'+this.getClientId()).removeProp('disabled');
-		}
-		
-		this.removeAttribute('disabled');
-		this.removeCssClass('disabledDivs');
-		
+			jQuery('#'+this.getClientId()).prop('disabled',false);
+		}	
 	}
 	else
 	{
@@ -715,14 +708,8 @@ Banana.UiControl.prototype.setEnabled = function(e, recursive)
 
 		if (this.isRendered)
 		{
-			jQuery('#'+this.getClientId()+' div').addClass('disabledDivs');
-			jQuery('#'+this.getClientId()+' :input').addClass('disabledInputs');
-			jQuery('#'+this.getClientId()+' :input').prop('disabled',true);
-			this.getDomWriter().show();
-		}
-		
-		this.setAttribute('disabled',true);
-		this.addCssClass('disabledDivs');		
+			jQuery('#'+this.getClientId()).prop('disabled',true);
+		}	
 	}
 	
 	if (recursive) {

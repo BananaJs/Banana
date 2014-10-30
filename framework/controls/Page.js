@@ -674,7 +674,7 @@ Banana.Page.prototype.clearProps = function()
  */
 Banana.Page.prototype.onWindowResize = function(control)
 {
-	if (control instanceof Banana.UiControl)
+	if (control instanceof Banana.Control)
 	{
 		control.onWindowResize();
 

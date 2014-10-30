@@ -188,6 +188,10 @@ namespace('Banana.Controls').DataGridFilterManager = Banana.Control.extend(
 				newValue = Banana.Util.UrlManager.getModule(urlPreFix+filter.filterField);
 			}
 			
+			if (newValue && filter instanceof Banana.Controls.DropDown){
+				newValue = newValue.split(',');
+			}
+			
 			filter.setData(
 					newValue 
 					|| f.getAllKey() || f.promptText)
@@ -313,6 +317,7 @@ namespace('Banana.Controls').DataGridFilterManager = Banana.Control.extend(
 		if (!this.keepAllValueVisible && (
 		 e.currentTarget.getData() === null || 
 		 e.currentTarget.getData() == undefined || 
+		 e.currentTarget.getData().length == 0 ||
 		 e.currentTarget.getData() == e.currentTarget.allKey))
 		{
 			this.removeFilterValues(e.currentTarget);
@@ -447,10 +452,12 @@ namespace('Banana.Controls').DataGridFilterManager = Banana.Control.extend(
 			
 			if (f.getData() && (!f.isRendered || f.visible))
 			{
-				filterObj[f.name || f.filterField] = ({'filterField':f.filterField,'data':f.getData(),'dataChanged':f.isChanged});
+				func = f.filterMethod || null;
+				
+				filterObj[f.name || f.filterField] = ({'filterMethod':func,'filterField':f.filterField,'data':f.getData(),'dataChanged':f.isChanged});
+				
 			}
 		}
-
 		this.filtersData = filterObj;
 		
 		if (flat)

@@ -21,7 +21,7 @@ namespace('Banana.Controls').DataGridSearchFilter = Banana.Controls.TextBox.exte
 		this._super();
 		this.addCssClass("BDataGridFilter");
 		this.addCssClass("BDataGridSearchFilter");
-		this.promptText = 'Enter search term';
+		this.promptText = 'Search Games';
 		this.allKey = '%';
 
 		this.bind('dataChanged',this.getProxy(this.handleChange));

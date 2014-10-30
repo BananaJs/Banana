@@ -24,20 +24,20 @@ namespace('Banana.Controls').DataGridPagerFilter = Banana.Controls.ListControl.e
 		this.addCssClass("BDataGridFilter");
 		this.addCssClass('BDataGridPagerFilter')
 
-		this.dropDown = new Banana.Controls.DropDown().setVisible(false);
+		//this.dropDown = new Banana.Controls.DropDown().setVisible(false);
 	
 		this.pagerLinks = new Banana.Controls.Panel().addCssClass('BDataGridPagerFilterButtonContainer');
 
-		this.addControl(this.dropDown);
+		//this.addControl(this.dropDown);
 		this.addControl(this.pagerLinks);
 
-		this.dropDown.bind('selectionChanged',this.getProxy(this.pagerDropDownChanged));
+		//this.dropDown.bind('selectionChanged',this.getProxy(this.pagerDropDownChanged));
 
 		this.bind('dataChanged',this.getProxy(function(){
 			
 			this.onSetData();
 			
-			this.dropDown.setData(this.getData());
+			//this.dropDown.setData(this.getData());
 
 			this.createDropDownDataSource();
 
@@ -52,6 +52,10 @@ namespace('Banana.Controls').DataGridPagerFilter = Banana.Controls.ListControl.e
 
 		this.bind('dataSourceChanged',this.getProxy(function(){
 	
+			if (this.datasource > 1000){
+				this.datasource = 1000;
+			}
+			
 			if (this.data ==null)
 			{
 				this.data = 0;
@@ -108,6 +112,14 @@ Banana.Controls.DataGridPagerFilter.prototype.nextClick = function()
 	jQuery(this).trigger('indexChanged',this.getData());
 };
 
+Banana.Controls.DataGridPagerFilter.prototype.nextnextClick = function()
+{
+	if (this.getDataSource() <= (parseInt(this.getData())+1)) return;
+	
+	this.setData((parseInt(this.getDataSource())-1));
+	jQuery(this).trigger('indexChanged',this.getData());
+};
+
 Banana.Controls.DataGridPagerFilter.prototype.previousClick = function()
 {
 	if (this.getData() <= 0) return;
@@ -116,9 +128,17 @@ Banana.Controls.DataGridPagerFilter.prototype.previousClick = function()
 	jQuery(this).trigger('indexChanged',this.getData());
 };
 
+Banana.Controls.DataGridPagerFilter.prototype.previouspreviousClick = function()
+{
+	if (this.getData() <= 0) return;
+	
+	this.setData(0);
+	jQuery(this).trigger('indexChanged',this.getData());
+};
+
 Banana.Controls.DataGridPagerFilter.prototype.pagerDropDownChanged = function()
 {
-	this.setData(parseInt(this.dropDown.getData()));
+	//this.setData(parseInt(this.dropDown.getData()));
 	jQuery(this).trigger('indexChanged',this.dropDown.getData());
 	this.createPageLinks();
 };
@@ -150,11 +170,11 @@ Banana.Controls.DataGridPagerFilter.prototype.createPageLinks = function()
 
 	if (this.datasource <= 1)
 	{
-		this.dropDown.setVisible(false);
+		//this.dropDown.setVisible(false);
 		return;
 	}
 	
-	this.dropDown.setVisible(true);
+	//this.dropDown.setVisible(true);
 
 	var pages = parseInt(this.datasource);
 	var data = parseInt(this.data);
@@ -188,6 +208,12 @@ Banana.Controls.DataGridPagerFilter.prototype.createPageLinks = function()
 //	var start = new Banana.Controls.Button().addCssClass('BDataGridPagerButton').setLabelCssClass('BDataGridPagerButtonLabel');
 //	start.setText('<< ');
 
+	var prevprev = new Banana.Controls.Button().addCssClass('BDataGridPagerFilterButton');
+	prevprev.setText('<< ');
+
+	//this.pagerLinks.addControl(start);
+	this.pagerLinks.addControl(prevprev);
+	
 	var prev = new Banana.Controls.Button().addCssClass('BDataGridPagerFilterButton');
 	prev.setText('< ');
 
@@ -211,25 +237,39 @@ Banana.Controls.DataGridPagerFilter.prototype.createPageLinks = function()
 
 	var next = new Banana.Controls.Button().addCssClass('BDataGridPagerFilterButton');
 	next.setText('>');
+	
+	var nextnext = new Banana.Controls.Button().addCssClass('BDataGridPagerFilterButton');
+	nextnext.setText('>>');
 
 //	var end = new Banana.Controls.Button().addCssClass('BDataGridPagerButton').setLabelCssClass('BDataGridPagerButtonLabel');;
 //	end.setText('>>');
 
 	next.bind('click',this.getProxy(this.nextClick));
-
+	nextnext.bind('click',this.getProxy(this.nextnextClick));
 	prev.bind('click',this.getProxy(this.previousClick));
+	prevprev.bind('click',this.getProxy(this.previouspreviousClick));
 	
 	this.pagerLinks.addControl(next);
+	this.pagerLinks.addControl(nextnext);
 	//this.pagerLinks.addControl(end);
 
+	if (this.data == 0){
+		prev.setStyle("visibility:hidden");
+		prevprev.setStyle("visibility:hidden");
+	}
+	
+	else if ((this.data+1) >= this.datasource){
+		next.setStyle("visibility:hidden");
+		nextnext.setStyle("visibility:hidden");
+	}
+	
 	this.pagerLinks.invalidateDisplay();
-
 };
 
 Banana.Controls.DataGridPagerFilter.prototype.onPageNavigate = function(e)
 {
 	this.setData((parseInt(e.data)-1));
-	this.dropDown.setData((parseInt(e.data)-1));
+	//this.dropDown.setData((parseInt(e.data)-1));
 	jQuery(this).trigger('indexChanged',this.getData());
 };
 
@@ -347,5 +387,5 @@ Banana.Controls.DataGridPagerFilter.prototype.createDropDownDataSource = functio
         ob.value = pages[i];
         ds.push(ob);
     }
-	this.dropDown.setDataSource(ds,true);
+	//this.dropDown.setDataSource(ds,true);
 };

@@ -351,6 +351,7 @@ Banana.Control.prototype.getDomEventTypes = function()
 			'submit',
 			'focusin',
 			'focusout',
+			'blur',
 			'focus',
 			'change',
 			'mouseover',

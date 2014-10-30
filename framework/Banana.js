@@ -49,7 +49,6 @@ if (!Array.prototype.indexOf)
 	};
 }
 
-
 goog.provide('Banana');
 
 goog.require('Banana.Util.NameSpace');
@@ -84,7 +83,6 @@ goog.require('Banana.Controls.DataControls.DatePicker');
 goog.require('Banana.Controls.DataControls.DateTimePicker');
 goog.require('Banana.Controls.DataControls.DateSpan');
 goog.require('Banana.Controls.DataControls.Image');
-goog.require('Banana.Controls.DataControls.MaskedTextBox');
 goog.require('Banana.Controls.DataControls.RadioButton');
 goog.require('Banana.Controls.DataControls.ProgressBar');
 goog.require('Banana.Controls.DataControls.Timecode');
@@ -615,3 +613,5 @@ namespace('Banana').Application = Banana.Control.extend(
 		Banana.Util.UrlManager.setModule('section',section,true);
 	}
 });
+
+Banana.App = Banana.Application;

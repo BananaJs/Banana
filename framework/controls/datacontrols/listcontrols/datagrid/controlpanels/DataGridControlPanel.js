@@ -79,7 +79,7 @@ namespace('Banana.Controls').DataGridControlPanel = Banana.Control.extend(
 	 */
 	setSearchFilter : function(filter)
 	{
-		this.middle.addControl(filter);
+		this.top.addControl(filter);
 	},
 		
 	/**

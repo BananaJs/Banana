@@ -26,6 +26,7 @@ namespace('Banana').PageTemplate  = Banana.Page.extend(
 		this._super();
 		this.addCssClass("BPageTemplate")
 		this.content = new Banana.Controls.Panel();
+		this.content.addCssClass("BPageTemplateContent");
 	},
 	
 	/**

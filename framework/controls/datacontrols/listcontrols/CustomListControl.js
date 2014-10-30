@@ -93,7 +93,7 @@ Banana.Controls.CustomListControl.prototype.setData = function(data, ignoreEvent
 		{
 			//banana.util.clone doesnt work well with cloning arrays. remove index from cloned array doesnt work. index is still there. weird bug!
 			//we break the reference
-			this.data = newObject = JSON.parse(JSON._stringify(data));
+			this.data = newObject = JSON.parse(JSON.stringify(data));
 		}
 		else
 		{

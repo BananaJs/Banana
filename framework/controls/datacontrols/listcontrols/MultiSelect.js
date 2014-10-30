@@ -43,20 +43,6 @@ namespace('Banana.Controls').MultiSelect = Banana.Controls.DropDown.extend(
 		this.addCssClass('BMultiSelect');
 		
 		this.optGroupField = "group";
-
-		this.bind('change',this.getProxy(function(e)
-		{
-			this.setData(Banana.Util.DomHelper.getData(this) || []);
-			this.isChanged = true;
-			this.triggerEvent('selectionChanged');
-		}));
-		
-		// Prevent propagation of event, because parent controls, e.g.
-		// a datagrid row, can capture this event in Chrome and prevent
-		// it from functioning.
-		this.bind('mousedown', function(e) {
-			e.stopPropagation();
-		});
 	},	
 	
 	/**

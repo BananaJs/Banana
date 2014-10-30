@@ -97,7 +97,6 @@ namespace('Banana.Controls').DataGrid = Banana.Controls.ListControl.extend(
 	setDataSource : function(datasource)
 	{
 		this.datasource = datasource;
-
 		this.triggerEvent('onSetDataSource',datasource);
 		return this;
 	},

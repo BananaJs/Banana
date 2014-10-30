@@ -130,6 +130,36 @@ Banana.Util.UrlManager = (function()
 		}
 	};
 	
+	var getParameters = function(paramString){
+		var params = {};
+	    var e, a = /\+/g, r = /([^&;=]+)=?([^&;]*)/g,
+	        d = function (s) { return decodeURIComponent(s.replace(a, " ")); };
+	    while (e = r.exec(paramString))
+	       params[d(e[1])] = d(e[2]);
+	    return params;
+    }
+	
+	var hashParameters = {};
+	var lastHash = location.hash;
+	$(window).unbind('hashchange');
+	
+	$(window).bind('hashchange', function() {
+		if (!running) return;
+		var newHash = location.hash;   
+        var newParameters = getParameters(event.target.location.hash.substring(1));
+        $.each(newParameters, function(key, value) {
+        	
+        	//dont trigger event changes for non existing
+        	if (members[key] && hashParameters[key] != undefined){ 
+	        	
+	           if(hashParameters[key] !== value){
+	        	   jQuery(document).trigger("url." + key, [value, key]);
+	           }
+        	}
+           hashParameters[key] = value;
+        });	
+	})
+	
 	/**
 	 * Starts the handler for url change detection.
 	 * If a change in the achor part of the url is dedected we trigger a url.{key} event
@@ -138,40 +168,6 @@ Banana.Util.UrlManager = (function()
 	var startHandler = function()
 	{
 		running = true;
-
-		if (stopHandler)
-		{
-			clearTimeout(urlCheckHandler);
-			stopHandler = false;
-			return;
-		}
-		
-		if (!handler)
-		{
-			/**
-			 * @ignore
-			 */
-			handler = function()
-			{
-				var currentURL = getUrlObject();
-				var currentURLVal;
-				for (var key in members) 
-				{		
-					currentURLVal = currentURL[key] || "";
-					if (!members[key] || !currentURL[key]) continue;
-					
-					if (members[key].bhmValue != currentURLVal) 
-					{
-						members[key].bhmValue = currentURLVal;
-						jQuery(document).trigger("url." + key, [currentURLVal, key]);
-					}
-				}
-				
-				startHandler();
-			};
-		}
-			
-		urlCheckHandler = setTimeout(handler, 20);
 	};
 	
 	/**
@@ -180,9 +176,6 @@ Banana.Util.UrlManager = (function()
 	 */
 	var stopChecking = function() 
 	{	
-		stopHandler = true;
-		clearTimeout(urlCheckHandler);	
-		urlCheckHandler = null;
 		running = false;
 	}
 	

@@ -40,10 +40,11 @@ namespace('Banana.Controls').StatusBar = Banana.Controls.Panel.extend(
 	 * @param {String} message
 	 * @return {this}
 	 */
-	setSuccesMessage : function(message)
+	setSuccesMessage : function(message,timeout)
 	{
 		var m = {};
 		m.type = 'ok';
+		m.timeout = timeout;
 		m.message = message;
 		this.setMessage(m);
 		return this;

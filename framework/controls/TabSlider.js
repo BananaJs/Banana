@@ -36,7 +36,7 @@ namespace('Banana.Controls').TabSlider = Banana.Controls.Panel.extend({
 		this.content = [];
 		
 		this.activatedTab = 0;
-		this.slideSpeed = 400;	
+		this.slideSpeed = 0;	
 		this.easing = 'swing';
 		this.useAutoHeight = false;
 		this.useLeftRightNav = true;
