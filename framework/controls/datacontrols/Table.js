@@ -21,6 +21,7 @@ namespace('Banana.Controls').Table = Banana.Controls.DataControl.extend(
 	init : function()
 	{
 		this._super();
+		this.addCssClass("table");
 	}
 });
 

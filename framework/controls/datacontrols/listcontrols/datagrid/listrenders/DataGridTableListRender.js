@@ -497,7 +497,10 @@ namespace('Banana.Controls').DataGridTableListRender = Banana.Controls.DataGridB
 		
 		row.bind('mouseover',this.getProxy(function(e){this.onRowMouseOver(e)}),row);
 		row.bind('mouseout',this.getProxy(function(e){this.onRowMouseOut(e)}),row);
-		row.bind('click',this.getProxy(function(e){this.onRowMouseClick(e)}),row);
+		row.bind('click',this.getProxy(function(e){
+			this.triggerEvent("onRowClicked",{"data":this.datasource[index],'index':index});
+			this.onRowMouseClick(e)
+		}),row);
 			
 		this.tableBody.addControl(row,instantRender);
 		

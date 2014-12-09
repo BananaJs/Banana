@@ -37,86 +37,86 @@ namespace('Banana.Controls').RadioButtonList = Banana.Controls.CustomListControl
 	{
 		this._super();
 		this.addCssClass('BRadioButtonList');
-	}
+	},
 	
-});
 
-/**
- * Invoked after calling setData or setDataSource
- * @ignore
- */
-Banana.Controls.RadioButtonList.prototype.createControls = function()
-{
-	this.panel = new Banana.Controls.Panel();
-	this.panel.addCssClass('BRadioButtonListItemContainer');
-
-	for(var prop in this.datasource)
+	/**
+	 * Invoked after calling setData or setDataSource
+	 * @ignore
+	 */
+	createControls : function()
 	{
-		if (typeof(this.datasource[prop]) == 'function') continue;
-		
-		var radio = new Banana.Controls.RadioButton();
-		radio.setId(prop);
-		radio.setValue(prop);
+		this.panel = new Banana.Controls.Panel();
+		this.panel.addCssClass('BRadioButtonListItemContainer');
 
-		if (this.getGroupName())
+		for(var prop in this.datasource)
 		{
-			radio.setName(this.getGroupName());
-		}
+			if (typeof(this.datasource[prop]) == 'function') continue;
+			
+			var radio = new Banana.Controls.RadioButton();
+			radio.setId(prop);
+			radio.setValue(prop);
 
-		radio.bind('change',this.getProxy(function(sender)
-		{
-			this.onCheckBoxChanged(sender.data);
-			this.triggerEvent('dataChanged',this.getData());
-
-		}),radio);
-
-		if (this.data)
-		{
-			if (prop == this.data)
+			if (this.getGroupName())
 			{
-				radio.setData(true);
+				radio.setName(this.getGroupName());
 			}
+
+			radio.bind('change',this.getProxy(function(sender)
+			{
+				this.onCheckBoxChanged(sender.data);
+				this.triggerEvent('dataChanged',this.getData());
+
+			}),radio);
+
+			if (this.data != null)
+			{
+				if (prop == this.data)
+				{
+					radio.setData(true);
+				}
+			}
+
+			var control = new Banana.Controls.Decorators.LabelDecoratorRight(radio).setData(this.datasource[prop]);
+
+			this.panel.addControl(control);
 		}
 
-		var control = new Banana.Controls.Decorators.LabelDecoratorRight(radio).setData(this.datasource[prop]);
+		this.addControl(this.panel);
+		//prevent parent auto height issue
+		this.addControl('<div style="clear:both;"></div>');
+	},
 
-		this.panel.addControl(control);
+	/**
+	 * A groupname ensures that only 1 radio button can be selected from a list of radio's
+	 *
+	 * @param {String} name of the group, must be unique
+	 * @return {this}
+	 */
+	setGroupName : function(name)
+	{
+		this.groupName = name;
+		return this;
+	},
+
+	/**
+	 * @return {String}
+	 */
+	getGroupName :  function()
+	{
+		return this.groupName;
+	},
+
+	/**
+	 * callback invoked after chaning a radiobutton.
+	 *
+	 * @param {event} sender
+	 * @ignore
+	 */
+	onCheckBoxChanged : function(sender)
+	{
+		this.data = sender.getValue();
+
+		this.isChanged = true;
 	}
-
-	this.addControl(this.panel);
-	//prevent parent auto height issue
-	this.addControl('<div style="clear:both;"></div>');
-};
-
-/**
- * A groupname ensures that only 1 radio button can be selected from a list of radio's
- *
- * @param {String} name of the group, must be unique
- * @return {this}
- */
-Banana.Controls.RadioButtonList.prototype.setGroupName = function(name)
-{
-	this.groupName = name;
-	return this;
-};
-
-/**
- * @return {String}
- */
-Banana.Controls.RadioButtonList.prototype.getGroupName = function()
-{
-	return this.groupName;
-};
-
-/**
- * callback invoked after chaning a radiobutton.
- *
- * @param {event} sender
- * @ignore
- */
-Banana.Controls.RadioButtonList.prototype.onCheckBoxChanged = function(sender)
-{
-	this.data = sender.getValue();
-
-	this.isChanged = true;
-};
+});
