@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+<title>my page</title>
+
+</head>
+
+<body id="body">
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../../Application.min.js"></script>
+
+	<div id="target"></div>
+		<script>
+
+		namespace('Application.Pages.PageTemplates').PageTemplate = Banana.PageTemplate.extend({
+		    
+		    createComponents : function()
+		    {        
+		    	this.addControl("this could be a header, visible in all pages");
+		        this.addControl(this.content);
+		    }
+		});
+
+		namespace('Application.Pages').TestPage = Banana.Page.extend({
+		    
+		    createComponents : function(){
+		        
+		        
+		        this.setStyle("text-align:center;")
+		        
+		        var panel = new Banana.Controls.Panel();
+		        panel.setStyle("background-color:red;height:100px;width:100%;");
+		        this.addControl(panel);
+		        
+		        var button = new Banana.Controls.Button();
+		        button.setStyle("width:200px;height:200px;border-radius:10px; background-color:lime;")
+		        button.setText("click me");
+		        
+		        this.addControl(button);
+
+		        button.bind('click',function(){
+		            
+		            var panel2 = new Banana.Controls.Panel();
+		            panel2.setStyle("background-color:blue;height:50px;width:100%;");
+		            
+		            panel.clear();
+		            panel.addControl(panel2);
+		            panel.invalidateDisplay();
+		            
+		        })      
+		    }
+		});
+
+		//logic to run the application
+		$(document).ready(function(){
+
+		    var applicationParameters = {};
+	        applicationParameters.renderTarget = 'target';
+	        applicationParameters.defaultSection="TestPage";
+	        applicationParameters.pageTemplate="PageTemplate";
+	        applicationParameters.paths = {};
+	        applicationParameters.paths.pages = "Application.Pages";
+	        applicationParameters.paths.pageTemplates = "Application.Pages.PageTemplates";
+	        
+	        app = new Banana.Application(applicationParameters);
+	        app.run();
+		});
+
+		</script>
+</body>
+</html>
