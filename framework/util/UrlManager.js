@@ -141,25 +141,7 @@ Banana.Util.UrlManager = (function()
 	
 	var hashParameters = {};
 	var lastHash = location.hash;
-	$(window).unbind('hashchange');
-	
-	$(window).bind('hashchange', function() {
-		if (!running) return;
-		var newHash = location.hash;   
-        var newParameters = getParameters(event.target.location.hash.substring(1));
-        $.each(newParameters, function(key, value) {
-        	
-        	//dont trigger event changes for non existing
-        	if (members[key] && hashParameters[key] != undefined){ 
-	        	
-	           if(hashParameters[key] !== value){
-	        	   jQuery(document).trigger("url." + key, [value, key]);
-	           }
-        	}
-           hashParameters[key] = value;
-        });	
-	})
-	
+		
 	/**
 	 * Starts the handler for url change detection.
 	 * If a change in the achor part of the url is dedected we trigger a url.{key} event
@@ -168,6 +150,25 @@ Banana.Util.UrlManager = (function()
 	var startHandler = function()
 	{
 		running = true;
+		//$(window).unbind('hashchange');
+		$(window).bind('hashchange', function() {
+			if (!running) return;
+			var newHash = location.hash;   
+	        var newParameters = getParameters(event.target.location.hash.substring(1));
+	        
+	        $.each(newParameters, function(key, value) {
+	        	
+	        	//dont trigger event changes for non existing
+	        	//if (members[key] && hashParameters[key] != undefined){ 
+		        	
+		           if(members[key] && members[key].bhmValue != value){
+		        	   members[key].bhmValue = value;
+		        	   jQuery(document).trigger("url." + key, [value, key]);
+		           }
+	        	//}
+	           hashParameters[key] = value;
+	        });	
+		})
 	};
 	
 	/**
@@ -177,6 +178,7 @@ Banana.Util.UrlManager = (function()
 	var stopChecking = function() 
 	{	
 		running = false;
+		$(window).unbind('hashchange');
 	}
 	
 	
@@ -424,6 +426,7 @@ Banana.Util.UrlManager = (function()
 		 */
 		removeListeners : function()
 		{
+			
 			for (l in listeners)
 			{
 				if (typeof(listeners[l]) == 'function') { continue; }
