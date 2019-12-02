@@ -269,7 +269,7 @@ namespace('Banana').Application = Banana.Control.extend(
 	 */
 	prepareUnload : function()
 	{
-		jQuery(window).unload( this.getProxy(function()
+		jQuery(window).on("unload",this.getProxy(function()
 		{
 			jQuery('*').unbind();
 			if (this.activePage)

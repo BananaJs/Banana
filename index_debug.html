@@ -11,25 +11,73 @@
 
 <body id="body">
 <script type="text/javascript" src="closure/goog/base.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="deps.js"></script>
 <script type="text/javascript" src="Application.js"></script>
 
 	<div id="target"></div>
 		<script>
+
+			namespace('Application.Pages').Merchant = Banana.Page.extend({
+
+				init: function () {
+					this._super();
+				},
+
+				createComponents: function () {
+
+					this.createLayout();
+				},
+
+				createLayout: function () {
+					var button = new Banana.Controls.Button();
+					button.setStyle("width:300px;")
+					button.addControl("merchants")
+					button.addCssClass("submitButton");
+					button.bind('click', this.getProxy(function (e) {
+						this.getPage().getApplication().loadPage("Account");
+					}));
+					this.addControl(button);
+				}
+			});
+
+			namespace('Application.Pages').Account = Banana.Page.extend({
+
+				init: function () {
+					this._super();
+				},
+
+				createComponents: function () {
+
+					this.createLayout();
+				},
+
+				createLayout: function () {
+					var button = new Banana.Controls.Button();
+					button.setStyle("width:300px;")
+					button.addControl("accounts")
+					button.addCssClass("submitButton");
+					button.bind('click', this.getProxy(function (e) {
+						this.getPage().getApplication().loadPage("Merchant");
+					}));
+					this.addControl(button);
+				}
+			});
+
+
 		$(document).ready(function(){
-				
+
 				var applicationParameters = {};
 				applicationParameters.renderTarget = 'target';
-				applicationParameters.defaultSection="Home";
+				applicationParameters.defaultSection="Merchant";
 				applicationParameters.paths = {};
 				applicationParameters.paths.pages = "Application.Pages";
-				
+
 				var app = new Banana.Application(applicationParameters);
 				app.run();
 		});
-		
+
 		</script>
 
 </body>
