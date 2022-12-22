@@ -52,7 +52,28 @@ namespace('Banana').Page = Banana.Controls.Panel.extend(
 				this.onWindowResize(this);
 			});
 		}
-		jQuery(window).bind('resize',this.resizefunc);
+		window.addEventListener("resize", this.resizefunc);
+
+		if (!this.visibilityChangeFunc){
+			this.visibilityChangeFunc = this.getProxy(function(){
+				this.onVisibilityChange(this);
+			})
+		}
+		document.addEventListener("visibilitychange",this.visibilityChangeFunc);
+
+		if (!this.offlineFunc){
+			this.offlineFunc = this.getProxy(function(){
+				this.onOffline(this);
+			})
+		}
+		addEventListener("offline",this.offlineFunc);
+
+		if (!this.onlineFunc){
+			this.onlineFunc = this.getProxy(function(){
+				this.onOnline(this);
+			})
+		}
+		addEventListener("online",this.onlineFunc);
 	}
 	
 });
@@ -97,8 +118,9 @@ Banana.Page.prototype.run = function(target)
  * @param {Banana.UiControl} place optional replace control
  * @param {boolean} wasRendering true if this control is already in a rerender phase
  * @param {boolean} parentRerendering true when parent control is currently rerendering
+ * @param {int} parentRerendering index of control
  */
-Banana.Page.prototype.initRender = function(control,target,place,wasRerendering,parentRendering)
+Banana.Page.prototype.initRender = function(control,target,place,wasRerendering,parentRendering,index)
 { 
 	this.rendering = true;
 	
@@ -106,7 +128,7 @@ Banana.Page.prototype.initRender = function(control,target,place,wasRerendering,
 	{
 		//if the page was already rerendering we dont need to render this action again
 		//we still need to rerender and register events on the control.
-		this.renderControl(control,target,place);
+		this.renderControl(control,target,place,index);
 		this.rendering = false;
 		this.recursiveRegisterEvents(control);
 		return; 
@@ -116,7 +138,7 @@ Banana.Page.prototype.initRender = function(control,target,place,wasRerendering,
 
 	this.initializeControl(control,target);
 
-	this.renderControl(control,target,place);
+	this.renderControl(control,target,place,index);
 
 	this.isRendered = true;
 	this.setVisible(true);
@@ -179,7 +201,7 @@ Banana.Page.prototype.rerender = function(control)
 	var parentControl = orig.getParent();
 
 	this.initRender(control, parentControl, orig,parentRerendering,parentRendering);
-	
+
 	// Restore this.isRerendering
 	this.isRerendering = parentRerendering;
 };
@@ -383,9 +405,13 @@ Banana.Page.prototype.initializeControl = function(control,target)
  * @param {Banana.Control|String} control Control which should be rendered.
  * @param {Banana.Control} target The target where the control should be rendered in.
  * @param {Banana.Control} place (optional) If given we replace the old control html data with new data
+ * @param {int} place (optional) If given we insert data at given index.
  */
-Banana.Page.prototype.renderControl = function(control,target,place)
+Banana.Page.prototype.renderControl = function(control,target,place,index)
 {
+	control.cachedElement = undefined;
+	target.cachedElement = undefined;
+
 	if (control instanceof Banana.Control)
 	{
 		var data = control.getHtml(true); 
@@ -395,7 +421,16 @@ Banana.Page.prototype.renderControl = function(control,target,place)
 		data = control;
 	}
 
-	if (place)
+	if (index != undefined){
+		if (target.controls[index]){
+			Banana.Util.DomHelper.renderBefore(data,target.controls[index]);
+		}
+		else{
+			console.error("cannot add control at this index ",index);
+			Banana.Util.DomHelper.render(data,target);
+		}
+	}
+	else if (place)
 	{
 		Banana.Util.DomHelper.replace(data,place);
 	}
@@ -518,14 +553,14 @@ Banana.Page.prototype.removeControl = function(control,dontRemoveDom)
 	}
 
 	control.unregisterEvents();
-	
+
 	control.unload();
 
 	if (!dontRemoveDom)
 	{
 		Banana.Util.DomHelper.remove(control);
 	}
-	
+
 	//if our control got a parent, then we also need to remove it from the parent array controls
 	//we only do this is we directly call remove on this control, otherwise we remove the controls array anywayy
 	var parent = control.parent;
@@ -575,7 +610,12 @@ Banana.Page.prototype.clearControl = function(control)
 
 	//TODO added this to also remove non object controls ie strings.
 	//move this to domhelper.js
-	jQuery('#'+control.getClientId()).empty();
+	if (control.cachedElement){
+		control.cachedElement.empty()
+	}
+	else{
+		jQuery('#'+control.getClientId()).empty();
+	}
 };
 
 /**
@@ -622,7 +662,12 @@ Banana.Page.prototype.remove = function(keepPageDom,cb)
 		
 		//if we clear the page we also need to unregister the resize event. otherwise the callback will always
 		//be called after screensize changes.
-		jQuery(window).unbind();
+		window.removeEventListener("resize", this.resizefunc);
+		document.removeEventListener("visibilitychange", this.visibilityChangeFunc);
+		removeEventListener("online", this.onlineFunc);
+		removeEventListener("offline", this.offlineFunc);
+
+		//jQuery(window).unbind();
 
 		this.unbind();
 		this.removeDataSets();
@@ -684,6 +729,66 @@ Banana.Page.prototype.onWindowResize = function(control)
 		for (i = 0, len = childs.length; i < len; i++)
 		{
 			this.onWindowResize(childs[i]);
+		}
+	}
+};
+
+/**
+ *
+ * @param Banana.UiControl
+ */
+Banana.Page.prototype.onVisibilityChange = function(control)
+{
+	if (control instanceof Banana.Control)
+	{
+		control.onVisibilityChange();
+
+		var childs = control.getControls();
+
+		var i, len;
+		for (i = 0, len = childs.length; i < len; i++)
+		{
+			this.onVisibilityChange(childs[i]);
+		}
+	}
+};
+
+/**
+ *
+ * @param Banana.UiControl
+ */
+Banana.Page.prototype.onOffline = function(control)
+{
+	if (control instanceof Banana.Control)
+	{
+		control.onOffline();
+
+		var childs = control.getControls();
+
+		var i, len;
+		for (i = 0, len = childs.length; i < len; i++)
+		{
+			this.onOffline(childs[i]);
+		}
+	}
+};
+
+/**
+ *
+ * @param Banana.UiControl
+ */
+Banana.Page.prototype.onOnline = function(control)
+{
+	if (control instanceof Banana.Control)
+	{
+		control.onOnline();
+
+		var childs = control.getControls();
+
+		var i, len;
+		for (i = 0, len = childs.length; i < len; i++)
+		{
+			this.onOnline(childs[i]);
 		}
 	}
 };

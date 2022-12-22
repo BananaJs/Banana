@@ -36,6 +36,25 @@ namespace('Banana.Util').DomHelper =
 			jQuery('#'+target.getClientId()).append(data);				
 		}	
 	},
+
+	/**
+	 * renders control to target
+	 *
+	 * @param {String} data
+	 * @param {mixed} target Banana.Control or dom id
+	 *
+	 */
+	renderBefore : function(data,before)
+	{
+		if (typeof(target) === 'string')
+		{
+			jQuery('#'+before).before(data);
+		}
+		else
+		{
+			jQuery('#'+before.getClientId()).before(data);
+		}
+	},
 	
 	/**
 	 * replaces content with another

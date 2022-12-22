@@ -10,59 +10,102 @@ goog.require('Banana.Control');
 
 /** @namespace Banana.UiControl */
 namespace('Banana').UiControl = Banana.Control.extend(
-/** @lends Banana.UiControl.prototype */
-{
-	/**
-	 * @constructs
-	 * @extends Banana.Control
-	 */
-	init: function()
+	/** @lends Banana.UiControl.prototype */
 	{
-		this._super();
-		this.css = {};
-		this.style = '';
-		this.isRendered = false;
-		this.visible = true; //default is visible
-		this.enabled = true;
-	},
-
-	/**
-	 * Adds control to collection
-	 * Normally you would add control prior to the render phase. If this is not the case
-	 * and you need to instantly render the control. autoRender should be true
-	 * 
-	 * @param {mixed} Banana.Control or plain text
-	 * @param {boolean} true when render should occur instantly
-	 */
-	addControl : function(c,autoRender)
-	{
-		//when a control is added on a already initialized control, we recall the initialization
-		//otherwise the control wont have a proper client id/databind and references to various objects
-		//TODO is this a performance hit, cause sometimes it is not needed
-		if (this.isInitialized)
+		/**
+		 * @constructs
+		 * @extends Banana.Control
+		 */
+		init: function()
 		{
-			if (autoRender)
-			{
-				//the render function also contains initializeControls, but we dont know if our item got sibblings, if so the client id should be amount of sibblings+1
-				this.getPage().initializeControl(c,this,false,this.controls.length+1);
-				this.render(c);
-			}
-			else
-			{
-				this.getPage().initializeControl(c,this,false,this.controls.length+1);
-			}
-		}
+			this._super();
+			this.css = {};
+			this.style = '';
+			this.isRendered = false;
+			this.visible = true; //default is visible
+			this.enabled = true;
+		},
 
-		return this._super(c);
-	}
-});
+		/**
+		 * Adds control to collection
+		 * Normally you would add control prior to the render phase. If this is not the case
+		 * and you need to instantly render the control. autoRender should be true
+		 *
+		 * @param {mixed} Banana.Control or plain text
+		 * @param {boolean} true when render should occur instantly
+		 */
+		addControl : function(c,autoRender)
+		{
+			//when a control is added on a already initialized control, we recall the initialization
+			//otherwise the control wont have a proper client id/databind and references to various objects
+			//TODO is this a performance hit, cause sometimes it is not needed
+			if (this.isInitialized)
+			{
+				if (autoRender)
+				{
+					//the render function also contains initializeControls, but we dont know if our item got sibblings, if so the client id should be amount of sibblings+1
+					this.getPage().initializeControl(c,this,false,this.controls.length+1);
+					this.render(c);
+				}
+				else
+				{
+					this.getPage().initializeControl(c,this,false,this.controls.length+1);
+				}
+			}
+
+			return this._super(c);
+		},
+
+		/**
+		 * Adds control to collection at given index
+		 * Normally you would add control prior to the render phase. If this is not the case
+		 * and you need to instantly render the control. autoRender should be true
+		 *
+		 * @param {mixed} Banana.Control or plain text
+		 * @param {boolean} true when render should occur instantly
+		 */
+		addControlAt : function(c,index,autoRender)
+		{
+			if (!this.controls[index]){
+				return this.addControl(c,autoRender);
+			}
+
+			//when a control is added on a already initialized control, we recall the initialization
+			//otherwise the control wont have a proper client id/databind and references to various objects
+			//TODO is this a performance hit, cause sometimes it is not needed
+			if (this.isInitialized)
+			{
+				if (autoRender)
+				{
+					//the render function also contains initializeControls, but we dont know if our item got sibblings, if so the client id should be amount of sibblings+1
+					this.getPage().initializeControl(c,this,false,this.controls.length+1);
+					this.render(c,index);
+				}
+				else
+				{
+					this.getPage().initializeControl(c,this,false,this.controls.length+1);
+				}
+			}
+
+			return this._super(c,index);
+		},
+
+		unload : function(){
+			cachedElement = undefined;
+		}
+	});
 
 /*
  * @return object jquery dom writer
  */
 Banana.UiControl.prototype.getDomWriter = function()
 {
-	return jQuery('#'+this.getClientId());
+	if (!this.cachedElement){
+		//console.log("return dirty element ",this.getClientId())
+		this.cachedElement = jQuery('#'+this.getClientId());
+	}
+	//console.log("return cached element")
+	return this.cachedElement;
 };
 
 /**
@@ -73,23 +116,23 @@ Banana.UiControl.prototype.getTagName = function(){return '';};
 
 /**
  * Computes widht,height and left right offsets
- * 
+ *
  * @return {Object} of dimensions
  */
 Banana.UiControl.prototype.getDimensions = function()
 {
 	var params = {};
 
-	params.height = jQuery('#'+this.getClientId()).height();
-	params.width = jQuery('#'+this.getClientId()).width();
-	params.offset = jQuery('#'+this.getClientId()).offset();
-	params.position = jQuery('#'+this.getClientId()).position();
+	params.height = this.getDomWriter().height();
+	params.width = this.getDomWriter().width();
+	params.offset = this.getDomWriter().offset();
+	params.position = this.getDomWriter().position();
 
 	return params;
 };
 
 /**
- * sets client id used to reference dom node. This method is auto called by the page 
+ * sets client id used to reference dom node. This method is auto called by the page
  * @param {String} cid
  */
 Banana.UiControl.prototype.setClientId = function(cid)
@@ -108,7 +151,7 @@ Banana.UiControl.prototype.getClientId = function()
 /**
  * Triggers an event which will notify all listeners
  * Optionally data can be send along.
- * 
+ *
  * @param {String} name of the event to be triggered
  * @param {mixed} data
  */
@@ -118,7 +161,7 @@ Banana.UiControl.prototype.triggerEvent = function(name,data)
 	{
 		if (this.isRendered)
 		{
-			jQuery('#'+this.clientId).trigger(name,data);
+			this.getDomWriter().trigger(name,data);
 		}
 	}
 	else
@@ -133,7 +176,7 @@ Banana.UiControl.prototype.triggerEvent = function(name,data)
  *
  * @param {String} name of the state
  * @param {String} value
- * 
+ *
  * @return {this}
  */
 Banana.UiControl.prototype.setState = function(name,value)
@@ -147,7 +190,7 @@ Banana.UiControl.prototype.setState = function(name,value)
 		id = this.getId();
 	}
 	Banana.Util.StateManager.setState(page + '-' + id + '-' + name, value);
-	
+
 	return this;
 };
 
@@ -166,7 +209,7 @@ Banana.UiControl.prototype.getState = function(name)
 	{
 		id = this.getId();
 	}
-	
+
 	return Banana.Util.StateManager.getState(page + '-' + id + '-' + name);
 };
 
@@ -185,7 +228,7 @@ Banana.UiControl.prototype.removeState = function(name)
 	{
 		id = this.getId();
 	}
-	
+
 	return Banana.Util.StateManager.removeState(page + '-' + id + '-' + name);
 };
 
@@ -208,7 +251,7 @@ Banana.UiControl.prototype.getAttributes = function()
 	if (this.getCss())
 	{
 		var css = [];
-		for (prop in this.getCss())
+		for (var prop in this.getCss())
 		{
 			cssPart = prop + ':' + this.getCss()[prop] + ';';
 			css.push(cssPart);
@@ -228,7 +271,7 @@ Banana.UiControl.prototype.getAttributes = function()
 /**
  * sets attribute
  * depending on the type of key we set prop or attr
- * 
+ *
  * see http://blog.jquery.com/ for more information
  * @param {String} key
  * @param {String} value
@@ -240,7 +283,7 @@ Banana.UiControl.prototype.setAttribute = function(key,value)
 	{
 		switch(key)
 		{
-			case 'async':	
+			case 'async':
 			case 'autofocus':
 			case 'checked':
 			case 'location':
@@ -254,14 +297,14 @@ Banana.UiControl.prototype.setAttribute = function(key,value)
 			case 'hidden':
 			case 'loop':
 			case 'open':
-			case 'scoped':	
-			
-			jQuery('#'+this.getClientId()).prop(key,value);	
-				
-			break;	
-		
+			case 'scoped':
+
+				this.getDomWriter().prop(key,value);
+
+				break;
+
 			default:
-			jQuery('#'+this.getClientId()).attr(key,value);	
+				this.getDomWriter().attr(key,value);
 		}
 	}
 	var attr = this.getAttributes();
@@ -279,7 +322,7 @@ Banana.UiControl.prototype.removeAttribute = function(key)
 	{
 		switch(key)
 		{
-			case 'async':	
+			case 'async':
 			case 'autofocus':
 			case 'checked':
 			case 'location':
@@ -293,23 +336,23 @@ Banana.UiControl.prototype.removeAttribute = function(key)
 			case 'hidden':
 			case 'loop':
 			case 'open':
-			case 'scoped':	
-			
-			jQuery('#'+this.getClientId()).removeProp(key);	
-				
-			break;	
-		
+			case 'scoped':
+
+				this.getDomWriter().removeProp(key);
+
+				break;
+
 			default:
-			jQuery('#'+this.getClientId()).attr(key,"");	
+				this.getDomWriter().attr(key,"");
 		}
 	}
-	
+
 	if (this.attributes && this.attributes[key])
 	{
 		delete this.attributes[key];
 	}
-	
-	return this;	
+
+	return this;
 };
 
 /**
@@ -345,17 +388,17 @@ Banana.UiControl.prototype.getStyle = function()
 };
 
 /**
- * adds css style in object key value style. 
+ * adds css style in object key value style.
  * @param {Object} css example {width:'100px',left:0};
  */
 Banana.UiControl.prototype.addCss = function(css)
 {
 	var nc = {};
-	for (prop in this.getCss())
+	for (var prop in this.getCss())
 	{
 		nc[prop] = this.getCss()[prop];
 	}
-	for (prop in css)
+	for (var prop in css)
 	{
 		nc[prop] = css[prop];
 	}
@@ -373,9 +416,9 @@ Banana.UiControl.prototype.setCss = function(css)
 
 	if (this.isRendered)
 	{
-		jQuery('#'+this.getClientId()).css(this.css);
+		this.getDomWriter().css(this.css);
 	}
-	
+
 	return this;
 };
 
@@ -392,15 +435,15 @@ Banana.UiControl.prototype.getCss = function()
  */
 Banana.UiControl.prototype.getStyleProperty = function(prop)
 {
-	return this.css[prop] || jQuery('#'+this.getClientId()).css(prop);
+	return this.css[prop] || this.getDomWriter().css(prop);
 };
 
 /**
-* @return {Array} of currently added css classes
-*/
+ * @return {Array} of currently added css classes
+ */
 Banana.UiControl.prototype.getCssClass = function()
 {
-	if (!this.cssClass) 
+	if (!this.cssClass)
 	{
 		this.cssClass = [];
 	}
@@ -414,17 +457,17 @@ Banana.UiControl.prototype.getCssClass = function()
  */
 Banana.UiControl.prototype.addCssClass = function(css)
 {
-	if (!this.cssClass) 
+	if (!this.cssClass)
 	{
 		this.cssClass = [];
 	}
-	
+
 	if (!this.hasCssClass(css)) {
 		this.cssClass.push(css);
-	
+
 		if (this.isRendered)
 		{
-			jQuery('#'+this.getClientId()).addClass(css);
+			this.getDomWriter().addClass(css);
 		}
 	}
 
@@ -438,20 +481,20 @@ Banana.UiControl.prototype.addCssClass = function(css)
  */
 Banana.UiControl.prototype.removeCssClass = function(css)
 {
-	if (!this.cssClass) 
+	if (!this.cssClass)
 	{
 		return this;
 	}
-	
+
 	var indexOf = this.cssClass.indexOf(css);
-	
+
 	if (indexOf != -1)
 	{
 		this.cssClass.splice(indexOf,1);
-		
+
 		if (this.isRendered)
 		{
-			jQuery('#'+this.getClientId()).removeClass(css);
+			this.getDomWriter().removeClass(css);
 		}
 	}
 
@@ -460,15 +503,15 @@ Banana.UiControl.prototype.removeCssClass = function(css)
 
 /**
  * Switch the old Css class with a new one
- * 
+ *
  * @param {String} oldClass Old CSS class to replace
  * @param {String} newClass New CSS class to add
  */
 Banana.UiControl.prototype.switchCssClass = function(oldClass, newClass)
 {
 	this.removeCssClass(oldClass);
-	this.addCssClass(newClass);	
-	return this;	
+	this.addCssClass(newClass);
+	return this;
 };
 
 /**
@@ -477,9 +520,9 @@ Banana.UiControl.prototype.switchCssClass = function(oldClass, newClass)
 Banana.UiControl.prototype.hasCssClass = function(search)
 {
 	if (this.isRendered) {
-		return jQuery('#'+this.getClientId()).hasClass(search);
+		return this.getDomWriter().hasClass(search);
 	}
-	
+
 	if (jQuery.inArray(search, this.getCssClass()) >= 0)
 	{
 		return true;
@@ -494,21 +537,21 @@ Banana.UiControl.prototype.hasCssClass = function(search)
  */
 Banana.UiControl.prototype.getHtmlAttributes = function()
 {
-		var attributes =this.getAttributes();
-		var data = "";
-		var attr;
-		for (attr in attributes)
+	var attributes =this.getAttributes();
+	var data = "";
+	var attr;
+	for (attr in attributes)
+	{
+		if (attributes[attr])
 		{
-			if (attributes[attr])
+			if (attributes[attr] != 'undefined')
 			{
-				if (attributes[attr] != 'undefined')
-				{
-					data += attr+'="'+attributes[attr]+'" ';
-				}
+				data += attr+'="'+attributes[attr]+'" ';
 			}
 		}
+	}
 
-		return data;
+	return data;
 };
 
 /**
@@ -532,7 +575,7 @@ Banana.UiControl.prototype.setVisible = function(v,speed,type,callback)
 			{
 				this.getDomWriter().fadeIn(speed,this.getProxy(function(){
 					this.setCss({'display':''});
-					if(callback) 
+					if(callback)
 					{
 						callback();
 					}
@@ -543,14 +586,14 @@ Banana.UiControl.prototype.setVisible = function(v,speed,type,callback)
 			{
 				this.getDomWriter().show(speed,this.getProxy(function(){
 					this.setCss({'display':''});
-					if(callback) 
+					if(callback)
 					{
-						callback();	
+						callback();
 					}
 				}));
 			}
 		}
-		
+
 		if (!ignoreDirectAction)
 		{
 			this.setCss({'display':''});
@@ -565,9 +608,9 @@ Banana.UiControl.prototype.setVisible = function(v,speed,type,callback)
 				ignoreDirectAction = true;
 				this.getDomWriter().fadeOut(speed,this.getProxy(function(){
 					this.setCss({'display':'none'});
-					if(callback) 
+					if(callback)
 					{
-						callback();	
+						callback();
 					}
 				}));
 			}
@@ -575,9 +618,9 @@ Banana.UiControl.prototype.setVisible = function(v,speed,type,callback)
 			{
 				this.getDomWriter().hide(speed,this.getProxy(function(){
 					this.setCss({'display':'none'});
-					if(callback) 
+					if(callback)
 					{
-						callback();	
+						callback();
 					}
 				}));
 			}
@@ -586,7 +629,7 @@ Banana.UiControl.prototype.setVisible = function(v,speed,type,callback)
 		{
 			this.setCss({'display':'none'});
 		}
-		
+
 	}
 
 	return this;
@@ -599,7 +642,7 @@ Banana.UiControl.prototype.getVisible = function()
 {
 	if (this.isRendered)
 	{
-		return jQuery('#'+this.getClientId()).is(":visible");
+		return this.getDomWriter().is(":visible");
 	}
 	else
 	{
@@ -612,7 +655,7 @@ Banana.UiControl.prototype.getVisible = function()
  */
 Banana.UiControl.prototype.registerEvents = function()
 {
-	if (!this.binds && !this.binds.length) 
+	if (!this.binds && !this.binds.length)
 	{
 		return;
 	}
@@ -630,18 +673,18 @@ Banana.UiControl.prototype.registerEvents = function()
 
 			if (data)
 			{
-				jQuery('#'+this.getClientId()).bind(name,data,func);
+				this.getDomWriter().bind(name,data,func);
 			}
 			else
 			{
-				jQuery('#'+this.getClientId()).bind(name,func);
+				this.getDomWriter().bind(name,func);
 			}
 		}
-	//there is a difference between dom and data events. dom events can be registered only
-	//when the dom elements are rendered. data events can be registered right when object are instantiated
-	//if we bind an custom event during construction (before dom render, no rerender has occured) we want it instant to be registered
-	//because this function is called after rendering and rerendering we only need to bind the custom events
-	//after a RE-rerender, cause rerendering always starts with unbinding ALL events.
+			//there is a difference between dom and data events. dom events can be registered only
+			//when the dom elements are rendered. data events can be registered right when object are instantiated
+			//if we bind an custom event during construction (before dom render, no rerender has occured) we want it instant to be registered
+			//because this function is called after rendering and rerendering we only need to bind the custom events
+		//after a RE-rerender, cause rerendering always starts with unbinding ALL events.
 		else if (type === Banana.Controls.EventTypes.CUSTOM_EVENT && this.getPage().isRerendering)
 		{
 			///	console.log('register '+name + ' on '+this.getId())
@@ -656,8 +699,8 @@ Banana.UiControl.prototype.registerEvents = function()
 		}
 		else
 		{
-		//console.log('IGNORE register '+name + ' on '+this.getId())
-		//no need to bind this event,
+			//console.log('IGNORE register '+name + ' on '+this.getId())
+			//no need to bind this event,
 		}
 	}
 };
@@ -669,14 +712,14 @@ Banana.UiControl.prototype.registerEvents = function()
  */
 Banana.UiControl.prototype.unregisterEvents = function()
 {
-	if (!this.binds || !this.binds.length) 
+	if (!this.binds || !this.binds.length)
 	{
 		return;
 	}
 
 	this.debugEvent(3, name, "Unregister all event");
 
-	jQuery('#'+this.getClientId()).unbind(); //unbind all dom events
+	this.getDomWriter().unbind(); //unbind all dom events
 	jQuery(this).unbind(); //and all custom events
 
 };
@@ -699,8 +742,8 @@ Banana.UiControl.prototype.setEnabled = function(e, recursive)
 
 		if (this.isRendered)
 		{
-			jQuery('#'+this.getClientId()).prop('disabled',false);
-		}	
+			this.getDomWriter().prop('disabled',false);
+		}
 	}
 	else
 	{
@@ -708,16 +751,16 @@ Banana.UiControl.prototype.setEnabled = function(e, recursive)
 
 		if (this.isRendered)
 		{
-			jQuery('#'+this.getClientId()).prop('disabled',true);
-		}	
+			this.getDomWriter().prop('disabled',true);
+		}
 	}
-	
+
 	if (recursive) {
 		var controls = this.getControls();
 		var x, len;
-		for (x = 0, len = controls.length; x < len; x++) 
+		for (x = 0, len = controls.length; x < len; x++)
 		{
-			if (controls[x].setEnabled) 
+			if (controls[x].setEnabled)
 			{
 				controls[x].setEnabled(e, recursive);
 			}
@@ -738,21 +781,24 @@ Banana.UiControl.prototype.getEnabled = function()
  *
  * @return {String}
  */
-Banana.UiControl.prototype.getHtml = function(markAsRendered)
+Banana.UiControl.prototype.getHtml = function(markAsRendered,nocache)
 {
+	//if (nocache) {
+		this.cachedElement = undefined;
+	//}
 	var html = "";
 
 	html += '<'+this.getTagName()+' ';
 	html += this.getHtmlAttributes();
 	html += '>';
-	
+
 	var childs = this.getControls();
 	var i, len;
 	for (i=0, len = childs.length; i < len; i++)
 	{
 		if (childs[i] instanceof Banana.Control)
 		{
-			html += childs[i].getHtml(markAsRendered);
+			html += childs[i].getHtml(markAsRendered,true);
 		}
 
 		else if (typeof(childs[i]) === 'string')
@@ -765,7 +811,7 @@ Banana.UiControl.prototype.getHtml = function(markAsRendered)
 	{
 		html += '</'+this.getTagName()+'>';
 	}
-	
+
 	//In the update display all the controls + their children should be marked as rendered
 	//if we mark controls in the update display as rendered instead of here. we
 	//wont know if a child is rendered or not.

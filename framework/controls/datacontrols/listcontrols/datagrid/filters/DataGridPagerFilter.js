@@ -52,10 +52,6 @@ namespace('Banana.Controls').DataGridPagerFilter = Banana.Controls.ListControl.e
 
 		this.bind('dataSourceChanged',this.getProxy(function(){
 	
-			if (this.datasource > 1000){
-				this.datasource = 1000;
-			}
-			
 			if (this.data ==null)
 			{
 				this.data = 0;

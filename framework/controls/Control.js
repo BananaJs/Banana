@@ -98,7 +98,24 @@ namespace('Banana').Control = Class.extend(
 	/**
 	 * called on every display size change
 	 */
-	onWindowResize : function(){}
+	onWindowResize : function(){},
+
+
+	/**
+	 * called when page is hidden from user. (Tab change, browser close etc
+	 * use document.hidden property to get state
+	 */
+	onVisibilityChange  : function(){},
+
+	/**
+	 * called when internet goes offline
+	 */
+	onOffline  : function(){},
+
+	/**
+	 * called when internet goes online
+	 */
+	onOnline  : function(){}
 
 });
 
@@ -166,9 +183,9 @@ Banana.Control.prototype.generateUniqueId = function()
  *
  * @param {Banana.Control} control
  */
-Banana.Control.prototype.render = function(control)
+Banana.Control.prototype.render = function(control,index)
 {
-	this.getPage().initRender(control,this,null,null,false);
+	this.getPage().initRender(control,this,null,null,false,index);
 };
 
 /**
@@ -226,6 +243,18 @@ Banana.Control.prototype.getEnabled = function(){};
 Banana.Control.prototype.addControl = function(c)
 {
 	this.controls.push(c);
+	return this;
+};
+
+/**
+ * Adds a plaintext or a control to the control hierargy.
+ * @param c
+ * @param at
+ * @returns {Banana.Control}
+ */
+Banana.Control.prototype.addControlAt = function(c,at)
+{
+	this.controls.splice(at, 0, c);
 	return this;
 };
 
