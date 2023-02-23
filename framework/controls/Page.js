@@ -121,7 +121,7 @@ Banana.Page.prototype.run = function(target)
  * @param {int} parentRerendering index of control
  */
 Banana.Page.prototype.initRender = function(control,target,place,wasRerendering,parentRendering,index)
-{ 
+{
 	this.rendering = true;
 	
 	if (wasRerendering)
@@ -337,7 +337,11 @@ Banana.Page.prototype.initializeControl = function(control,target)
 	{
 		if (!control.clientId)
 		{
-			control.setClientId(target.getClientId()+'-'+this.uniqueId++);
+			//control.setClientId(target.getClientId()+"-"+this.uniqueId++);
+			control.setClientId("b"+(++window.domuuid));
+			// if (window.domuuid > 100000){
+			// 	window.domuuid = 0;
+			// }
 		}
 	}
 	//if the target is just a string then we assume it the first element

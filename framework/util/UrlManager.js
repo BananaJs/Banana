@@ -57,18 +57,8 @@ Banana.Util.UrlManager = (function()
 	 */
 	var setBrowserUrl = function(newUrl) 
 	{
-		if (navigator.appName == 'Microsoft Internet Explorer' && document.getElementById("URLFrame")) 
-		{
-			document.frames["URLFrame"].location.replace(document.frames["URLFrame"].location.pathname + "?" + location.hash.slice(1));
-			
-			document.getElementById("URLFrame").setAttribute("src", document.frames["URLFrame"].location.pathname + "?" + newUrl);
-			location.hash = newUrl;
-		}
-		else 
-		{
-			location.hash = newUrl;
-		
-		}
+		location.hash = newUrl;
+
 	};
 	
 	/**
@@ -77,15 +67,7 @@ Banana.Util.UrlManager = (function()
 	 */
 	var getBrowserUrl = function()
 	{
-		if (navigator.appName == 'Microsoft Internet Explorer' && document.getElementById("URLFrame")) {
-				
-			location.hash = document.frames["URLFrame"].location.search.slice(1);
-			return document.frames["URLFrame"].location.search.slice(1);
-		}
-		else 
-		{
-			return location.hash.slice(1);
-		}
+		return location.hash.slice(1);
 	};
 	
 	
@@ -152,6 +134,7 @@ Banana.Util.UrlManager = (function()
 		running = true;
 		//$(window).unbind('hashchange');
 		$(window).bind('hashchange', function() {
+			console.log("------>  hash change found");
 			if (!running) return;
 			var newHash = location.hash;   
 	        var newParameters = getParameters(event.target.location.hash.substring(1));
@@ -332,6 +315,7 @@ Banana.Util.UrlManager = (function()
 		 */
 		updateUrl : function()
 		{
+			console.log("------> update url");
 			updateBrowserUrl();
 		},
 		

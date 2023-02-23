@@ -25,29 +25,12 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+window.domuuid = 0;
 /**
  * @author Gillis Haasnoot <gillis.haasnoot@gmail.com>
  * @package Banana
  * @summary Main Application object
  */
-
-/**
- *  this is needed for internet explorer which doesnt have a native indexOf method
- */
-if (!Array.prototype.indexOf) 
-{
-	/**
-	 * @ignore
-	 */
-	Array.prototype.indexOf = function(obj, start) 
-	{
-		var i,j;
-	     for (i = (start || 0), j = this.length; i < j; i++) {
-	         if (this[i] === obj) { return i; }
-	     }
-	     return -1;
-	};
-}
 
 goog.provide('Banana');
 
@@ -131,7 +114,6 @@ namespace('Banana.Controls').EventTypes = {
 	'DOM_EVENT':1,
 	'CUSTOM_EVENT':2
 }
-
 
 /**
 @namespace Banana
@@ -222,6 +204,7 @@ namespace('Banana').Application = Banana.Control.extend(
 		catch(e)
 		{
 			log.error("JQuery is not found. JQuery required.");
+			return;
 		}
 
 		if (!settings)
@@ -258,8 +241,11 @@ namespace('Banana').Application = Banana.Control.extend(
 		{
 			settings.paths.pages = "Application.Pages";
 		}
-			
-		this.prepareUnload();
+
+		setTimeout(this.getProxy(function()
+		{
+			this.prepareUnload();
+		}),200);
 	},
 	
 	/**
@@ -269,7 +255,7 @@ namespace('Banana').Application = Banana.Control.extend(
 	 */
 	prepareUnload : function()
 	{
-		jQuery(window).on("unload",this.getProxy(function()
+		jQuery(window).on("beforeunload",this.getProxy(function()
 		{
 			jQuery('*').unbind();
 			if (this.activePage)
@@ -365,8 +351,10 @@ namespace('Banana').Application = Banana.Control.extend(
 	 * @param {object} key value format 
 	 * @param {bool} ignoreHistoryParams if true we ignore previous url params. 
 	 */
-	loadPage : function(page,urlParams,ignoreHistoryParams)
+	loadPage : function(page,urlParams,ignoreHistoryParams,cb)
 	{
+
+
 		//we save the current url params to use them later on when we return to this page
 		Banana.Util.UrlManager.saveModuleHistory('section');
 
@@ -374,7 +362,7 @@ namespace('Banana').Application = Banana.Control.extend(
 		this.setSectionVerticalScrollPosition(this.section);
 		
 		//clean the url
-		Banana.Util.UrlManager.clearUrl();
+		Banana.Util.UrlManager.clearUrl()
 
 		//Here we assign the history property to a global class property. 
 		//We need to do this because below code which is registering url parameters in the urlmanager one by one.
@@ -411,11 +399,9 @@ namespace('Banana').Application = Banana.Control.extend(
 				}
 			}
 		}
-			
-		this.run(page);
 
+		this.run(page,cb);
 
-        
         //restore vertical scroll position
         if (!ignoreHistoryParams)
         {
@@ -468,7 +454,7 @@ namespace('Banana').Application = Banana.Control.extend(
 	 *
 	 * @param {string} page
 	 */
-	run : function(page)
+	run : function(page,cb)
 	{	
 		// Save the parameter
 		if (page)
@@ -549,7 +535,7 @@ namespace('Banana').Application = Banana.Control.extend(
 				}
 	  
 				this.activePage = newPage;
-				this.activePage.setVisible(true); 
+				this.activePage.setVisible(true);
 
 			}));
 
@@ -560,12 +546,13 @@ namespace('Banana').Application = Banana.Control.extend(
 			this.pageTemplate.addPageControl(newPage);
 
 			this.pageTemplate.setApplication(this);
-			
-			//run the page. if everything is ok we will receive a renderComplete event
-			this.pageTemplate.run();
-			
+
 			//update the url to its final state
 			Banana.Util.UrlManager.updateUrl();
+			//run the page. if everything is ok we will receive a renderComplete event
+			this.pageTemplate.run();
+
+			if (cb) cb();
 		});
 						
 		//if we have an active page we want it to be removed
@@ -575,8 +562,7 @@ namespace('Banana').Application = Banana.Control.extend(
 		{
 			//this is extremely important. Our remove function below is asynchronous
 			// it might happen that the section change which is also asnchronous (statement above) results into 
-			//a url change during removing of the controls. I have to admit that
-			//Oh yeah is a hacky solution. and very difficult to debug or to even understand.
+			//a url change during removing of the controls. so we need to stop the url manager from listening
 			Banana.Util.UrlManager.stopChecking(); 
 			
 			this.activePage.remove(true,this.getProxy(function(){
