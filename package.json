@@ -1,0 +1,33 @@
+{
+  "name": "bananaframework",
+  "version": "2.0.0",
+  "description": "Javascript Component Driven Framework - control tree, string-composed rendering, no virtual DOM",
+  "type": "module",
+  "main": "src/core/Banana.js",
+  "exports": {
+    ".": "./src/core/Banana.js",
+    "./controls/*": "./src/controls/*",
+    "./util/*": "./src/util/*"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "test:watch": "node --test --watch \"test/*.test.js\""
+  },
+  "keywords": [
+    "framework",
+    "ui",
+    "controls",
+    "components",
+    "dom"
+  ],
+  "author": "Gillis Haasnoot <gillis.haasnoot@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BananaJs/Banana.git"
+  }
+}

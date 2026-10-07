@@ -1,92 +1,84 @@
-What is Banana?
-------------------
+# BananaFramework
 
-Banana is an open source javascript application framework designed to create pure javascript webpages.
-Banana is designed with the single goal to allow developers write fast and efficient web applications.
-Compatible with all recent browsers, Banana gives developers a component driven platform to develop applications just in the same way regular interface toolkits provides.
-It is fast, dynamic, flexible and easy to use.
+A small, component-driven JavaScript UI framework. A control tree composes an
+HTML **string**, which is handed to the browser in one native insert. There is
+no virtual DOM and no diffing — what a control renders is exactly what you can
+read in `getHtml()`.
 
-Some key features of Banana are:
+```
+25 source files · ~4,100 lines · no build step · no runtime dependencies except jQuery
+```
 
-* 100% Javascript
-* Component driven
-* Event based programming
-* Fast dom render engine
-* Flexible and dynamic
-* History management
-* large control collection
-* Advanced list/item renders
-* Validation
-* Databinding
-* JQuery powered
-* Google Closure build integration
+## Why it is shaped this way
 
+- **Predictable.** One rendering concept: build a string, insert it. No
+  reconciler, no hook ordering rules, no effect scheduling.
+- **Small enough to hold in your head** (or in a model's context window).
+- **Explicit lifecycle.** `init() → createComponents() → updateDisplay()`.
+- **Controls map 1:1 to DOM tags.** A `Panel` is a `<div>`, a `TableRow` is a `<tr>`.
+- **Fast by construction.** Rendering uses `insertAdjacentHTML` /
+  `createContextualFragment`, so the browser parses once.
 
-Usage
-------------
+## Usage
 
-There are 2 common ways to use Banana
+```js
+import {Panel} from './src/controls/Panel.js';
+import {Label} from './src/controls/Label.js';
 
-1. Standalone application
-2. Widget in an existing enviroment
+const panel = new Panel();
+panel.addCssClass('MyPanel');
 
+const label = new Label();
+label.setData('Ajax - PSV');          // data: escaped automatically
+panel.addControl(label);
+panel.addControl('<hr/>');            // markup: inserted raw, by design
 
-Standalone application
-------------
+panel.getHtml();                      // '<div ...><label ...>Ajax - PSV</label><hr/></div>'
+```
 
-A standalone application means that the entire contents of your application is rendered by Banana framework.
-Banana offers its own paging engine with history management. 
-Sometimes large javascript applications gives developers problems with managing various javascript files spread accross the application. 
-Banana solves this by handling all the file inclusions. This is useful during development. For production enviroments Banana creates a minified js file of the entire application.   
+## Escaping: data vs markup
 
+Two channels, deliberately different:
 
-Widget in an existing enviroment
--------------
+| call | treatment | use for |
+|---|---|---|
+| `control.setData(value)` | **escaped** | anything from a feed, an API or a user |
+| `control.addControl('<b>x</b>')` | **raw** | markup you wrote yourself |
 
-If you want to decorate your page with features from Banana you can include one or more instances of the Banana application.
-If offers the same functionality as the standalone application. Example is a static rendered webshop enviroment
-with dynamic generated search results.  
+Attribute values set via `setAttribute()` are always escaped, so a value
+containing `"` cannot break out of the attribute.
 
+## Layout
 
-Requirements
-------------
+```
+src/
+  core/Banana.js            Application: page loading, URL handling, lifecycle
+  controls/
+    Control.js              base: tree, ids, events
+    UiControl.js            base for anything rendered: attributes, css, html
+    Panel.js Label.js …     concrete controls
+    listcontrols/           ListControl, Dropdown, Datagrid + item renders
+  util/
+    DomHelper.js            the only place that touches the DOM
+    Utils.js                pure helpers (escapeHtml, Clone, sorting, paths …)
+    UrlManager.js
+```
 
-During development the standalone application needs the following tools:
+## Tests
 
-* googlecompiler.jar - for creating dependency files of required js files. 
-* GNU make
-* Java 
-* Python 
+```bash
+npm test
+```
 
+120 tests across 39 suites, using the Node built-in test runner. They run in
+plain Node with no browser and no dependencies — the framework composes
+strings, so most of it is testable directly. `test/helpers/env.js` provides a
+minimal jQuery/window stub for the few paths that need one.
 
-Quick installation and usage tour for the standalone application.
-------------
+Covered: utilities, HTML escaping, control-tree composition and lookup,
+rendering and attributes, data controls, DataSet, events and lifecycle hooks,
+plus regression guards for previously broken behaviour.
 
-1. Download Banana from http://www.bananajs.com or use git and unpack it somewhere locally or on a webserver. 
-2. from the root folder run in a console "make build/compiler.jar" to install the required google closure compiler. It simply downloads compiler.jar and stores into the build directory.
-3. Go to the application/pages folder in the root and open up Home.js
-4. Enter in the createComponents function "this.addControl("helloworld");" and save your file.
-5. Open up index_debug.html in your browser. Voila your first hello world.
-6. Open index.html. you will get an empty page. Index.html is an example of a production environment and not using the file inclusion stuff. Instead it just used a minified version of your application and Banana Framework. 
-   Run "make release" from your console to create a minified file. Now refresh index_debug.html to see the result.
-7. Create a new file in application/pages lets say "MyPage.js" 
-8. Open up Home.js and copy all the contents to MyPage.js. Change the classname to MyPage. Also change "goog.provide('Application.Pages.Home');" to "goog.provide('Application.Pages.MyPage')";  
-9. Open Application.js in the root and add "goog.require('Application.Pages.MyPage')"
-10. Go to your console and run "make" to create a deps.js file (required to ensure correct inclusion of js files)
-11.Also run "make release" to get the production enviroment working.
-12.Now open either index.html or index_html and change the parameter in the section tag to "MyPage". There you go!
+## License
 
-A good reference and starting point for the standalone application is the helloworld_standalone_application in the demos folder.
-
-
-More information
-------------
-
-See http://www.bananajs.com for more information, demo's and references.
-
-
-Contributing
-------------
-
-Banana is free, open source and waiting for user contributions. Banana loves to see people creating new controls to enrich
-the library of Banana.
+MIT
